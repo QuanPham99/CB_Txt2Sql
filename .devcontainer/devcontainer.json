@@ -4,7 +4,8 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
-    }
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
   "postCreateCommand": "bash .devcontainer/postCreate.sh",
   "postAttachCommand": "bash .devcontainer/postAttach.sh",
