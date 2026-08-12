@@ -1,36 +1,36 @@
 ---
 name: sql-helper
-description: Query the banking transactions data — use this whenever the user asks a plain-English question about accounts, transactions, cards, loans, customers, branches, employees, or support tickets. Trigger phrases include "how many...", "what is the total...", "which customer/account/branch...", "text to SQL", "query the data".
+description: Truy vấn dữ liệu giao dịch ngân hàng — dùng skill này bất cứ khi nào người dùng đặt câu hỏi bằng ngôn ngữ tự nhiên về accounts, transactions, cards, loans, customers, branches, employees, hoặc support tickets. Các cụm từ kích hoạt bao gồm "có bao nhiêu...", "tổng số... là bao nhiêu", "khách hàng/tài khoản/chi nhánh nào...", "text to SQL", "truy vấn dữ liệu".
 ---
 
 # SQL Helper
 
-You answer natural-language questions about the workshop banking dataset by writing and running SQL against a local DuckDB file.
+Bạn trả lời các câu hỏi bằng ngôn ngữ tự nhiên về bộ dữ liệu ngân hàng của workshop bằng cách viết và chạy SQL trên một file DuckDB cục bộ.
 
-## Ground yourself first
+## Nắm vững dữ liệu trước
 
-Before writing any SQL, read `SCHEMA.md` in the repo root. It is the single source of truth for table names, column names, types, and allowed values (e.g. `txn_type`, `merchant_category`, `status`). Never invent a column or table name that isn't listed there — if the question needs data that isn't in the schema, say so instead of guessing.
+Trước khi viết bất kỳ câu SQL nào, hãy đọc `SCHEMA.md` ở thư mục gốc của repo. Đây là nguồn thông tin duy nhất và chính xác cho tên bảng, tên cột, kiểu dữ liệu, và các giá trị hợp lệ (ví dụ `txn_type`, `merchant_category`, `status`). Không bao giờ tự bịa ra tên cột hoặc tên bảng không có trong đó — nếu câu hỏi cần dữ liệu không có trong schema, hãy nói rõ điều đó thay vì đoán mò.
 
-## Running queries
+## Chạy truy vấn
 
-Always query the database at `data/workshop.duckdb`, e.g.:
+Luôn truy vấn cơ sở dữ liệu tại `data/workshop.duckdb`, ví dụ:
 
 ```bash
 duckdb data/workshop.duckdb -c "SELECT ... "
 ```
 
-## House rules
+## Quy tắc chung
 
-1. **Always show the SQL you ran** before showing the result, so the user can learn from it.
-2. **Always `LIMIT 100`** on any query that returns raw rows, unless the user explicitly asks for more or the query is already an aggregate returning a handful of rows.
-3. **Never invent column or table names** — if unsure, re-check `SCHEMA.md` rather than guessing.
-4. **Prefer aggregates over dumps** — if a question can be answered with a `COUNT`, `SUM`, or `GROUP BY`, do that instead of returning hundreds of raw rows.
-5. **State assumptions out loud** — e.g. if "last month" is ambiguous given the dataset's date range, say what reference date you used (see the "Quirks" section of `SCHEMA.md`).
-6. **Round currency to 2 decimals** in the final answer, even if the raw column has more precision.
+1. **Luôn hiển thị câu SQL đã chạy** trước khi hiển thị kết quả, để người dùng có thể học theo.
+2. **Luôn dùng `LIMIT 100`** với bất kỳ truy vấn nào trả về dữ liệu thô theo dòng, trừ khi người dùng yêu cầu rõ nhiều hơn hoặc truy vấn đã là dạng tổng hợp chỉ trả về vài dòng.
+3. **Không bao giờ tự bịa tên cột hoặc tên bảng** — nếu không chắc chắn, hãy kiểm tra lại `SCHEMA.md` thay vì đoán.
+4. **Ưu tiên tổng hợp thay vì liệt kê thô** — nếu câu hỏi có thể trả lời bằng `COUNT`, `SUM`, hoặc `GROUP BY`, hãy làm vậy thay vì trả về hàng trăm dòng dữ liệu thô.
+5. **Nêu rõ các giả định** — ví dụ nếu "tháng trước" không rõ ràng do khoảng thời gian của dữ liệu, hãy nói rõ bạn đã dùng mốc ngày nào (xem phần "Lưu ý & điểm đặc biệt" trong `SCHEMA.md`).
+6. **Làm tròn tiền tệ về 2 chữ số thập phân** trong câu trả lời cuối cùng, ngay cả khi cột dữ liệu gốc có độ chính xác cao hơn.
 
-## Example
+## Ví dụ
 
-User asks: *"What were the top 5 merchant categories by total transaction amount?"*
+Người dùng hỏi: *"5 danh mục merchant có tổng số tiền giao dịch cao nhất là gì?"*
 
 ```sql
 SELECT merchant_category, ROUND(SUM(amount), 2) AS total_amount
@@ -40,4 +40,4 @@ ORDER BY total_amount DESC
 LIMIT 5;
 ```
 
-Then explain the result in one or two sentences.
+Sau đó giải thích kết quả trong một hoặc hai câu.

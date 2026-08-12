@@ -1,49 +1,49 @@
-# Workshop Exercises
+# Bài Tập Workshop
 
-Follow along live with the facilitator. You'll need `claude` or `codex` authenticated in your terminal (see the README) and `SCHEMA.md` open in a tab.
+Làm theo cùng facilitator theo thời gian thực. Bạn cần `claude` hoặc `codex` đã được xác thực trong terminal (xem README) và mở sẵn `SCHEMA.md` trong một tab.
 
-## Step 1 — Read the worked example
+## Bước 1 — Đọc ví dụ mẫu
 
-Open `.claude/skills/sql-helper/SKILL.md` (or `.codex/skills/sql-helper/SKILL.md` — same content). This is a **skill**: plain-English instructions the AI reads before answering, that tell it *how* to behave (ground itself in `SCHEMA.md`, always show its SQL, always `LIMIT 100`, etc.).
+Mở `.claude/skills/sql-helper/SKILL.md` (hoặc `.codex/skills/sql-helper/SKILL.md` — nội dung giống nhau). Đây là một **skill**: các chỉ dẫn bằng ngôn ngữ tự nhiên mà AI đọc trước khi trả lời, cho nó biết *cách* hành xử (dựa vào `SCHEMA.md`, luôn hiển thị SQL đã chạy, luôn `LIMIT 100`, v.v.).
 
-## Step 2 — Ask in plain English
+## Bước 2 — Đặt câu hỏi bằng ngôn ngữ tự nhiên
 
-Open a terminal in this repo and start `claude` or `codex`. Ask your first question:
+Mở terminal trong repo này và khởi động `claude` hoặc `codex`. Đặt câu hỏi đầu tiên của bạn:
 
-> What were the top 5 transaction categories by total amount last quarter?
+> 5 danh mục giao dịch có tổng số tiền cao nhất trong quý vừa rồi là gì?
 
-Watch it read the skill, write SQL against `data/workshop.duckdb`, run it, and explain the answer.
+Quan sát nó đọc skill, viết SQL chạy trên `data/workshop.duckdb`, thực thi, và giải thích câu trả lời.
 
-## Step 3 — Try these, in order
+## Bước 3 — Thử lần lượt các câu hỏi sau
 
-Each one adds a little more complexity than the last.
+Mỗi câu sẽ phức tạp hơn một chút so với câu trước.
 
-1. How many customers do we have, broken down by occupation?
-2. What is the average account balance for each account type?
-3. Which branch has processed the highest total transaction amount?
-4. How many support tickets are still "Open," grouped by issue type?
-5. What percentage of card transactions are flagged as fraud, by merchant category?
-6. Which 10 customers have paid the most total interest on their loans?
-7. For customers who joined in 2023, what's their average credit score compared to customers who joined in 2015?
-8. Find accounts with a balance below their average monthly withdrawal amount over the last 6 months of data (these look like overdraft risks).
+1. Chúng ta có bao nhiêu khách hàng, phân theo nghề nghiệp?
+2. Số dư tài khoản trung bình của mỗi loại tài khoản là bao nhiêu?
+3. Chi nhánh nào đã xử lý tổng số tiền giao dịch cao nhất?
+4. Có bao nhiêu ticket hỗ trợ đang ở trạng thái "Open," phân theo loại vấn đề?
+5. Bao nhiêu phần trăm giao dịch thẻ bị đánh dấu gian lận, phân theo danh mục merchant?
+6. 10 khách hàng nào đã trả tổng số tiền lãi vay nhiều nhất?
+7. Với các khách hàng gia nhập năm 2023, điểm tín dụng trung bình của họ so với khách hàng gia nhập năm 2015 như thế nào?
+8. Tìm các tài khoản có số dư thấp hơn số tiền rút trung bình hàng tháng trong 6 tháng dữ liệu gần nhất (đây là các tài khoản có nguy cơ thấu chi).
 
-If an answer looks wrong, ask the AI to show you the SQL it ran — that's usually where the fix is obvious.
+Nếu câu trả lời có vẻ sai, hãy yêu cầu AI hiển thị SQL nó đã chạy — thường lỗi sẽ lộ rõ ở đó.
 
-## Step 4 — Build your own skill
+## Bước 4 — Tự xây dựng skill của bạn
 
-1. Copy the template: `templates/skill-template/SKILL.md` → a new folder `.claude/skills/<your-name>/SKILL.md`.
-2. Mirror it to `.codex/skills/<your-name>/SKILL.md` (copy or symlink, same as the worked example).
-3. Fill in the `TODO` sections with 3–5 instruction lines that encode a convention **you** choose. Some ideas:
-   - "Always explain the query in one plain-English sentence before showing SQL."
-   - "Always round currency to 2 decimals and add a $ or ₹ sign."
-   - "Always sort results by date descending unless asked otherwise."
-   - "Never return more than 20 rows without being asked."
-   - "Always mention which table(s) the answer came from."
+1. Sao chép template: `templates/skill-template/SKILL.md` → một folder mới `.claude/skills/<tên-của-bạn>/SKILL.md`.
+2. Nhân bản sang `.codex/skills/<tên-của-bạn>/SKILL.md` (copy hoặc symlink, giống như ví dụ mẫu).
+3. Điền vào các phần `TODO` với 3–5 dòng chỉ dẫn thể hiện một quy tắc **do bạn chọn**. Một vài gợi ý:
+   - "Luôn giải thích câu truy vấn bằng một câu ngôn ngữ tự nhiên trước khi hiển thị SQL."
+   - "Luôn làm tròn tiền tệ về 2 chữ số thập phân và thêm ký hiệu $ hoặc ₫."
+   - "Luôn sắp xếp kết quả theo ngày giảm dần trừ khi được yêu cầu khác."
+   - "Không bao giờ trả về quá 20 dòng nếu không được yêu cầu."
+   - "Luôn đề cập bảng nào đã được dùng để trả lời."
 
-## Step 5 — Test it
+## Bước 5 — Kiểm thử
 
-Ask the same question from Step 2, or a new one. Confirm the AI's behavior now follows your rule. That's the "aha" moment: you wrote English, not code, and it changed how the AI behaves.
+Đặt lại câu hỏi từ Bước 2, hoặc một câu hỏi mới. Xác nhận rằng hành vi của AI giờ đã tuân theo quy tắc của bạn. Đó chính là khoảnh khắc "à ha": bạn chỉ viết ngôn ngữ tự nhiên, không phải code, mà nó đã thay đổi cách AI hành xử.
 
-## Step 6 — Share out
+## Bước 6 — Chia sẻ kết quả
 
-A few volunteers show their skill file and a live question/answer to the group.
+Một vài tình nguyện viên trình bày file skill của mình và demo một câu hỏi/câu trả lời trực tiếp cho cả nhóm.

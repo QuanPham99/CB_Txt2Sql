@@ -48,7 +48,7 @@ flowchart TB
 
 **Key points to sanity-check while reviewing:**
 
-- `data/workshop.duckdb` is built once, outside the container, and shipped via Git LFS — the container never regenerates it, it only reads it. If LFS didn't pull, `postCreate.sh`'s smoke test catches that (see `FACILITATOR_TROUBLESHOOTING.md`).
+- `data/workshop.duckdb` is built once, outside the container, and shipped via Git LFS — the container never regenerates it, it only reads it. If LFS didn't pull, `postCreate.sh`'s smoke test catches that (see `../reference/FACILITATOR_TROUBLESHOOTING.md`).
 - The container has no direct dependency on `dataset/*.csv` — those are git-ignored and irrelevant at run time. Only `data/workshop.duckdb` and the repo's markdown/skill files matter once the container is up.
 - `claude` and `codex` don't talk to `data/workshop.duckdb` directly — they shell out to the `duckdb` CLI, using instructions from `SKILL.md` (grounded in `SCHEMA.md`) to decide what SQL to write and what house rules to follow.
 - `.claude/skills/` and `.codex/skills/` are kept in sync by mirroring the same `SKILL.md` (currently via a symlink for the worked example) so both CLIs behave identically — worth confirming this still holds for any new skill you add via `templates/skill-template/`.
@@ -129,7 +129,7 @@ claude
 codex
 ```
 
-Follow the OAuth prompts (or set an API key per the README's "Before you arrive" section). This is the step most likely to behave differently than a fresh Codespace — port forwarding and browser redirects work differently locally, so don't treat a smooth local login as full proof it'll work in Codespaces. Do a real Codespaces dry run too (see `DAY_OF_CHECKLIST.md`).
+Follow the OAuth prompts (or set an API key per the README's "Before you arrive" section). This is the step most likely to behave differently than a fresh Codespace — port forwarding and browser redirects work differently locally, so don't treat a smooth local login as full proof it'll work in Codespaces. Do a real Codespaces dry run too (see `../reference/DAY_OF_CHECKLIST.md`).
 
 ## Step 7 — Test the worked-example skill
 
@@ -159,4 +159,4 @@ Or just `docker ps` / `docker rm -f <container>` if `down` isn't available in yo
 
 ## When this all passes
 
-Move on to the real dry run in `DAY_OF_CHECKLIST.md` — a fresh Codespace created exactly as a participant would, timed end-to-end. Local testing catches broken scripts and bad skill logic; only a real Codespace catches Codespaces-specific issues (prebuilds, OAuth redirects, LFS pulls, spending limits).
+Move on to the real dry run in `../reference/DAY_OF_CHECKLIST.md` — a fresh Codespace created exactly as a participant would, timed end-to-end. Local testing catches broken scripts and bad skill logic; only a real Codespace catches Codespaces-specific issues (prebuilds, OAuth redirects, LFS pulls, spending limits).

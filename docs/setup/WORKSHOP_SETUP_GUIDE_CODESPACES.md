@@ -28,7 +28,7 @@ Don't reuse an existing dev Codespace — old cached layers can hide a broken `p
    - `npm install -g @anthropic-ai/claude-code`
    - Installs the Codex CLI
    - Runs the data smoke test — it should print `Smoke test: transactions table has 2000000 rows.` and then `== Setup complete ==`
-4. **If the log shows an error and the build fails**, stop here and fix it (see `FACILITATOR_TROUBLESHOOTING.md` → "`data/workshop.duckdb` missing or empty") before doing anything else — a broken `postCreateCommand` fails identically for every participant.
+4. **If the log shows an error and the build fails**, stop here and fix it (see `../reference/FACILITATOR_TROUBLESHOOTING.md` → "`data/workshop.duckdb` missing or empty") before doing anything else — a broken `postCreateCommand` fails identically for every participant.
 5. Once it opens, you should see the `postAttach.sh` welcome banner printed in the terminal:
    ```
    ========================================================
@@ -39,7 +39,7 @@ Don't reuse an existing dev Codespace — old cached layers can hide a broken `p
    ========================================================
    ```
 
-**Time this.** Note the wall-clock time from clicking "Create codespace" to the banner appearing — you'll want this number for the day-of agenda (see `DAY_OF_CHECKLIST.md`).
+**Time this.** Note the wall-clock time from clicking "Create codespace" to the banner appearing — you'll want this number for the day-of agenda (see `../reference/DAY_OF_CHECKLIST.md`).
 
 ---
 
@@ -79,7 +79,7 @@ Follow the printed URL / "Sign in with ChatGPT" prompt (or paste a personal Open
 - Check whether your GitHub/Claude/OpenAI account is behind org SSO — try a personal account instead.
 - Check the **Ports** tab in VS Code — temporarily set the forwarded auth port's visibility to "Public," retry, then set it back.
 
-(Full detail in `FACILITATOR_TROUBLESHOOTING.md`.)
+(Full detail in `../reference/FACILITATOR_TROUBLESHOOTING.md`.)
 
 ---
 
@@ -159,7 +159,7 @@ Once steps 1–9 all pass cleanly in a fresh Codespace:
 - [ ] Set a **Codespaces spending limit** sized for the expected headcount × half-day usage (org/repo → Settings → Billing → Codespaces spending limit).
 - [ ] Confirm Codespaces is enabled for the account types your participants will actually use — personal accounts work out of the box; work/enterprise accounts may need an org admin to turn it on. Flag this in pre-workshop comms if relevant.
 - [ ] Record the ~2-minute backup screen capture of this golden path in case live demos fail on the day.
-- [ ] Hand off to `DAY_OF_CHECKLIST.md` for the rest of the pre-workshop and day-of logistics.
+- [ ] Hand off to `../reference/DAY_OF_CHECKLIST.md` for the rest of the pre-workshop and day-of logistics.
 
 ---
 
@@ -174,8 +174,8 @@ Once steps 1–9 all pass cleanly in a fresh Codespace:
 | `templates/skill-template/` | Blank scaffold for "build your own skill" |
 | `.devcontainer/` | The Codespaces environment definition |
 | `data/workshop.duckdb` | Pre-loaded DB (Git LFS) — the only data participants touch |
-| `WORKSHOP_SETUP_PLAN.md` | Full organizer background/rationale for all of the above |
-| `DAY_OF_CHECKLIST.md` | Pre-workshop and day-of logistics checklist |
-| `FACILITATOR_TROUBLESHOOTING.md` | Live-session troubleshooting (facilitator-only) |
-| `WORKSHOP_SETUP_GUIDE_LOCAL.md` | Run the workshop directly on your own machine, no GitHub/Codespaces needed |
-| `Iteration_0_LocalTesting.md` | The Docker/devcontainer-based local equivalent of this guide |
+| `docs/setup/WORKSHOP_SETUP_PLAN.md` | Full organizer background/rationale for all of the above |
+| `docs/reference/DAY_OF_CHECKLIST.md` | Pre-workshop and day-of logistics checklist |
+| `docs/reference/FACILITATOR_TROUBLESHOOTING.md` | Live-session troubleshooting (facilitator-only) |
+| `docs/setup/WORKSHOP_SETUP_GUIDE_LOCAL.md` | Run the workshop directly on your own machine, no GitHub/Codespaces needed |
+| `docs/setup/Iteration_0_LocalTesting.md` | The Docker/devcontainer-based local equivalent of this guide |

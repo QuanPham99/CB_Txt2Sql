@@ -1,40 +1,39 @@
-# CB_Txt2Sql — Text-to-SQL Skills Workshop
+# CB_Txt2Sql — Workshop Kỹ Năng Text-to-SQL
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/QuanPham99/CB_Txt2Sql)
 
-A hands-on workshop where participants build a **Claude Skill / Codex Skill** that turns plain-English questions into SQL, run live against a banking transactions dataset in DuckDB.
+Một workshop thực hành, nơi người tham gia xây dựng một **Claude Skill / Codex Skill** để chuyển câu hỏi bằng ngôn ngữ tự nhiên thành SQL, chạy trực tiếp trên bộ dữ liệu giao dịch ngân hàng trong DuckDB.
 
-## Before you arrive
+## Trước khi tham gia
 
-- A GitHub account, logged in.
-- A **Claude.ai account** with an active plan (Pro/Max), or a personal Anthropic API key.
-- A **ChatGPT account** with Codex access (Plus/Pro/Business/Edu), or a personal OpenAI API key.
-- A browser logged into both.
+- Có tài khoản GitHub, đã đăng nhập.
+- Có tài khoản **Claude.ai** với gói đang hoạt động (Pro/Max), hoặc một Anthropic API key cá nhân.
+- Có tài khoản **ChatGPT** với quyền truy cập Codex (Plus/Pro/Business/Edu), hoặc một OpenAI API key cá nhân.
+- Trình duyệt đã đăng nhập cả hai.
 
-## Agenda (half-day)
+## Chương trình (nửa ngày)
 
-1. **Open your Codespace** — click the badge above, or Code → Codespaces → Create codespace on main. Wait for the (pre-built) container to finish.
-2. **Authenticate** — run `claude` and `codex` in the terminal and follow the login prompts.
-3. **Read the worked example** — `.claude/skills/sql-helper/SKILL.md`, and skim `SCHEMA.md` for what's in the data.
-4. **Ask questions in plain English** — work through `exercises.md` together.
-5. **Build your own skill** — copy `templates/skill-template/SKILL.md`, write your own house rules, test it.
-6. **Share out** — a few volunteers demo their skill live.
+1. **Mở Codespace của bạn** — nhấn vào badge phía trên, hoặc Code → Codespaces → Create codespace on main. Đợi container (đã được dựng sẵn) khởi động xong.
+2. **Xác thực** — chạy `claude` và `codex` trong terminal và làm theo hướng dẫn đăng nhập.
+3. **Đọc ví dụ mẫu** — `.claude/skills/sql-helper/SKILL.md`, và xem qua `SCHEMA.md` để biết dữ liệu gồm những gì.
+4. **Đặt câu hỏi bằng ngôn ngữ tự nhiên** — cùng nhau làm qua `exercises.md`.
+5. **Tự xây dựng skill của riêng bạn** — sao chép `templates/skill-template/SKILL.md`, viết quy tắc riêng của bạn, rồi thử nghiệm.
+6. **Chia sẻ kết quả** — một vài tình nguyện viên demo skill của mình trực tiếp.
 
-## What's in this repo
+## Repo này có gì
 
-- `dataset/` — the raw Kaggle CSVs (git-ignored; not shipped in the Codespace).
-- `data/workshop.duckdb` — the prepared, pre-loaded database participants actually query (tracked via Git LFS).
-- `SCHEMA.md` — the data dictionary: every table, column, type, and example value.
-- `exercises.md` — the guided workshop flow and example questions.
-- `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` — the worked-example skill.
-- `templates/skill-template/` — the blank scaffold for the "build your own skill" exercise.
-- `.devcontainer/` — the one-click Codespaces environment (DuckDB CLI + Claude Code + Codex CLI + VS Code extensions, pre-installed).
-- `WORKSHOP_SETUP_PLAN.md` — the full organizer setup plan.
-- `DAY_OF_CHECKLIST.md` — organizer dry-run and day-of logistics checklist.
-- `FACILITATOR_TROUBLESHOOTING.md` — facilitator-only troubleshooting doc.
+- `dataset/` — file CSV gốc từ Kaggle (bị git bỏ qua; không được đóng gói vào Codespace).
+- `data/workshop.duckdb` — cơ sở dữ liệu đã được chuẩn bị và nạp sẵn dữ liệu mà người tham gia thực sự truy vấn (được theo dõi qua Git LFS).
+- `SCHEMA.md` — từ điển dữ liệu: mọi bảng, cột, kiểu dữ liệu, và giá trị ví dụ.
+- `exercises.md` — luồng bài tập của workshop và các câu hỏi ví dụ.
+- `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` — skill ví dụ mẫu.
+- `templates/skill-template/` — khung mẫu trống cho bài tập "tự xây dựng skill".
+- `.devcontainer/` — môi trường Codespaces mở một lần là dùng được ngay (DuckDB CLI + Claude Code + Codex CLI + các extension VS Code, đã cài sẵn).
+- `docs/setup/` — kế hoạch thiết lập của ban tổ chức và các hướng dẫn thiết lập từng bước cho local/Codespaces.
+- `docs/reference/` — checklist hậu cần ngày diễn ra sự kiện và tài liệu xử lý sự cố dành riêng cho facilitator.
 
-## How it works
+## Cách hoạt động
 
-Participants open a pre-baked dev environment (DuckDB + data + Claude Code + Codex CLI), read a short data dictionary describing the dataset, and ask natural-language questions that get translated into SQL and executed against the data — no manual data exploration required.
+Người tham gia mở một môi trường phát triển đã được dựng sẵn (DuckDB + dữ liệu + Claude Code + Codex CLI), đọc một từ điển dữ liệu ngắn gọn mô tả bộ dữ liệu, rồi đặt câu hỏi bằng ngôn ngữ tự nhiên — các câu hỏi này sẽ được chuyển thành SQL và thực thi trên dữ liệu — không cần tự tìm hiểu dữ liệu thủ công.
 
-See `WORKSHOP_SETUP_PLAN.md` for the complete setup and facilitation guide.
+Xem `docs/setup/WORKSHOP_SETUP_PLAN.md` để có hướng dẫn thiết lập và tổ chức đầy đủ.

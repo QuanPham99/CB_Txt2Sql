@@ -1,6 +1,6 @@
 # Organizer Checklist — Dry Run & Day-Of Logistics
 
-Companion to Part 3 of `WORKSHOP_SETUP_PLAN.md`. Items marked **[MANUAL]** happen on GitHub's website or in a live session and can't be done from this repo — they're listed here so nothing gets missed.
+Companion to Part 3 of `../setup/WORKSHOP_SETUP_PLAN.md`. Items marked **[MANUAL]** happen on GitHub's website or in a live session and can't be done from this repo — they're listed here so nothing gets missed.
 
 ## A few days before
 

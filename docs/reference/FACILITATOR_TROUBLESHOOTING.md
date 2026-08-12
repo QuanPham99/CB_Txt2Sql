@@ -19,7 +19,7 @@ Keep this open on a second screen during the workshop. Not linked from the READM
 
 ## Rate limits / "please wait and try again" from Claude or ChatGPT
 - Free/lower tiers can hit rate limits under a room of 20–50 people all querying at once. Have the affected participant pair up with a neighbor for a few minutes, or switch to watching the shared demo screen.
-- Keep the 2-minute backup screen recording of the golden path ready (see Part 3 of `WORKSHOP_SETUP_PLAN.md`) in case this becomes widespread — play it while things recover rather than stalling the room.
+- Keep the 2-minute backup screen recording of the golden path ready (see Part 3 of `../setup/WORKSHOP_SETUP_PLAN.md`) in case this becomes widespread — play it while things recover rather than stalling the room.
 
 ## VS Code extension didn't load (Claude Code / Codex sidebar missing)
 - Extensions install async after the container reports "ready" — ask them to wait ~30s and reload the window (`Cmd/Ctrl+Shift+P` → "Developer: Reload Window").

@@ -1,30 +1,30 @@
 ---
-name: TODO-your-skill-name
-description: TODO — one sentence describing when this skill should trigger, e.g. "Use this when the user asks about <topic> in plain English."
+name: TODO-ten-skill-cua-ban
+description: TODO — một câu mô tả khi nào skill này nên được kích hoạt, ví dụ "Dùng skill này khi người dùng hỏi về <chủ đề> bằng ngôn ngữ tự nhiên."
 ---
 
-# TODO: Skill Title
+# TODO: Tên Skill
 
-TODO: One or two sentences on what this skill helps with.
+TODO: Một hoặc hai câu về việc skill này giúp làm gì.
 
-## Ground yourself first
+## Nắm vững dữ liệu trước
 
-Read `SCHEMA.md` in the repo root before writing SQL. Never invent a table or column name that isn't listed there.
+Đọc `SCHEMA.md` ở thư mục gốc của repo trước khi viết SQL. Không bao giờ tự bịa ra tên bảng hoặc tên cột không có trong đó.
 
-## Running queries
+## Chạy truy vấn
 
-Always query the database at `data/workshop.duckdb`, e.g.:
+Luôn truy vấn cơ sở dữ liệu tại `data/workshop.duckdb`, ví dụ:
 
 ```bash
 duckdb data/workshop.duckdb -c "SELECT ... "
 ```
 
-## House rules
+## Quy tắc chung
 
-Write 3–5 instruction lines below that encode a convention you choose. Examples to draw from (replace with your own):
+Viết bên dưới 3–5 dòng chỉ dẫn thể hiện một quy tắc do bạn chọn. Một vài ví dụ tham khảo (hãy thay bằng quy tắc của riêng bạn):
 
-1. TODO — e.g. "Always explain the query in one plain-English sentence before showing the SQL."
-2. TODO — e.g. "Always round currency to 2 decimals."
-3. TODO — e.g. "Always sort results by date descending unless asked otherwise."
-4. TODO (optional)
-5. TODO (optional)
+1. TODO — ví dụ "Luôn giải thích câu truy vấn bằng một câu ngôn ngữ tự nhiên trước khi hiển thị SQL."
+2. TODO — ví dụ "Luôn làm tròn tiền tệ về 2 chữ số thập phân."
+3. TODO — ví dụ "Luôn sắp xếp kết quả theo ngày giảm dần trừ khi được yêu cầu khác."
+4. TODO (tùy chọn)
+5. TODO (tùy chọn)
