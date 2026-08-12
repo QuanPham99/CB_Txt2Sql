@@ -24,7 +24,12 @@ if ! command -v git-lfs >/dev/null 2>&1; then
     exit 1
   fi
 fi
-git lfs install --local
+# On Codespaces, contributors without write access to the repo get a
+# fork-on-your-behalf post-commit hook installed before this script runs.
+# `git lfs install` refuses to overwrite a foreign hook and exits 2, but it
+# still writes the filter.lfs.* git config first, which is all `pull` below
+# needs, so a hook conflict here must not abort the whole setup.
+git lfs install --local || true
 
 echo "== Pulling LFS data (data/workshop.duckdb) =="
 git lfs pull
