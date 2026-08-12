@@ -1,0 +1,22 @@
+{
+  "name": "Text-to-SQL Skills Workshop",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "postAttachCommand": "bash .devcontainer/postAttach.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "openai.chatgpt",
+        "evidence.sqltools-duckdb-driver",
+        "mtxr.sqltools"
+      ]
+    }
+  },
+  "waitFor": "postCreateCommand"
+}

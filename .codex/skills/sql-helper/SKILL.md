@@ -1,0 +1,1 @@
+../../../.claude/skills/sql-helper/SKILL.md
