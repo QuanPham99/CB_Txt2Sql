@@ -1,27 +1,27 @@
-# Organizer Checklist — Dry Run & Day-Of Logistics
+# Checklist Cho Ban Tổ Chức — Chạy Thử & Hậu Cần Ngày Diễn Ra
 
-Companion to Part 3 of `../setup/WORKSHOP_SETUP_PLAN.md`. Items marked **[MANUAL]** happen on GitHub's website or in a live session and can't be done from this repo — they're listed here so nothing gets missed.
+Tài liệu đi kèm Phần 3 của `../setup/WORKSHOP_SETUP_PLAN.md`. Các mục đánh dấu **[THỦ CÔNG]** diễn ra trên website của GitHub hoặc trong một buổi trực tiếp, không thể thực hiện từ repo này — chúng được liệt kê ở đây để không bị bỏ sót.
 
-## A few days before
+## Vài ngày trước
 
-- [ ] **[MANUAL]** Enable Codespaces prebuilds for the default branch: repo → Settings → Codespaces → Set up prebuild. Match the prebuild region(s) to where most participants are.
-- [ ] **[MANUAL]** Set a Codespaces spending limit sized for 20–50 people × half-day usage: org/repo → Settings → Billing → Codespaces spending limit.
-- [ ] **[MANUAL]** Confirm Codespaces is enabled for the account types your participants will use — personal GitHub accounts work out of the box; work/enterprise accounts may need an org admin to enable it. Flag this in pre-workshop comms if any participants are on work accounts.
-- [ ] **[MANUAL]** Create a fresh Codespace from the repo exactly as a participant would (don't reuse your dev Codespace). Time the full flow end-to-end: container start → `claude`/`codex` login → first successful query. Fix anything slow or confusing before moving on.
-- [ ] Confirm both CLIs authenticate cleanly via OAuth with a personal/test account. If possible, test on both Mac and Windows browsers — WSL/Windows sometimes hits different OAuth redirect behavior. See `FACILITATOR_TROUBLESHOOTING.md` if login loops.
-- [ ] **[MANUAL]** Record a ~2-minute screen capture of the golden path (open Codespace → login → ask a question → get an answer) as a backup in case live demos or someone's network fails.
-- [ ] **[MANUAL]** Send the pre-workshop email/Slack message with: repo link, "before you arrive" checklist (GitHub account ready; Claude.ai account with an active plan or API key; ChatGPT account with Codex access or API key; browser logged into both), and expected Codespace build time.
+- [ ] **[THỦ CÔNG]** Bật Codespaces prebuilds cho nhánh mặc định: repo → Settings → Codespaces → Set up prebuild. Chọn (các) vùng prebuild khớp với nơi phần lớn người tham gia đang ở.
+- [ ] **[THỦ CÔNG]** Đặt giới hạn chi tiêu Codespaces phù hợp cho 20–50 người × nửa ngày sử dụng: org/repo → Settings → Billing → Codespaces spending limit.
+- [ ] **[THỦ CÔNG]** Xác nhận Codespaces được bật cho loại tài khoản mà người tham gia sẽ dùng — tài khoản GitHub cá nhân hoạt động sẵn; tài khoản work/enterprise có thể cần admin của tổ chức bật lên. Nêu rõ điều này trong thông báo trước workshop nếu có người tham gia dùng tài khoản work.
+- [ ] **[THỦ CÔNG]** Tạo một Codespace mới từ repo đúng như một người tham gia sẽ làm (đừng tái sử dụng Codespace dev của bạn). Đo thời gian toàn bộ luồng từ đầu đến cuối: container start → đăng nhập `claude`/`codex` → truy vấn thành công đầu tiên. Sửa bất cứ điều gì chậm hoặc gây khó hiểu trước khi tiếp tục.
+- [ ] Xác nhận cả hai CLI xác thực trơn tru qua OAuth với một tài khoản cá nhân/thử nghiệm. Nếu có thể, thử trên cả trình duyệt Mac và Windows — WSL/Windows đôi khi gặp hành vi chuyển hướng OAuth khác nhau. Xem `FACILITATOR_TROUBLESHOOTING.md` nếu bị lặp vòng đăng nhập.
+- [ ] **[THỦ CÔNG]** Quay lại màn hình khoảng 2 phút cho luồng chuẩn (mở Codespace → đăng nhập → đặt câu hỏi → nhận câu trả lời) làm phương án dự phòng trong trường hợp demo trực tiếp hoặc mạng của ai đó gặp sự cố.
+- [ ] **[THỦ CÔNG]** Gửi email/tin nhắn Slack trước workshop gồm: link repo, checklist "trước khi đến" (tài khoản GitHub sẵn sàng; tài khoản Claude.ai có gói đang hoạt động hoặc API key; tài khoản ChatGPT có quyền truy cập Codex hoặc API key; trình duyệt đã đăng nhập cả hai), và thời gian build Codespace dự kiến.
 
-## Day of
+## Ngày diễn ra
 
-- [ ] **[MANUAL]** Stagger "Open in Codespaces" clicks by a minute or two across the room/call — 50 simultaneous cold starts can queue even with prebuilds warm. Split the agenda into "everyone open your Codespace now" and, a couple minutes later, "everyone log in now."
-- [ ] Have `FACILITATOR_TROUBLESHOOTING.md` open on a second screen.
-- [ ] Have the backup screen recording ready to play if live demos stall.
+- [ ] **[THỦ CÔNG]** Giãn cách các lượt click "Open in Codespaces" một hoặc hai phút trong phòng/buổi gọi — 50 lượt cold start đồng thời có thể xếp hàng dù đã prebuild sẵn. Chia agenda thành "mọi người mở Codespace ngay bây giờ" và, vài phút sau, "mọi người đăng nhập ngay bây giờ."
+- [ ] Mở sẵn `FACILITATOR_TROUBLESHOOTING.md` trên màn hình thứ hai.
+- [ ] Chuẩn bị sẵn video màn hình dự phòng để phát nếu demo trực tiếp bị treo.
 
-## Pre-workshop verification (do this after the dry run above)
+## Kiểm tra trước workshop (thực hiện sau khi chạy thử ở trên)
 
-- [ ] Fresh Codespace confirms `SELECT count(*) FROM transactions;` in `data/workshop.duckdb` returns 2,000,000 (the `postCreateCommand` smoke test should also catch this automatically in the creation log).
-- [ ] Both `claude` and `codex` authenticate via OAuth.
-- [ ] Both VS Code extensions (Claude Code, Codex) load in the Codespace.
-- [ ] The worked-example skill (`.claude/skills/sql-helper/SKILL.md`) visibly changes model behavior when tested with a sample question from `exercises.md`.
-- [ ] Cold-open-to-first-query timing fits comfortably inside the half-day agenda's opening block.
+- [ ] Codespace mới xác nhận `SELECT count(*) FROM transactions;` trong `data/workshop.duckdb` trả về 2.000.000 (smoke test của `postCreateCommand` cũng nên tự động bắt lỗi này trong creation log).
+- [ ] Cả `claude` và `codex` đều xác thực được qua OAuth.
+- [ ] Cả hai extension VS Code (Claude Code, Codex) đều load được trong Codespace.
+- [ ] Skill mẫu (`.claude/skills/sql-helper/SKILL.md`) thay đổi rõ rệt hành vi của model khi thử với một câu hỏi mẫu từ `exercises.md`.
+- [ ] Thời gian từ cold-open đến câu truy vấn đầu tiên nằm gọn trong khối mở đầu của agenda nửa ngày.

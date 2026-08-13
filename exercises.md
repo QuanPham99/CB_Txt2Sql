@@ -16,18 +16,32 @@ Quan sát nó đọc skill, viết SQL chạy trên `data/workshop.duckdb`, th�
 
 ## Bước 3 — Thử lần lượt các câu hỏi sau
 
-Mỗi câu sẽ phức tạp hơn một chút so với câu trước.
+Bộ câu hỏi dưới đây chia làm 3 cấp độ tăng dần, dùng để kiểm tra xem skill (`SKILL.md`) xử lý tốt đến đâu — từ truy vấn một bảng đơn giản, đến join nhiều bảng, đến những câu đòi hỏi CTE/window function và suy luận nghiệp vụ thật sự. Đi từ trên xuống dưới; nếu câu trả lời có vẻ sai ở bất kỳ đâu, hãy yêu cầu AI hiển thị SQL nó đã chạy — thường lỗi sẽ lộ rõ ở đó.
 
-1. Chúng ta có bao nhiêu khách hàng, phân theo nghề nghiệp?
-2. Số dư tài khoản trung bình của mỗi loại tài khoản là bao nhiêu?
-3. Chi nhánh nào đã xử lý tổng số tiền giao dịch cao nhất?
-4. Có bao nhiêu ticket hỗ trợ đang ở trạng thái "Open," phân theo loại vấn đề?
-5. Bao nhiêu phần trăm giao dịch thẻ bị đánh dấu gian lận, phân theo danh mục merchant?
-6. 10 khách hàng nào đã trả tổng số tiền lãi vay nhiều nhất?
-7. Với các khách hàng gia nhập năm 2023, điểm tín dụng trung bình của họ so với khách hàng gia nhập năm 2015 như thế nào?
-8. Tìm các tài khoản có số dư thấp hơn số tiền rút trung bình hàng tháng trong 6 tháng dữ liệu gần nhất (đây là các tài khoản có nguy cơ thấu chi).
+### Cấp độ Cơ bản — một bảng, tổng hợp đơn giản
 
-Nếu câu trả lời có vẻ sai, hãy yêu cầu AI hiển thị SQL nó đã chạy — thường lỗi sẽ lộ rõ ở đó.
+1. Chúng ta có bao nhiêu khách hàng, phân theo giới tính?
+2. Số dư tài khoản trung bình của mỗi loại tài khoản (`account_type`) là bao nhiêu?
+3. Có bao nhiêu ticket hỗ trợ đang ở trạng thái "Open," phân theo loại vấn đề?
+4. Liệt kê 10 khoản vay (loan) có số tiền gốc (`loan_amount`) lớn nhất, kèm loại vay và trạng thái.
+5. Trong số các giao dịch thẻ (`card_transactions`), bao nhiêu phần trăm bị đánh dấu gian lận (`is_fraud`)?
+
+### Cấp độ Trung cấp — join 2 bảng, GROUP BY có điều kiện
+
+1. Chi nhánh nào đã xử lý tổng số tiền giao dịch (`transactions`) cao nhất? (join `accounts` → `branches`)
+2. Với các khách hàng gia nhập năm 2023, điểm tín dụng trung bình của họ so với khách hàng gia nhập năm 2015 như thế nào?
+3. Tỷ lệ thanh toán trễ (`late_payment_flag`) trên tổng số lượt thanh toán là bao nhiêu, phân theo từng loại khoản vay (`loan_type`)?
+4. 10 khách hàng nào mở nhiều ticket hỗ trợ nhất, và loại vấn đề (`issue_type`) phổ biến nhất của mỗi người là gì?
+5. Bao nhiêu phần trăm giao dịch thẻ bị đánh dấu gian lận, phân theo loại thẻ (`card_type`) thay vì theo danh mục merchant?
+
+### Cấp độ Nâng cao — nhiều bảng, CTE/window function, suy luận nghiệp vụ
+
+Các câu này cố tình phức tạp — không có một câu SQL "đúng" duy nhất, mục tiêu là xem skill có tự chia nhỏ vấn đề (CTE), chọn đúng cột để join, và nêu rõ giả định hay không.
+
+1. **Xếp hạng rủi ro khách hàng:** với mỗi khách hàng đang có ít nhất một khoản vay ở trạng thái "Active" hoặc "Defaulted", tính: tổng số tiền đã thanh toán (`loan_payments`), tỷ lệ thanh toán trễ, điểm tín dụng (`credit_score`), và số ticket loại "Fraud Report" họ từng mở. Xếp hạng 20 khách hàng rủi ro cao nhất theo tiêu chí kết hợp cả 4 yếu tố trên, và yêu cầu AI giải thích rõ cách nó tính điểm rủi ro.
+2. **Tăng trưởng theo tháng:** tính tổng số tiền giao dịch (`transactions.amount`) theo từng tháng, rồi tính phần trăm tăng/giảm so với tháng liền trước (window function kiểu `LAG`) cho 24 tháng gần nhất — tính "gần nhất" theo `MAX(txn_date)` thực tế trong bảng, không phải ngày hôm nay.
+3. **Top khách hàng theo tổng giá trị giao dịch:** trong số khách hàng có ít nhất một tài khoản "Active", tìm nhóm 5% khách hàng có tổng giá trị giao dịch cao nhất — cộng cả giao dịch cấp tài khoản (`transactions`) lẫn giao dịch cấp thẻ (`card_transactions`) theo đúng từng khách hàng, **không** `UNION` trực tiếp hai bảng vì chúng khác grain (xem phần "Lưu ý & điểm đặc biệt" trong từ điển dữ liệu). Sau đó cho biết chi nhánh nào đang phục vụ nhiều khách hàng thuộc nhóm 5% này nhất.
+4. **Nợ xấu theo chi nhánh so với nhân sự:** với mỗi chi nhánh, tính tỷ lệ nợ xấu (khoản vay ở trạng thái "Defaulted" hoặc "Written Off" trên tổng số khoản vay của chi nhánh đó), rồi so sánh với số lượng nhân viên có vai trò "Loan Officer" đang làm việc tại chi nhánh — chi nhánh nào có tỷ lệ nợ xấu cao bất thường so với số Loan Officer hiện có?
 
 ## Bước 4 — Tự xây dựng skill của bạn
 
@@ -42,7 +56,7 @@ Nếu câu trả lời có vẻ sai, hãy yêu cầu AI hiển thị SQL nó đ�
 
 ## Bước 5 — Kiểm thử
 
-Đặt lại câu hỏi từ Bước 2, hoặc một câu hỏi mới. Xác nhận rằng hành vi của AI giờ đã tuân theo quy tắc của bạn. Đó chính là khoảnh khắc "à ha": bạn chỉ viết ngôn ngữ tự nhiên, không phải code, mà nó đã thay đổi cách AI hành xử.
+Đặt lại một vài câu hỏi từ Bước 3 (mỗi cấp độ một câu là đủ), hoặc một câu hỏi mới. Xác nhận rằng hành vi của AI giờ đã tuân theo quy tắc của bạn — đặc biệt ở các câu Nâng cao, đây là nơi dễ thấy rõ nhất liệu skill của bạn có giúp AI xử lý tốt hơn các truy vấn phức tạp hay không. Đó chính là khoảnh khắc "à ha": bạn chỉ viết ngôn ngữ tự nhiên, không phải code, mà nó đã thay đổi cách AI hành xử.
 
 ## Bước 6 — Chia sẻ kết quả
 

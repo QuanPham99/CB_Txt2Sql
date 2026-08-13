@@ -1,10 +1,10 @@
-# Iteration 0 — Local Testing
+# Iteration 0 — Kiểm Thử Cục Bộ
 
-Before touching Codespaces or inviting anyone, run the whole workshop flow on your own machine. This is the organizer's dry run: same container, same data, same skills — just on `localhost` instead of GitHub.
+Trước khi động đến Codespaces hay mời bất kỳ ai, hãy chạy toàn bộ luồng workshop trên máy của chính bạn. Đây là bước chạy thử của ban tổ chức: cùng container, cùng dữ liệu, cùng skill — chỉ khác là chạy trên `localhost` thay vì GitHub.
 
-## Architecture
+## Kiến trúc
 
-Two separate pipelines: a **build-time** one that only the organizer runs once (already done — see `SCHEMA.md` and `data/workshop.duckdb`), and a **run-time** one that every participant's container reproduces from scratch. Local testing exercises the run-time pipeline only.
+Có hai pipeline riêng biệt: một pipeline **build-time** mà chỉ ban tổ chức chạy một lần (đã hoàn tất — xem `SCHEMA.md` và `data/workshop.duckdb`), và một pipeline **run-time** mà container của mỗi người tham gia tái tạo lại từ đầu. Kiểm thử cục bộ chỉ thực hiện pipeline run-time.
 
 ```mermaid
 flowchart TB
@@ -46,73 +46,73 @@ flowchart TB
     duckcli -->|"result rows"| user
 ```
 
-**Key points to sanity-check while reviewing:**
+**Các điểm cần rà soát kỹ khi xem lại:**
 
-- `data/workshop.duckdb` is built once, outside the container, and shipped via Git LFS — the container never regenerates it, it only reads it. If LFS didn't pull, `postCreate.sh`'s smoke test catches that (see `../reference/FACILITATOR_TROUBLESHOOTING.md`).
-- The container has no direct dependency on `dataset/*.csv` — those are git-ignored and irrelevant at run time. Only `data/workshop.duckdb` and the repo's markdown/skill files matter once the container is up.
-- `claude` and `codex` don't talk to `data/workshop.duckdb` directly — they shell out to the `duckdb` CLI, using instructions from `SKILL.md` (grounded in `SCHEMA.md`) to decide what SQL to write and what house rules to follow.
-- `.claude/skills/` and `.codex/skills/` are kept in sync by mirroring the same `SKILL.md` (currently via a symlink for the worked example) so both CLIs behave identically — worth confirming this still holds for any new skill you add via `templates/skill-template/`.
-- Locally, `devcontainer up` stands in for the "Docker Engine" GitHub runs behind the scenes for a real Codespace — everything from `postCreateCommand` down is identical; only the machine underneath and the OAuth network path differ (see Step 6's caveat).
+- `data/workshop.duckdb` được build một lần, bên ngoài container, và được vận chuyển qua Git LFS — container không bao giờ tự tạo lại nó, chỉ đọc nó. Nếu LFS không pull được, smoke test của `postCreate.sh` sẽ bắt được điều này (xem `../reference/FACILITATOR_TROUBLESHOOTING.md`).
+- Container không phụ thuộc trực tiếp vào `dataset/*.csv` — các file đó bị git-ignore và không liên quan ở run time. Chỉ `data/workshop.duckdb` và các file markdown/skill của repo mới quan trọng khi container đã chạy.
+- `claude` và `codex` không nói chuyện trực tiếp với `data/workshop.duckdb` — chúng shell out sang CLI `duckdb`, dùng hướng dẫn từ `SKILL.md` (dựa trên `SCHEMA.md`) để quyết định viết SQL gì và tuân theo quy tắc nào.
+- `.claude/skills/` và `.codex/skills/` được giữ đồng bộ bằng cách mirror cùng một `SKILL.md` (hiện tại qua symlink cho skill mẫu) để cả hai CLI hoạt động giống hệt nhau — đáng để xác nhận điều này vẫn đúng với bất kỳ skill mới nào bạn thêm qua `templates/skill-template/`.
+- Ở cục bộ, `devcontainer up` đóng vai trò thay cho "Docker Engine" mà GitHub chạy ngầm cho một Codespace thật — mọi thứ từ `postCreateCommand` trở xuống đều giống hệt nhau; chỉ khác máy chạy bên dưới và đường mạng OAuth (xem lưu ý ở Bước 6).
 
-## Prerequisites
+## Điều kiện tiên quyết
 
-- Docker installed and running (`docker --version`).
-- Node.js + npm (`node --version`, `npm --version`) — needed for the `devcontainer` CLI.
-- `data/workshop.duckdb` present locally (see [Step 1](#step-1-confirm-the-data-is-there)).
+- Docker đã cài đặt và đang chạy (`docker --version`).
+- Node.js + npm (`node --version`, `npm --version`) — cần cho CLI `devcontainer`.
+- `data/workshop.duckdb` đã có sẵn cục bộ (xem [Bước 1](#bước-1--xác-nhận-dữ-liệu-đã-có-sẵn)).
 
-## Step 1 — Confirm the data is there
+## Bước 1 — Xác nhận dữ liệu đã có sẵn
 
 ```bash
 ls -la data/workshop.duckdb
 ```
 
-You should see a ~75MB file. If it's missing, rebuild it from the CSVs in `dataset/` per Part 0 of `WORKSHOP_SETUP_PLAN.md`.
+Bạn sẽ thấy một file khoảng 75MB. Nếu bị thiếu, hãy build lại từ các file CSV trong `dataset/` theo Phần 0 của `WORKSHOP_SETUP_PLAN.md`.
 
-> **Known gap:** this file is meant to be tracked with Git LFS (see `.gitattributes` / Part 1 of the plan), so participants pull it automatically when they open a Codespace. LFS setup is still in progress on this machine — until it's done, `data/workshop.duckdb` is untracked locally and won't be pushed with `git add`/`git commit`. Don't push large-file changes until that's confirmed working (`git lfs version` should succeed).
+> **Khoảng trống đã biết:** file này lẽ ra được theo dõi bằng Git LFS (xem `.gitattributes` / Phần 1 của kế hoạch), để người tham gia tự động pull khi mở Codespace. Việc thiết lập LFS vẫn đang trong quá trình thực hiện trên máy này — cho đến khi hoàn tất, `data/workshop.duckdb` chưa được track cục bộ và sẽ không được push cùng `git add`/`git commit`. Đừng push các thay đổi file lớn cho đến khi xác nhận điều này hoạt động (`git lfs version` phải chạy thành công).
 
-## Step 2 — Sanity-check the data with DuckDB directly
+## Bước 2 — Kiểm tra nhanh dữ liệu trực tiếp bằng DuckDB
 
-No container needed for this part — just confirm the file itself is valid before you wrap a devcontainer around it.
+Không cần container cho phần này — chỉ cần xác nhận bản thân file hợp lệ trước khi bọc nó trong một devcontainer.
 
 ```bash
 python3 -c "import duckdb; print(duckdb.connect('data/workshop.duckdb').sql('SELECT count(*) FROM transactions').fetchall())"
 ```
 
-Expect `[(2000000,)]`. If you have the `duckdb` CLI installed, `duckdb data/workshop.duckdb -c "SELECT count(*) FROM transactions;"` does the same thing.
+Kết quả mong đợi là `[(2000000,)]`. Nếu bạn đã cài CLI `duckdb`, lệnh `duckdb data/workshop.duckdb -c "SELECT count(*) FROM transactions;"` cũng cho kết quả tương tự.
 
-## Step 3 — Install the devcontainer CLI
+## Bước 3 — Cài đặt CLI devcontainer
 
-This lets you build and run the exact container Codespaces will use, locally, via Docker.
+Việc này cho phép bạn build và chạy chính xác container mà Codespaces sẽ dùng, ở cục bộ, thông qua Docker.
 
 ```bash
 npm install -g @devcontainers/cli
 devcontainer --version
 ```
 
-## Step 4 — Build and start the container
+## Bước 4 — Build và khởi động container
 
-From the repo root:
+Từ thư mục gốc của repo:
 
 ```bash
 devcontainer up --workspace-folder .
 ```
 
-This builds the image, runs `postCreateCommand` (`.devcontainer/postCreate.sh` — installs DuckDB CLI, Claude Code, Codex CLI, and runs the data smoke test), and reports success or failure. Watch the output for the smoke test lines near the end — it should fail loudly if `data/workshop.duckdb` is missing or the row count looks wrong.
+Lệnh này build image, chạy `postCreateCommand` (`.devcontainer/postCreate.sh` — cài DuckDB CLI, Claude Code, Codex CLI, và chạy smoke test dữ liệu), rồi báo cáo thành công hay thất bại. Theo dõi output để tìm các dòng smoke test gần cuối — nó phải báo lỗi rõ ràng nếu `data/workshop.duckdb` bị thiếu hoặc số dòng có vẻ sai.
 
-If this step fails, fix it here before ever opening a real Codespace — a broken `postCreateCommand` will fail identically (and more visibly) for every participant.
+Nếu bước này thất bại, hãy sửa ngay ở đây trước khi mở một Codespace thật — một `postCreateCommand` bị hỏng sẽ thất bại y hệt (và rõ ràng hơn) với mọi người tham gia.
 
-> **After editing `postCreate.sh` and retrying:** plain `devcontainer up` reuses the existing container and only re-runs `postAttachCommand`, *not* `postCreateCommand` — so it won't actually re-test your fix. Force a clean rebuild instead:
+> **Sau khi sửa `postCreate.sh` và thử lại:** lệnh `devcontainer up` thông thường tái sử dụng container đã có và chỉ chạy lại `postAttachCommand`, *không* chạy lại `postCreateCommand` — vì vậy nó sẽ không thực sự kiểm tra lại bản sửa của bạn. Thay vào đó, hãy ép build lại từ đầu:
 > ```bash
 > devcontainer up --workspace-folder . --remove-existing-container
 > ```
 
-## Step 5 — Shell into the running container
+## Bước 5 — Shell vào container đang chạy
 
 ```bash
 devcontainer exec --workspace-folder . bash
 ```
 
-You're now inside the same environment a participant gets. From here:
+Giờ bạn đang ở trong đúng môi trường mà một người tham gia sẽ nhận được. Từ đây:
 
 ```bash
 duckdb data/workshop.duckdb -c "SELECT count(*) FROM transactions;"
@@ -120,43 +120,43 @@ claude --version
 codex --version
 ```
 
-## Step 6 — Authenticate the CLIs
+## Bước 6 — Xác thực các CLI
 
-Still inside the container:
+Vẫn đang ở trong container:
 
 ```bash
 claude
 codex
 ```
 
-Follow the OAuth prompts (or set an API key per the README's "Before you arrive" section). This is the step most likely to behave differently than a fresh Codespace — port forwarding and browser redirects work differently locally, so don't treat a smooth local login as full proof it'll work in Codespaces. Do a real Codespaces dry run too (see `../reference/DAY_OF_CHECKLIST.md`).
+Làm theo các bước OAuth (hoặc đặt một API key theo hướng dẫn ở phần "Before you arrive" của README). Đây là bước có khả năng cao nhất sẽ hoạt động khác so với một Codespace mới — port forwarding và redirect trình duyệt hoạt động khác nhau khi chạy cục bộ, vì vậy đừng xem việc đăng nhập cục bộ trơn tru là bằng chứng đầy đủ rằng nó sẽ hoạt động trên Codespaces. Hãy thực hiện thêm một lần chạy thử Codespaces thật (xem `../reference/DAY_OF_CHECKLIST.md`).
 
-## Step 7 — Test the worked-example skill
+## Bước 7 — Kiểm thử skill mẫu
 
-Ask a question that should trigger `.claude/skills/sql-helper/SKILL.md` (or the Codex mirror):
+Đặt một câu hỏi để kích hoạt `.claude/skills/sql-helper/SKILL.md` (hoặc bản mirror của Codex):
 
 ```
 What were the top 5 transaction categories by total amount last quarter?
 ```
 
-Confirm the model reads `SCHEMA.md`, shows its SQL, and applies the house rules (LIMIT 100 on raw rows, rounded currency, etc.) before trusting the skill for the live workshop.
+Xác nhận model đọc `SCHEMA.md`, hiển thị câu SQL đã chạy, và áp dụng các quy tắc trong `SKILL.md` (LIMIT 100 trên raw rows, làm tròn tiền tệ, v.v.) trước khi tin dùng skill này cho buổi workshop thật.
 
-## Step 8 — Work through `exercises.md`
+## Bước 8 — Làm qua `exercises.md`
 
-Run through all 8 example questions yourself. If any answer looks wrong or the model invents a column name, fix `SKILL.md` or `SCHEMA.md` now — not during the workshop.
+Tự chạy qua cả 8 câu hỏi mẫu. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột, hãy sửa `SKILL.md` hoặc `SCHEMA.md` ngay bây giờ — không phải trong lúc workshop.
 
-## Step 9 — Build a throwaway skill from the template
+## Bước 9 — Xây một skill dùng thử từ template
 
-Copy `templates/skill-template/SKILL.md` into a scratch folder, fill in one or two house rules, and confirm it changes model behavior as expected. This is exactly what participants will do in Step 4 of `exercises.md` — if it's confusing for you, it'll be confusing for them.
+Sao chép `templates/skill-template/SKILL.md` vào một thư mục nháp, điền vào một hoặc hai quy tắc, và xác nhận nó thay đổi hành vi của model đúng như mong đợi. Đây chính xác là điều người tham gia sẽ làm ở Bước 4 của `exercises.md` — nếu nó gây khó hiểu cho bạn, nó sẽ gây khó hiểu cho họ.
 
-## Step 10 — Tear down
+## Bước 10 — Dọn dẹp
 
 ```bash
 devcontainer down --workspace-folder .
 ```
 
-Or just `docker ps` / `docker rm -f <container>` if `down` isn't available in your CLI version.
+Hoặc chỉ cần `docker ps` / `docker rm -f <container>` nếu `down` không khả dụng trong phiên bản CLI của bạn.
 
-## When this all passes
+## Khi tất cả đều đạt
 
-Move on to the real dry run in `../reference/DAY_OF_CHECKLIST.md` — a fresh Codespace created exactly as a participant would, timed end-to-end. Local testing catches broken scripts and bad skill logic; only a real Codespace catches Codespaces-specific issues (prebuilds, OAuth redirects, LFS pulls, spending limits).
+Chuyển sang bước chạy thử thật trong `../reference/DAY_OF_CHECKLIST.md` — một Codespace mới được tạo đúng như một người tham gia sẽ làm, đo thời gian từ đầu đến cuối. Kiểm thử cục bộ bắt được các script hỏng và logic skill sai; chỉ một Codespace thật mới bắt được các vấn đề đặc thù của Codespaces (prebuild, redirect OAuth, LFS pull, giới hạn chi tiêu).

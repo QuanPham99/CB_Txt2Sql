@@ -31,6 +31,7 @@ Một workshop thực hành, nơi người tham gia xây dựng một **Claude S
 - `.devcontainer/` — môi trường Codespaces mở một lần là dùng được ngay (DuckDB CLI + Claude Code + Codex CLI + các extension VS Code, đã cài sẵn).
 - `docs/setup/` — kế hoạch thiết lập của ban tổ chức và các hướng dẫn thiết lập từng bước cho local/Codespaces.
 - `docs/reference/` — checklist hậu cần ngày diễn ra sự kiện và tài liệu xử lý sự cố dành riêng cho facilitator.
+- `docs/architecture/` — tài liệu kiến trúc hệ thống kèm sơ đồ, dành cho kỹ sư muốn hiểu cách repo vận hành ở mức hệ thống.
 
 ## Cách hoạt động
 

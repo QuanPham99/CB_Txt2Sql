@@ -1,35 +1,35 @@
-# Workshop Setup Guide — Test via GitHub Codespaces
+# Hướng Dẫn Thiết Lập Workshop — Kiểm Thử Qua GitHub Codespaces
 
-A practical, step-by-step walkthrough for spinning up **this exact repo** in a real GitHub Codespace and confirming the whole workshop works end to end — before you point 20–50 participants at it.
+Một hướng dẫn từng bước, thực tế, để khởi chạy **chính repo này** trong một GitHub Codespace thật và xác nhận toàn bộ workshop hoạt động trơn tru từ đầu đến cuối — trước khi bạn đưa nó cho 20–50 người tham gia.
 
-This is the "real environment" companion to `WORKSHOP_SETUP_GUIDE_LOCAL.md` and `Iteration_0_LocalTesting.md` (which run the workshop on your own machine to catch script/skill bugs fast, without needing GitHub at all). Codespaces-specific things — OAuth redirects, Git LFS pulls over the network, prebuilds, spending limits — can *only* be verified here, not locally. Do a local pass first if you haven't; then do this one.
+Đây là tài liệu đồng hành "môi trường thật" của `WORKSHOP_SETUP_GUIDE_LOCAL.md` và `Iteration_0_LocalTesting.md` (những tài liệu chạy workshop trên máy của chính bạn để nhanh chóng bắt lỗi script/skill mà không cần GitHub). Những thứ đặc thù của Codespaces — redirect OAuth, pull Git LFS qua mạng, prebuild, giới hạn chi tiêu — *chỉ* có thể được kiểm chứng ở đây, không phải cục bộ. Hãy chạy thử cục bộ trước nếu bạn chưa làm; rồi mới làm bước này.
 
-> Repo: `QuanPham99/CB_Txt2Sql` (`origin` remote, `main` branch — confirmed pushed and up to date as of this guide).
-
----
-
-## 0. Prerequisites (organizer)
-
-- [ ] A GitHub account with access to `QuanPham99/CB_Txt2Sql` (owner access if you'll be changing repo/Codespaces settings).
-- [ ] A **Claude.ai account** with an active plan (Pro/Max), or a personal Anthropic API key.
-- [ ] A **ChatGPT account** with Codex access (Plus/Pro/Business/Edu), or a personal OpenAI API key.
-- [ ] `data/workshop.duckdb` is tracked via Git LFS and pushed to `origin/main` (`git lfs ls-files` should list it; confirmed present locally at ~75MB).
+> Repo: `QuanPham99/CB_Txt2Sql` (remote `origin`, nhánh `main` — đã xác nhận push và cập nhật tính đến thời điểm viết hướng dẫn này).
 
 ---
 
-## 1. Open a Codespace exactly as a participant would
+## 0. Điều kiện tiên quyết (ban tổ chức)
 
-Don't reuse an existing dev Codespace — old cached layers can hide a broken `postCreateCommand`.
+- [ ] Một tài khoản GitHub có quyền truy cập `QuanPham99/CB_Txt2Sql` (quyền owner nếu bạn sẽ thay đổi cài đặt repo/Codespaces).
+- [ ] Một **tài khoản Claude.ai** có gói đang hoạt động (Pro/Max), hoặc một API key Anthropic cá nhân.
+- [ ] Một **tài khoản ChatGPT** có quyền truy cập Codex (Plus/Pro/Business/Edu), hoặc một API key OpenAI cá nhân.
+- [ ] `data/workshop.duckdb` được theo dõi qua Git LFS và đã push lên `origin/main` (`git lfs ls-files` phải liệt kê nó; đã xác nhận có mặt cục bộ ở khoảng 75MB).
 
-1. Go to `https://github.com/QuanPham99/CB_Txt2Sql`.
-2. **Code → Codespaces → Create codespace on main** (or click the "Open in GitHub Codespaces" badge in `README.md`).
-3. Watch the creation log (Codespaces → your Codespace → "..." → **View creation log**). You're watching `.devcontainer/postCreate.sh` run live:
-   - Installs the DuckDB CLI
+---
+
+## 1. Mở một Codespace đúng như một người tham gia sẽ làm
+
+Đừng tái sử dụng một Codespace dev đã có — các lớp cache cũ có thể che giấu một `postCreateCommand` bị hỏng.
+
+1. Truy cập `https://github.com/QuanPham99/CB_Txt2Sql`.
+2. **Code → Codespaces → Create codespace on main** (hoặc click badge "Open in GitHub Codespaces" trong `README.md`).
+3. Theo dõi creation log (Codespaces → Codespace của bạn → "..." → **View creation log**). Bạn đang xem `.devcontainer/postCreate.sh` chạy trực tiếp:
+   - Cài DuckDB CLI
    - `npm install -g @anthropic-ai/claude-code`
-   - Installs the Codex CLI
-   - Runs the data smoke test — it should print `Smoke test: transactions table has 2000000 rows.` and then `== Setup complete ==`
-4. **If the log shows an error and the build fails**, stop here and fix it (see `../reference/FACILITATOR_TROUBLESHOOTING.md` → "`data/workshop.duckdb` missing or empty") before doing anything else — a broken `postCreateCommand` fails identically for every participant.
-5. Once it opens, you should see the `postAttach.sh` welcome banner printed in the terminal:
+   - Cài Codex CLI
+   - Chạy smoke test dữ liệu — nó phải in ra `Smoke test: transactions table has 2000000 rows.` rồi `== Setup complete ==`
+4. **Nếu log hiện lỗi và build thất bại**, dừng lại ngay và sửa lỗi (xem `../reference/FACILITATOR_TROUBLESHOOTING.md` → "`data/workshop.duckdb` missing or empty") trước khi làm bất cứ điều gì khác — một `postCreateCommand` bị hỏng sẽ thất bại y hệt với mọi người tham gia.
+5. Khi Codespace mở lên, bạn sẽ thấy banner chào mừng của `postAttach.sh` được in trong terminal:
    ```
    ========================================================
     Welcome to the Text-to-SQL Skills Workshop!
@@ -39,143 +39,143 @@ Don't reuse an existing dev Codespace — old cached layers can hide a broken `p
    ========================================================
    ```
 
-**Time this.** Note the wall-clock time from clicking "Create codespace" to the banner appearing — you'll want this number for the day-of agenda (see `../reference/DAY_OF_CHECKLIST.md`).
+**Đo thời gian bước này.** Ghi lại thời gian thực tế từ lúc click "Create codespace" đến khi banner xuất hiện — bạn sẽ cần con số này cho agenda ngày diễn ra (xem `../reference/DAY_OF_CHECKLIST.md`).
 
 ---
 
-## 2. Verify the data landed correctly
+## 2. Xác nhận dữ liệu đã nạp đúng
 
-In the integrated terminal:
+Trong terminal tích hợp:
 
 ```bash
 duckdb data/workshop.duckdb -c "SELECT count(*) FROM transactions;"
 ```
 
-Expect `2000000`. If it's `0`, an error, or the file looks tiny (a few hundred bytes = an unresolved LFS pointer, not real data), run:
+Kết quả mong đợi là `2000000`. Nếu là `0`, báo lỗi, hoặc file có vẻ rất nhỏ (vài trăm byte = một LFS pointer chưa được resolve, không phải dữ liệu thật), hãy chạy:
 
 ```bash
 git lfs pull
 bash .devcontainer/postCreate.sh
 ```
 
-and re-check. This is the one failure mode that's easy to hit in Codespaces but invisible locally if you already had the file cached — treat it as the primary thing this guide exists to catch.
+rồi kiểm tra lại. Đây là kiểu lỗi dễ gặp trên Codespaces nhưng lại vô hình ở cục bộ nếu bạn đã có sẵn file trong cache — hãy xem đây là điều chính mà hướng dẫn này tồn tại để bắt lỗi.
 
 ---
 
-## 3. Authenticate both CLIs
+## 3. Xác thực cả hai CLI
 
 ```bash
 claude
 ```
-Follow the printed login URL, sign in with your Claude.ai account (or paste a personal Anthropic API key).
+Làm theo URL đăng nhập được in ra, đăng nhập bằng tài khoản Claude.ai của bạn (hoặc dán một API key Anthropic cá nhân).
 
 ```bash
 codex
 ```
-Follow the printed URL / "Sign in with ChatGPT" prompt (or paste a personal OpenAI API key).
+Làm theo URL được in ra / lời nhắc "Sign in with ChatGPT" (hoặc dán một API key OpenAI cá nhân).
 
-**What to watch for:** this is the step most likely to behave differently than your local Docker test — Codespaces' forwarded-browser OAuth path is different from `localhost`. If the browser bounces back without completing the login:
-- Try the device-code flow if the CLI offers one.
-- Check whether your GitHub/Claude/OpenAI account is behind org SSO — try a personal account instead.
-- Check the **Ports** tab in VS Code — temporarily set the forwarded auth port's visibility to "Public," retry, then set it back.
+**Cần chú ý:** đây là bước có khả năng cao nhất sẽ hoạt động khác so với bài kiểm thử Docker cục bộ của bạn — đường OAuth forwarded-browser của Codespaces khác với `localhost`. Nếu trình duyệt bật lại mà không hoàn tất đăng nhập:
+- Thử luồng device-code nếu CLI có hỗ trợ.
+- Kiểm tra xem tài khoản GitHub/Claude/OpenAI của bạn có nằm sau SSO của tổ chức không — thử một tài khoản cá nhân thay thế.
+- Kiểm tra tab **Ports** trong VS Code — tạm thời đặt visibility của port xác thực được forward thành "Public," thử lại, rồi đặt lại như cũ.
 
-(Full detail in `../reference/FACILITATOR_TROUBLESHOOTING.md`.)
-
----
-
-## 4. Confirm the VS Code extensions loaded
-
-Check the Extensions sidebar (or just try using them):
-- [ ] Claude Code extension (`anthropic.claude-code`)
-- [ ] Codex extension (`openai.chatgpt`)
-- [ ] `evidence.sqltools-duckdb-driver` + `mtxr.sqltools` — lets you browse `data/workshop.duckdb` tables from the sidebar
-
-Extensions install asynchronously after the container reports "ready." If one's missing, wait ~30s and reload the window (`Cmd/Ctrl+Shift+P` → "Developer: Reload Window") before assuming it failed.
+(Chi tiết đầy đủ trong `../reference/FACILITATOR_TROUBLESHOOTING.md`.)
 
 ---
 
-## 5. Skim the data dictionary
+## 4. Xác nhận các extension VS Code đã load
+
+Kiểm tra sidebar Extensions (hoặc chỉ cần thử dùng chúng):
+- [ ] Extension Claude Code (`anthropic.claude-code`)
+- [ ] Extension Codex (`openai.chatgpt`)
+- [ ] `evidence.sqltools-duckdb-driver` + `mtxr.sqltools` — cho phép duyệt các bảng trong `data/workshop.duckdb` từ sidebar
+
+Extension cài đặt bất đồng bộ sau khi container báo "ready." Nếu thiếu một cái, hãy chờ khoảng 30 giây rồi reload cửa sổ (`Cmd/Ctrl+Shift+P` → "Developer: Reload Window") trước khi kết luận là nó thất bại.
+
+---
+
+## 5. Lướt qua data dictionary
 
 ```bash
-code SCHEMA.md   # or just open it in the editor
+code SCHEMA.md   # hoặc mở trực tiếp trong editor
 ```
 
-This is the only "data understanding" step a participant needs — confirm it still accurately describes `data/workshop.duckdb` (table name, row count, columns, quirks). If you've touched the dataset since this was written, update `SCHEMA.md` now.
+Đây là bước "hiểu dữ liệu" duy nhất mà một người tham gia cần — xác nhận nó vẫn mô tả chính xác `data/workshop.duckdb` (tên bảng, số dòng, các cột, các điểm đặc biệt). Nếu bạn đã chỉnh sửa dataset kể từ khi tài liệu này được viết, hãy cập nhật `SCHEMA.md` ngay bây giờ.
 
 ---
 
-## 6. Test the worked-example skill
+## 6. Kiểm thử skill mẫu
 
-Open `.claude/skills/sql-helper/SKILL.md` (and confirm `.codex/skills/sql-helper/SKILL.md` mirrors it) so you know what behavior you're checking for. Then, in `claude` (and again in `codex`), ask:
+Mở `.claude/skills/sql-helper/SKILL.md` (và xác nhận `.codex/skills/sql-helper/SKILL.md` mirror đúng) để bạn biết mình đang kiểm tra hành vi gì. Sau đó, trong `claude` (và lặp lại trong `codex`), hỏi:
 
 > What were the top 5 transaction categories by total amount last quarter?
 
-Confirm it:
-- [ ] Grounds itself in `SCHEMA.md` (doesn't invent column names)
-- [ ] Shows the SQL it ran
-- [ ] Applies the house rules from `SKILL.md` (e.g. `LIMIT 100` on raw rows, rounded currency)
-- [ ] Actually queries `data/workshop.duckdb` and returns real numbers
+Xác nhận nó:
+- [ ] Dựa vào `SCHEMA.md` (không bịa ra tên cột)
+- [ ] Hiển thị câu SQL đã chạy
+- [ ] Áp dụng các quy tắc trong `SKILL.md` (ví dụ `LIMIT 100` trên raw rows, làm tròn tiền tệ)
+- [ ] Thực sự truy vấn `data/workshop.duckdb` và trả về số liệu thật
 
 ---
 
-## 7. Work through the exercises
+## 7. Làm qua các bài tập
 
 ```bash
 code exercises.md
 ```
 
-Run through all the example questions yourself, in order, in this real Codespace. If any answer looks wrong or the model invents a column/table, fix `SKILL.md` or `SCHEMA.md` now — not during the live workshop.
+Tự chạy qua tất cả các câu hỏi mẫu, theo thứ tự, trong Codespace thật này. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột/bảng, hãy sửa `SKILL.md` hoặc `SCHEMA.md` ngay bây giờ — không phải trong buổi workshop trực tiếp.
 
 ---
 
-## 8. Build a throwaway custom skill
+## 8. Xây một skill tùy chỉnh dùng thử
 
-This is Step 3–4 of the actual workshop flow — try it yourself first:
+Đây là Bước 3–4 của luồng workshop thật — hãy tự thử trước:
 
-1. Copy `templates/skill-template/SKILL.md` into a new folder, e.g. `.claude/skills/scratch-test/`.
-2. Fill in 2–3 house rules (e.g. "always explain the query in one sentence").
-3. Ask a question again and confirm the behavior visibly changed.
-4. Delete the scratch folder when done (don't commit it).
+1. Sao chép `templates/skill-template/SKILL.md` vào một thư mục mới, ví dụ `.claude/skills/scratch-test/`.
+2. Điền 2–3 quy tắc (ví dụ "luôn giải thích câu truy vấn trong một câu").
+3. Đặt lại câu hỏi và xác nhận hành vi thay đổi rõ rệt.
+4. Xóa thư mục nháp khi xong (đừng commit nó).
 
-If this is confusing or fiddly for you, it'll be confusing for a non-technical participant — simplify `templates/skill-template/SKILL.md` if so.
-
----
-
-## 9. Tear down
-
-Codespaces auto-stop after a period of inactivity, but to clean up explicitly:
-
-**GitHub → Settings → Codespaces**, or from the repo: **Code → Codespaces → "..." → Delete**.
-
-You're not charged for a stopped Codespace's compute, only storage — delete test Codespaces you don't need anymore to avoid clutter.
+Nếu điều này gây khó hiểu hoặc lằng nhằng với bạn, nó sẽ gây khó hiểu cho một người tham gia không có kỹ thuật — hãy đơn giản hóa `templates/skill-template/SKILL.md` nếu vậy.
 
 ---
 
-## 10. Before opening this up to real participants
+## 9. Dọn dẹp
 
-Once steps 1–9 all pass cleanly in a fresh Codespace:
+Codespaces tự động dừng sau một khoảng thời gian không hoạt động, nhưng để dọn dẹp rõ ràng:
 
-- [ ] Enable **Codespaces prebuilds** for `main` (repo → Settings → Codespaces → Set up prebuild) so participants get a warm container instead of a multi-minute cold build. Do this a day or two ahead, matched to where most participants are.
-- [ ] Set a **Codespaces spending limit** sized for the expected headcount × half-day usage (org/repo → Settings → Billing → Codespaces spending limit).
-- [ ] Confirm Codespaces is enabled for the account types your participants will actually use — personal accounts work out of the box; work/enterprise accounts may need an org admin to turn it on. Flag this in pre-workshop comms if relevant.
-- [ ] Record the ~2-minute backup screen capture of this golden path in case live demos fail on the day.
-- [ ] Hand off to `../reference/DAY_OF_CHECKLIST.md` for the rest of the pre-workshop and day-of logistics.
+**GitHub → Settings → Codespaces**, hoặc từ repo: **Code → Codespaces → "..." → Delete**.
+
+Bạn không bị tính phí compute cho một Codespace đã dừng, chỉ tính phí lưu trữ — hãy xóa các Codespace thử nghiệm không còn cần dùng để tránh bừa bộn.
 
 ---
 
-## Quick reference — what lives where
+## 10. Trước khi mở cho người tham gia thật
 
-| File | Purpose |
+Khi các bước 1–9 đều đạt trơn tru trong một Codespace mới:
+
+- [ ] Bật **Codespaces prebuilds** cho `main` (repo → Settings → Codespaces → Set up prebuild) để người tham gia nhận được container đã sẵn sàng thay vì một cold build kéo dài nhiều phút. Làm việc này trước một hoặc hai ngày, khớp với nơi phần lớn người tham gia đang ở.
+- [ ] Đặt **giới hạn chi tiêu Codespaces** phù hợp với số người tham gia dự kiến × nửa ngày sử dụng (org/repo → Settings → Billing → Codespaces spending limit).
+- [ ] Xác nhận Codespaces được bật cho loại tài khoản mà người tham gia sẽ thực sự dùng — tài khoản cá nhân hoạt động sẵn; tài khoản work/enterprise có thể cần admin của tổ chức bật lên. Nêu rõ điều này trong thông báo trước workshop nếu liên quan.
+- [ ] Quay lại video màn hình dự phòng khoảng 2 phút của luồng chuẩn này trong trường hợp demo trực tiếp gặp sự cố vào ngày diễn ra.
+- [ ] Chuyển sang `../reference/DAY_OF_CHECKLIST.md` cho phần hậu cần còn lại trước workshop và ngày diễn ra.
+
+---
+
+## Tra cứu nhanh — cái gì nằm ở đâu
+
+| File | Mục đích |
 |---|---|
-| `README.md` | Participant-facing entry point, one-click Codespaces badge |
-| `SCHEMA.md` | Data dictionary the AI grounds itself in |
-| `exercises.md` | Guided in-workshop flow + example questions |
-| `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Worked-example skill (mirrored) |
-| `templates/skill-template/` | Blank scaffold for "build your own skill" |
-| `.devcontainer/` | The Codespaces environment definition |
-| `data/workshop.duckdb` | Pre-loaded DB (Git LFS) — the only data participants touch |
-| `docs/setup/WORKSHOP_SETUP_PLAN.md` | Full organizer background/rationale for all of the above |
-| `docs/reference/DAY_OF_CHECKLIST.md` | Pre-workshop and day-of logistics checklist |
-| `docs/reference/FACILITATOR_TROUBLESHOOTING.md` | Live-session troubleshooting (facilitator-only) |
-| `docs/setup/WORKSHOP_SETUP_GUIDE_LOCAL.md` | Run the workshop directly on your own machine, no GitHub/Codespaces needed |
-| `docs/setup/Iteration_0_LocalTesting.md` | The Docker/devcontainer-based local equivalent of this guide |
+| `README.md` | Điểm vào cho người tham gia, badge Codespaces một cú click |
+| `SCHEMA.md` | Data dictionary mà AI dựa vào |
+| `exercises.md` | Luồng hướng dẫn trong workshop + câu hỏi mẫu |
+| `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill mẫu (đã mirror) |
+| `templates/skill-template/` | Khung sườn trống cho "tự xây skill của bạn" |
+| `.devcontainer/` | Định nghĩa môi trường Codespaces |
+| `data/workshop.duckdb` | DB đã nạp sẵn (Git LFS) — dữ liệu duy nhất người tham gia chạm vào |
+| `docs/setup/WORKSHOP_SETUP_PLAN.md` | Bối cảnh/lý do đầy đủ cho ban tổ chức về tất cả những điều trên |
+| `docs/reference/DAY_OF_CHECKLIST.md` | Checklist hậu cần trước workshop và ngày diễn ra |
+| `docs/reference/FACILITATOR_TROUBLESHOOTING.md` | Xử lý sự cố trong buổi trực tiếp (chỉ dành cho facilitator) |
+| `docs/setup/WORKSHOP_SETUP_GUIDE_LOCAL.md` | Chạy workshop trực tiếp trên máy của bạn, không cần GitHub/Codespaces |
+| `docs/setup/Iteration_0_LocalTesting.md` | Phiên bản cục bộ dựa trên Docker/devcontainer tương đương hướng dẫn này |
