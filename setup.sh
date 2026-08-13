@@ -101,7 +101,7 @@ cat <<'BANNER'
       claude
       codex
 
- 2. Skim SCHEMA.md to see what's in the dataset.
+ 2. Skim BANK_DATASET_SCHEMA.md to see what's in the dataset.
 
  3. Follow exercises.md to start asking questions.
 ========================================================

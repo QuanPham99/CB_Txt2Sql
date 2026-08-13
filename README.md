@@ -15,7 +15,7 @@ Một workshop thực hành, nơi người tham gia xây dựng một **Claude S
 
 1. **Mở Codespace của bạn** — nhấn vào badge phía trên, hoặc Code → Codespaces → Create codespace on main. Đợi container (đã được dựng sẵn) khởi động xong.
 2. **Xác thực** — chạy `claude` và `codex` trong terminal và làm theo hướng dẫn đăng nhập.
-3. **Đọc ví dụ mẫu** — `.claude/skills/sql-helper/SKILL.md`, và xem qua `SCHEMA.md` để biết dữ liệu gồm những gì.
+3. **Đọc ví dụ mẫu** — `.claude/skills/sql-helper/SKILL.md`, và xem qua `BANK_DATASET_SCHEMA.md` để biết dữ liệu gồm những gì.
 4. **Đặt câu hỏi bằng ngôn ngữ tự nhiên** — cùng nhau làm qua `exercises.md`.
 5. **Tự xây dựng skill của riêng bạn** — sao chép `templates/skill-template/SKILL.md`, viết quy tắc riêng của bạn, rồi thử nghiệm.
 6. **Chia sẻ kết quả** — một vài tình nguyện viên demo skill của mình trực tiếp.
@@ -24,7 +24,7 @@ Một workshop thực hành, nơi người tham gia xây dựng một **Claude S
 
 - `dataset/` — file CSV gốc từ Kaggle (bị git bỏ qua; không được đóng gói vào Codespace).
 - `data/workshop.duckdb` — cơ sở dữ liệu đã được chuẩn bị và nạp sẵn dữ liệu mà người tham gia thực sự truy vấn (được theo dõi qua Git LFS).
-- `SCHEMA.md` — từ điển dữ liệu: mọi bảng, cột, kiểu dữ liệu, và giá trị ví dụ.
+- `BANK_DATASET_SCHEMA.md` — từ điển dữ liệu: mọi bảng, cột, kiểu dữ liệu, và giá trị ví dụ.
 - `exercises.md` — luồng bài tập của workshop và các câu hỏi ví dụ.
 - `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` — skill ví dụ mẫu.
 - `templates/skill-template/` — khung mẫu trống cho bài tập "tự xây dựng skill".

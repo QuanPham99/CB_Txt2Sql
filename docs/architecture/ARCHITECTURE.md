@@ -8,7 +8,7 @@ Repo này **không phải là một ứng dụng** — không có build step, kh
 
 1. Một **cơ sở dữ liệu DuckDB đã đóng gói sẵn** (`data/workshop.duckdb`, ~5.87 triệu dòng / 10 bảng, phân phối qua Git LFS).
 2. Một **môi trường devcontainer** tái tạo được (Codespaces hoặc Docker cục bộ) cài sẵn DuckDB CLI, Claude Code CLI, và Codex CLI.
-3. Một **cặp Skill mẫu** (`.claude/skills/sql-helper/`, mirror sang `.codex/skills/sql-helper/`) hướng dẫn model chuyển câu hỏi ngôn ngữ tự nhiên thành SQL, dựa trên `SCHEMA.md` làm nguồn sự thật duy nhất về dữ liệu.
+3. Một **cặp Skill mẫu** (`.claude/skills/sql-helper/`, mirror sang `.codex/skills/sql-helper/`) hướng dẫn model chuyển câu hỏi ngôn ngữ tự nhiên thành SQL, dựa trên `BANK_DATASET_SCHEMA.md` làm nguồn sự thật duy nhất về dữ liệu.
 4. Bộ tài liệu Markdown làm "chất keo" — dữ liệu thô + hướng dẫn agent + tài liệu hướng dẫn con người, không có tầng logic ứng dụng nào ở giữa.
 
 Nói cách khác: **model chính là runtime**. Không có backend, không có API, không có ORM — CLI của Claude Code / Codex đọc `SKILL.md`, tự viết SQL, và shell ra `duckdb` CLI để chạy nó trực tiếp trên file `.duckdb` cục bộ.
@@ -35,7 +35,7 @@ flowchart TB
         checkout["repo checkout + git lfs pull"]
         container["Devcontainer\n(Codespaces hoặc Docker cục bộ)"]
         skills[".claude/skills/sql-helper/\n.codex/skills/sql-helper/"]
-        schema["SCHEMA.md\n(từ điển dữ liệu)"]
+        schema["BANK_DATASET_SCHEMA.md\n(từ điển dữ liệu)"]
         clis["claude CLI  /  codex CLI"]
         duckcli["duckdb CLI"]
 
@@ -65,12 +65,12 @@ sequenceDiagram
     participant U as Người dùng
     participant CLI as claude / codex CLI
     participant SK as SKILL.md
-    participant SC as SCHEMA.md
+    participant SC as BANK_DATASET_SCHEMA.md
     participant DB as duckdb CLI → workshop.duckdb
 
     U->>CLI: Câu hỏi ngôn ngữ tự nhiên\n("5 danh mục merchant có tổng amount cao nhất?")
     CLI->>SK: Câu hỏi khớp trigger phrase trong frontmatter description → kích hoạt skill
-    SK->>SC: Yêu cầu model đọc SCHEMA.md trước khi viết SQL
+    SK->>SC: Yêu cầu model đọc BANK_DATASET_SCHEMA.md trước khi viết SQL
     SC-->>CLI: Tên bảng/cột/kiểu dữ liệu/giá trị hợp lệ
     CLI->>CLI: Sinh câu lệnh SQL (tuân theo quy tắc trong SKILL.md:\nLIMIT 100, làm tròn tiền tệ, ưu tiên GROUP BY...)
     CLI->>DB: Shell out: duckdb data/workshop.duckdb -c "SELECT ..."
@@ -91,7 +91,7 @@ flowchart LR
         pa[".devcontainer/postAttach.sh\nin banner chào mừng, chạy mỗi lần attach"]
         shim[".devcontainer/duckdb_shim.py\nfallback CLI cho môi trường musl/Alpine"]
         setupsh["setup.sh\nphiên bản cục bộ của postCreate.sh,\ndùng khi không chạy trong devcontainer"]
-        schema["SCHEMA.md\ntừ điển dữ liệu — nguồn sự thật duy nhất"]
+        schema["BANK_DATASET_SCHEMA.md\ntừ điển dữ liệu — nguồn sự thật duy nhất"]
         skillA[".claude/skills/sql-helper/SKILL.md\nfile thật"]
         skillB[".codex/skills/sql-helper/SKILL.md\nsymlink → bản .claude"]
         tmpl["templates/skill-template/SKILL.md\nkhung trống cho bài tập tự xây skill"]
@@ -141,7 +141,7 @@ flowchart LR
 ## Các quyết định thiết kế đáng chú ý
 
 - **Phân phối dữ liệu qua Git LFS, không qua ingest pipeline sống.** Dataset tĩnh (bản chụp một lần từ Kaggle), nên build một lần rồi ship binary `.duckdb` là đơn giản hơn nhiều so với để mỗi container tự chạy lại `read_csv_auto` trên ~6 triệu dòng CSV lúc khởi động.
-- **`SCHEMA.md` là nguồn sự thật duy nhất, không phải introspection runtime.** Skill được hướng dẫn đọc file Markdown tĩnh thay vì tự chạy `DESCRIBE`/`PRAGMA` để khám phá schema — giữ cho hành vi model có thể dự đoán được và cho phép ban tổ chức kiểm soát chính xác những gì model "biết" về dữ liệu (bao gồm cả các ghi chú/điểm đặc biệt trong phần "Lưu ý & điểm đặc biệt").
+- **`BANK_DATASET_SCHEMA.md` là nguồn sự thật duy nhất, không phải introspection runtime.** Skill được hướng dẫn đọc file Markdown tĩnh thay vì tự chạy `DESCRIBE`/`PRAGMA` để khám phá schema — giữ cho hành vi model có thể dự đoán được và cho phép ban tổ chức kiểm soát chính xác những gì model "biết" về dữ liệu (bao gồm cả các ghi chú/điểm đặc biệt trong phần "Lưu ý & điểm đặc biệt").
 - **`.codex/skills/sql-helper/SKILL.md` là symlink, không phải bản copy.** Đảm bảo Claude Code và Codex CLI luôn nhận đúng cùng một bộ hướng dẫn — sửa một nơi (`.claude/`), cả hai CLI cùng cập nhật. Rủi ro đánh đổi: symlink không luôn được các công cụ Windows/zip xử lý đúng, nên `postCreate.sh`/tài liệu setup có bước xác minh cho việc này.
 - **Fallback musl/Alpine cho DuckDB CLI (`duckdb_shim.py`).** Binary CLI chính thức của DuckDB liên kết với glibc và không chạy trên musl. Thay vì yêu cầu mọi môi trường phải là glibc, `postCreate.sh` phát hiện Alpine và cài gói Python `duckdb` (có sẵn musllinux wheel) đứng sau một shim script mô phỏng interface CLI (`duckdb <db> -c "<SQL>"`, `-csv`, `-json`, `-noheader`, stdin). Bất kỳ thay đổi nào về cách workshop gọi CLI `duckdb` đều phải giữ tương thích với tập flag mà shim này hỗ trợ.
 - **Không có tầng validate SQL giữa model và DuckDB.** Model shell trực tiếp ra `duckdb` CLI với câu SQL nó tự sinh — không có allowlist câu lệnh, không có read-only enforcement ở tầng ứng dụng. An toàn dữ liệu dựa vào: (a) dataset là bản sao tổng hợp/không nhạy cảm, (b) mỗi người tham gia chỉ có quyền trên container/file của chính họ, và (c) các quy tắc trong `SKILL.md` (ví dụ ưu tiên `SELECT`/tổng hợp) là hướng dẫn hành vi cho model, không phải rào chắn kỹ thuật.
@@ -153,5 +153,5 @@ flowchart LR
 - `../setup/WORKSHOP_SETUP_GUIDE_LOCAL.md`, `../setup/WORKSHOP_SETUP_GUIDE_CODESPACES.md` — checklist xác minh dry-run cho hai đường chạy container.
 - `../setup/Iteration_0_LocalTesting.md` — kiểm thử toàn bộ luồng run-time cục bộ trước khi mời người tham gia.
 - `../reference/DAY_OF_CHECKLIST.md`, `../reference/FACILITATOR_TROUBLESHOOTING.md` — vận hành thực tế trong ngày diễn ra.
-- `../../SCHEMA.md` — từ điển dữ liệu đầy đủ (10 bảng).
+- `../../BANK_DATASET_SCHEMA.md` — từ điển dữ liệu đầy đủ (10 bảng).
 - `../../CLAUDE.md` — hướng dẫn dành cho Claude Code khi làm việc trong repo này (tiếng Anh, không dịch).

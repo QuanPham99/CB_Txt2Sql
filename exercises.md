@@ -1,10 +1,10 @@
 # Bài Tập Workshop
 
-Làm theo cùng facilitator theo thời gian thực. Bạn cần `claude` hoặc `codex` đã được xác thực trong terminal (xem README) và mở sẵn `SCHEMA.md` trong một tab.
+Làm theo cùng facilitator theo thời gian thực. Bạn cần `claude` hoặc `codex` đã được xác thực trong terminal (xem README) và mở sẵn `BANK_DATASET_SCHEMA.md` trong một tab.
 
 ## Bước 1 — Đọc ví dụ mẫu
 
-Mở `.claude/skills/sql-helper/SKILL.md` (hoặc `.codex/skills/sql-helper/SKILL.md` — nội dung giống nhau). Đây là một **skill**: các chỉ dẫn bằng ngôn ngữ tự nhiên mà AI đọc trước khi trả lời, cho nó biết *cách* hành xử (dựa vào `SCHEMA.md`, luôn hiển thị SQL đã chạy, luôn `LIMIT 100`, v.v.).
+Mở `.claude/skills/sql-helper/SKILL.md` (hoặc `.codex/skills/sql-helper/SKILL.md` — nội dung giống nhau). Đây là một **skill**: các chỉ dẫn bằng ngôn ngữ tự nhiên mà AI đọc trước khi trả lời, cho nó biết *cách* hành xử (dựa vào `BANK_DATASET_SCHEMA.md`, luôn hiển thị SQL đã chạy, luôn `LIMIT 100`, v.v.).
 
 ## Bước 2 — Đặt câu hỏi bằng ngôn ngữ tự nhiên
 

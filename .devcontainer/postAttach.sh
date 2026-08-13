@@ -6,7 +6,7 @@ cat << 'BANNER'
 ========================================================
  Welcome to the Text-to-SQL Skills Workshop!
 
- 1. Read SCHEMA.md to see what's in the dataset.
+ 1. Read BANK_DATASET_SCHEMA.md to see what's in the dataset.
  2. Authenticate:  claude   /   codex
  3. Follow exercises.md to get started.
 

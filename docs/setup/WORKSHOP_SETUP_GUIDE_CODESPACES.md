@@ -33,7 +33,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
    ```
    ========================================================
     Welcome to the Text-to-SQL Skills Workshop!
-    1. Read SCHEMA.md to see what's in the dataset.
+    1. Read BANK_DATASET_SCHEMA.md to see what's in the dataset.
     2. Authenticate:  claude   /   codex
     3. Follow exercises.md to get started.
    ========================================================
@@ -97,10 +97,10 @@ Extension cài đặt bất đồng bộ sau khi container báo "ready." Nếu t
 ## 5. Lướt qua data dictionary
 
 ```bash
-code SCHEMA.md   # hoặc mở trực tiếp trong editor
+code BANK_DATASET_SCHEMA.md   # hoặc mở trực tiếp trong editor
 ```
 
-Đây là bước "hiểu dữ liệu" duy nhất mà một người tham gia cần — xác nhận nó vẫn mô tả chính xác `data/workshop.duckdb` (tên bảng, số dòng, các cột, các điểm đặc biệt). Nếu bạn đã chỉnh sửa dataset kể từ khi tài liệu này được viết, hãy cập nhật `SCHEMA.md` ngay bây giờ.
+Đây là bước "hiểu dữ liệu" duy nhất mà một người tham gia cần — xác nhận nó vẫn mô tả chính xác `data/workshop.duckdb` (tên bảng, số dòng, các cột, các điểm đặc biệt). Nếu bạn đã chỉnh sửa dataset kể từ khi tài liệu này được viết, hãy cập nhật `BANK_DATASET_SCHEMA.md` ngay bây giờ.
 
 ---
 
@@ -111,7 +111,7 @@ Mở `.claude/skills/sql-helper/SKILL.md` (và xác nhận `.codex/skills/sql-he
 > What were the top 5 transaction categories by total amount last quarter?
 
 Xác nhận nó:
-- [ ] Dựa vào `SCHEMA.md` (không bịa ra tên cột)
+- [ ] Dựa vào `BANK_DATASET_SCHEMA.md` (không bịa ra tên cột)
 - [ ] Hiển thị câu SQL đã chạy
 - [ ] Áp dụng các quy tắc trong `SKILL.md` (ví dụ `LIMIT 100` trên raw rows, làm tròn tiền tệ)
 - [ ] Thực sự truy vấn `data/workshop.duckdb` và trả về số liệu thật
@@ -124,7 +124,7 @@ Xác nhận nó:
 code exercises.md
 ```
 
-Tự chạy qua tất cả các câu hỏi mẫu, theo thứ tự, trong Codespace thật này. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột/bảng, hãy sửa `SKILL.md` hoặc `SCHEMA.md` ngay bây giờ — không phải trong buổi workshop trực tiếp.
+Tự chạy qua tất cả các câu hỏi mẫu, theo thứ tự, trong Codespace thật này. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột/bảng, hãy sửa `SKILL.md` hoặc `BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong buổi workshop trực tiếp.
 
 ---
 
@@ -168,7 +168,7 @@ Khi các bước 1–9 đều đạt trơn tru trong một Codespace mới:
 | File | Mục đích |
 |---|---|
 | `README.md` | Điểm vào cho người tham gia, badge Codespaces một cú click |
-| `SCHEMA.md` | Data dictionary mà AI dựa vào |
+| `BANK_DATASET_SCHEMA.md` | Data dictionary mà AI dựa vào |
 | `exercises.md` | Luồng hướng dẫn trong workshop + câu hỏi mẫu |
 | `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill mẫu (đã mirror) |
 | `templates/skill-template/` | Khung sườn trống cho "tự xây skill của bạn" |

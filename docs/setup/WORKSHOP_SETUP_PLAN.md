@@ -29,7 +29,7 @@ Lưu ý: tôi không thể lấy nội dung trang Kaggle thực tế từ môi t
    - Tên bảng, số dòng, khoảng thời gian dữ liệu bao phủ
    - Mỗi cột: tên, kiểu dữ liệu, ý nghĩa một dòng, giá trị ví dụ
    - Bất kỳ điểm đặc biệt nào đã biết (giá trị null, đơn vị tiền tệ, các trường trông giống PII mà bạn đã ẩn danh/loại bỏ)
-5. Lưu tài liệu này thành `SCHEMA.md` ở thư mục gốc của repo — đây sẽ trở thành nguồn thông tin duy nhất và chính xác mà cả facilitator lẫn các mô hình AI dựa vào để trả lời.
+5. Lưu tài liệu này thành `BANK_DATASET_SCHEMA.md` ở thư mục gốc của repo — đây sẽ trở thành nguồn thông tin duy nhất và chính xác mà cả facilitator lẫn các mô hình AI dựa vào để trả lời.
 
 ---
 
@@ -46,7 +46,7 @@ Lưu ý: tôi không thể lấy nội dung trang Kaggle thực tế từ môi t
      - Cài Codex CLI: `curl -fsSL https://chatgpt.com/codex/install.sh | sh`
      - Xác nhận `data/workshop.duckdb` tồn tại và chạy nhanh `SELECT count(*)` như một smoke test, in ra creation log của Codespace
    - `customizations.vscode.extensions`: `anthropic.claude-code`, extension VS Code chính thức của OpenAI Codex, và một extension DuckDB/SQL để duyệt bảng trong sidebar
-   - `postAttachCommand` (tùy chọn): in ra một thông báo "welcome" ngắn trỏ tới `SCHEMA.md` và tài liệu bài tập
+   - `postAttachCommand` (tùy chọn): in ra một thông báo "welcome" ngắn trỏ tới `BANK_DATASET_SCHEMA.md` và tài liệu bài tập
 4. Bật **Codespaces prebuilds** cho nhánh mặc định của repo một hoặc hai ngày trước workshop, để cả 20–50 người tham gia đều nhận được container ấm (đã dựng sẵn) thay vì phải cold-build mất vài phút trong lúc diễn ra. Đặt vùng (region) prebuild khớp với nơi đa số người tham gia đang ở.
 5. Đặt **giới hạn chi tiêu Codespaces** ở cấp tổ chức (hoặc cấp repo) phù hợp với 20–50 người × nửa ngày sử dụng, và xác nhận Codespaces đã được bật cho mọi loại tài khoản người tham gia (tài khoản GitHub cá nhân hoạt động tốt sẵn; tài khoản công ty/doanh nghiệp có thể cần admin tổ chức bật Codespaces — nhắc điều này trong thông báo trước workshop).
 6. Vì người tham gia dùng tài khoản Claude/ChatGPT của riêng mình, hãy thêm một ghi chú ngắn trong README về những gì họ cần chuẩn bị *trước* workshop: một tài khoản Claude.ai với gói đang hoạt động (hoặc Anthropic API key cá nhân) và một tài khoản ChatGPT có quyền truy cập Codex (Plus/Pro/Business/Edu, hoặc OpenAI API key cá nhân) — xem Phần 4.
@@ -55,12 +55,12 @@ Lưu ý: tôi không thể lấy nội dung trang Kaggle thực tế từ môi t
 
 ## Phần 2 — Ban tổ chức: Tài liệu workshop trong repo
 
-1. `README.md` — badge "Open in GitHub Codespaces" một cú click, chương trình, và liên kết tới `SCHEMA.md`.
-2. `SCHEMA.md` — từ Phần 0.
+1. `README.md` — badge "Open in GitHub Codespaces" một cú click, chương trình, và liên kết tới `BANK_DATASET_SCHEMA.md`.
+2. `BANK_DATASET_SCHEMA.md` — từ Phần 0.
 3. Một skill ví dụ mẫu, được commit sẵn để người tham gia đọc trước khi tự viết skill của mình. Vì Codex CLI (2026) giờ đã đọc **cùng định dạng `SKILL.md`** như Claude Code, hãy viết một lần và tham chiếu từ cả hai thư mục công cụ:
    - `.claude/skills/sql-helper/SKILL.md` — file thật
    - `.codex/skills/sql-helper/SKILL.md` — symlink (hoặc bản sao) trỏ tới cùng nội dung
-   - Nội dung: frontmatter với mô tả kích hoạt ("query the transactions data", "text to SQL"), chỉ dẫn luôn truy vấn qua DuckDB trên `data/workshop.duckdb`, dựa vào `SCHEMA.md`, và tuân theo các quy tắc chung bạn chọn dạy (ví dụ luôn `LIMIT 100` trừ khi được yêu cầu khác, luôn hiển thị SQL đã chạy, không bao giờ bịa tên cột không có trong `SCHEMA.md`).
+   - Nội dung: frontmatter với mô tả kích hoạt ("query the transactions data", "text to SQL"), chỉ dẫn luôn truy vấn qua DuckDB trên `data/workshop.duckdb`, dựa vào `BANK_DATASET_SCHEMA.md`, và tuân theo các quy tắc chung bạn chọn dạy (ví dụ luôn `LIMIT 100` trừ khi được yêu cầu khác, luôn hiển thị SQL đã chạy, không bao giờ bịa tên cột không có trong `BANK_DATASET_SCHEMA.md`).
 4. `exercises.md` — luồng bài tập hướng dẫn người tham gia làm theo trực tiếp (xem Phần 5), cộng thêm 5–8 câu hỏi ví dụ bằng ngôn ngữ tự nhiên với độ khó tăng dần (ví dụ: "tháng trước có bao nhiêu giao dịch" → "tài khoản nào có tổng số tiền chuyển đi cao nhất, phân theo tháng").
 5. `templates/skill-template/SKILL.md` — một khung mẫu trống với frontmatter placeholder và các phần chỉ dẫn `TODO` cho bài tập "tự xây dựng skill".
 6. Một tài liệu **xử lý sự cố dành cho facilitator** dài một trang (không nằm trong README dành cho người tham gia) bao gồm: Codespace bị kẹt lúc dựng → rebuild container; vòng lặp đăng nhập OAuth → thử flow device-code / kiểm tra SSO tổ chức; file DuckDB bị thiếu → chạy lại thủ công postCreateCommand; gặp rate limit → chuyển sang màn hình demo dùng chung.
@@ -90,7 +90,7 @@ Lưu ý: tôi không thể lấy nội dung trang Kaggle thực tế từ môi t
    duckdb data/workshop.duckdb
    SELECT * FROM transactions LIMIT 5;
    ```
-6. Mở `SCHEMA.md` và xem lướt qua — đó là toàn bộ phần "hiểu dữ liệu" cần thiết trước khi bắt đầu.
+6. Mở `BANK_DATASET_SCHEMA.md` và xem lướt qua — đó là toàn bộ phần "hiểu dữ liệu" cần thiết trước khi bắt đầu.
 
 ---
 

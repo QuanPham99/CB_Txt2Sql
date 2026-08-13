@@ -108,7 +108,7 @@ OAuth cục bộ trên máy của chính bạn thường là con đường đăn
 ## 5. Xem lướt từ điển dữ liệu
 
 ```bash
-open SCHEMA.md   # hoặc cứ mở nó trong editor của bạn
+open BANK_DATASET_SCHEMA.md   # hoặc cứ mở nó trong editor của bạn
 ```
 
 Đây là bước "hiểu dữ liệu" duy nhất cần thiết trước khi đặt câu hỏi — xác nhận nó vẫn còn mô tả chính xác `data/workshop.duckdb`.
@@ -122,7 +122,7 @@ Cả `claude` và `codex` đều đọc skill dựa trên thư mục làm việc
 > 5 danh mục giao dịch có tổng số tiền cao nhất trong quý vừa rồi là gì?
 
 Xác nhận nó:
-- [ ] Dựa vào `SCHEMA.md` (không tự bịa tên cột)
+- [ ] Dựa vào `BANK_DATASET_SCHEMA.md` (không tự bịa tên cột)
 - [ ] Hiển thị SQL đã chạy
 - [ ] Áp dụng các quy tắc chung từ `.claude/skills/sql-helper/SKILL.md` (ví dụ `LIMIT 100` với dữ liệu thô, tiền tệ được làm tròn)
 - [ ] Thực sự truy vấn `data/workshop.duckdb` và trả về số liệu thật
@@ -135,7 +135,7 @@ Xác nhận nó:
 open exercises.md
 ```
 
-Tự làm qua tất cả các câu hỏi ví dụ, theo thứ tự. Nếu câu trả lời nào có vẻ sai hoặc model tự bịa cột/bảng, hãy sửa `SKILL.md` hoặc `SCHEMA.md` ngay bây giờ.
+Tự làm qua tất cả các câu hỏi ví dụ, theo thứ tự. Nếu câu trả lời nào có vẻ sai hoặc model tự bịa cột/bảng, hãy sửa `SKILL.md` hoặc `BANK_DATASET_SCHEMA.md` ngay bây giờ.
 
 ---
 
@@ -170,7 +170,7 @@ Nếu bạn đang kiểm thử với vài người trực tiếp thay vì một 
 | File | Mục đích |
 |---|---|
 | `README.md` | Điểm vào dành cho người tham gia, badge Codespaces một-cú-click |
-| `SCHEMA.md` | Từ điển dữ liệu mà AI dựa vào |
+| `BANK_DATASET_SCHEMA.md` | Từ điển dữ liệu mà AI dựa vào |
 | `exercises.md` | Luồng bài tập trong workshop + câu hỏi ví dụ |
 | `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill ví dụ mẫu (đồng bộ) |
 | `templates/skill-template/` | Khung mẫu trống cho "tự xây dựng skill" |
