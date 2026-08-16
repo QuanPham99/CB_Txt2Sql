@@ -34,7 +34,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
    ```
    ========================================================
     Welcome to the Text-to-SQL Skills Workshop!
-    1. Read BANK_DATASET_SCHEMA.md to see what's in the dataset.
+    1. Read schemas/BANK_DATASET_SCHEMA.md to see what's in the dataset.
     2. Authenticate:  claude   /   codex
     3. Follow exercises.md to get started.
    ========================================================
@@ -110,12 +110,12 @@ Extension cài đặt bất đồng bộ sau khi container báo "ready." Nếu t
 ## 5. Lướt qua data dictionary
 
 ```bash
-code BANK_DATASET_SCHEMA.md   # hoặc mở trực tiếp trong editor
+code schemas/BANK_DATASET_SCHEMA.md   # hoặc mở trực tiếp trong editor
 ```
 
-Đây là bước "hiểu dữ liệu" duy nhất mà một người tham gia cần — xác nhận nó vẫn mô tả chính xác `data/workshop.duckdb` (tên bảng, số dòng, các cột, các điểm đặc biệt). Nếu bạn đã chỉnh sửa dataset kể từ khi tài liệu này được viết, hãy cập nhật `BANK_DATASET_SCHEMA.md` ngay bây giờ.
+Đây là bước "hiểu dữ liệu" duy nhất mà một người tham gia cần — xác nhận nó vẫn mô tả chính xác `data/workshop.duckdb` (tên bảng, số dòng, các cột, các điểm đặc biệt). Nếu bạn đã chỉnh sửa dataset kể từ khi tài liệu này được viết, hãy cập nhật `schemas/BANK_DATASET_SCHEMA.md` ngay bây giờ.
 
-Tương tự, mở `TECH_SALARY_DATASET_SCHEMA.md` và xác nhận nó vẫn mô tả đúng
+Tương tự, mở `schemas/TECH_SALARY_DATASET_SCHEMA.md` và xác nhận nó vẫn mô tả đúng
 `data/tech_salary.duckdb` — cần cho bài tập mở rộng tùy chọn ở Bước 7.
 
 ---
@@ -127,7 +127,7 @@ Mở `.claude/skills/sql-helper/SKILL.md` (và xác nhận `.codex/skills/sql-he
 > What were the top 5 transaction categories by total amount last quarter?
 
 Xác nhận nó:
-- [ ] Dựa vào `BANK_DATASET_SCHEMA.md` (không bịa ra tên cột)
+- [ ] Dựa vào `schemas/BANK_DATASET_SCHEMA.md` (không bịa ra tên cột)
 - [ ] Hiển thị câu SQL đã chạy
 - [ ] Áp dụng các quy tắc trong `SKILL.md` (ví dụ `LIMIT 100` trên raw rows, làm tròn tiền tệ)
 - [ ] Thực sự truy vấn `data/workshop.duckdb` và trả về số liệu thật
@@ -140,7 +140,7 @@ Xác nhận nó:
 code exercises.md
 ```
 
-Tự chạy qua tất cả các câu hỏi mẫu, theo thứ tự, trong Codespace thật này. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột/bảng, hãy sửa `SKILL.md` hoặc `BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong buổi workshop trực tiếp.
+Tự chạy qua tất cả các câu hỏi mẫu, theo thứ tự, trong Codespace thật này. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột/bảng, hãy sửa `SKILL.md` hoặc `schemas/BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong buổi workshop trực tiếp.
 
 Đừng quên thử luôn "Bước 7 (tùy chọn)" ở cuối `exercises.md` — bài tập mở
 rộng skill sang `data/tech_salary.duckdb`. Nếu skill không tự chọn đúng
@@ -189,13 +189,13 @@ Khi các bước 1–9 đều đạt trơn tru trong một Codespace mới:
 | File | Mục đích |
 |---|---|
 | `README.md` | Điểm vào cho người tham gia, badge Codespaces một cú click |
-| `BANK_DATASET_SCHEMA.md` | Data dictionary mà AI dựa vào |
+| `schemas/BANK_DATASET_SCHEMA.md` | Data dictionary mà AI dựa vào |
 | `exercises.md` | Luồng hướng dẫn trong workshop + câu hỏi mẫu |
 | `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill mẫu (đã mirror) |
 | `templates/skill-template/` | Khung sườn trống cho "tự xây skill của bạn" |
 | `.devcontainer/` | Định nghĩa môi trường Codespaces |
 | `data/workshop.duckdb` | DB ngân hàng đã nạp sẵn (Git LFS) |
-| `data/tech_salary.duckdb`, `TECH_SALARY_DATASET_SCHEMA.md` | DB thứ hai + data dictionary, dùng cho Bước 7 (tùy chọn) trong `exercises.md` |
+| `data/tech_salary.duckdb`, `schemas/TECH_SALARY_DATASET_SCHEMA.md` | DB thứ hai + data dictionary, dùng cho Bước 7 (tùy chọn) trong `exercises.md` |
 | `scripts/build_tech_salary_db.sh` | Công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb` (xem Phần 0b của `WORKSHOP_SETUP_PLAN.md`) |
 | `docs/setup/WORKSHOP_SETUP_PLAN.md` | Bối cảnh/lý do đầy đủ cho ban tổ chức về tất cả những điều trên |
 | `docs/reference/DAY_OF_CHECKLIST.md` | Checklist hậu cần trước workshop và ngày diễn ra |

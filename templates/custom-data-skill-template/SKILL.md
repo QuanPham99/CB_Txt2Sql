@@ -9,7 +9,7 @@ TODO: Một hoặc hai câu về việc skill này giúp làm gì, cho dữ li�
 
 ## Khám phá schema trước
 
-Đây là dữ liệu của riêng bạn — không có sẵn một file kiểu `BANK_DATASET_SCHEMA.md`
+Đây là dữ liệu của riêng bạn — không có sẵn một file kiểu `schemas/BANK_DATASET_SCHEMA.md`
 được viết trước cho nó. Trước khi viết bất kỳ câu SQL nào, hãy tự khám phá
 schema và ghi lại hiểu biết đó ngay bên dưới:
 
@@ -22,7 +22,7 @@ duckdb data/custom.duckdb -c "SELECT * FROM ten_bang LIMIT 5;"
 ### Bảng & cột (TODO — điền vào sau khi khám phá)
 
 TODO: với mỗi bảng, ghi tên bảng, các cột quan trọng, kiểu dữ liệu, và ý
-nghĩa — giống hệt những gì `BANK_DATASET_SCHEMA.md` làm cho dữ liệu ngân
+nghĩa — giống hệt những gì `schemas/BANK_DATASET_SCHEMA.md` làm cho dữ liệu ngân
 hàng, nhưng cho dữ liệu của bạn. Không bao giờ tự bịa ra tên bảng hoặc tên
 cột không có trong kết quả bạn vừa khám phá ở trên.
 

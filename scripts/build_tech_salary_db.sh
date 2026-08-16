@@ -102,12 +102,12 @@ cat <<'BANNER'
       SUMMARIZE <table>;
       SELECT * FROM <table> LIMIT 20;
 
- 2. Hand-author TECH_SALARY_DATASET_SCHEMA.md at repo root,
-    same format as BANK_DATASET_SCHEMA.md (table/column/type/
+ 2. Hand-author schemas/TECH_SALARY_DATASET_SCHEMA.md at repo root,
+    same format as schemas/BANK_DATASET_SCHEMA.md (table/column/type/
     meaning/example + a "Luu y & diem dac biet" section). Tip:
     open a Claude Code session in this repo and ask it to
     inspect data/tech_salary.duckdb and draft the doc with
-    you — same process originally used for BANK_DATASET_SCHEMA.md.
+    you — same process originally used for schemas/BANK_DATASET_SCHEMA.md.
 
  3. Fill in the real example questions in exercises.md's
     tech-salary wrap-up section, and the matching answer cells
@@ -115,6 +115,6 @@ cat <<'BANNER'
 
  4. Commit both data/tech_salary.duckdb (Git LFS — already
     covered by the existing .gitattributes data/*.duckdb rule)
-    and TECH_SALARY_DATASET_SCHEMA.md.
+    and schemas/TECH_SALARY_DATASET_SCHEMA.md.
 ========================================================
 BANNER
