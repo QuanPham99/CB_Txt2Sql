@@ -15,7 +15,7 @@ Một workshop thực hành, nơi người tham gia xây dựng một **Claude S
 
 1. **Mở Codespace của bạn** — nhấn vào badge phía trên, hoặc Code → Codespaces → Create codespace on main. Đợi container (đã được dựng sẵn) khởi động xong.
 2. **Xác thực** — chạy `claude` và `codex` trong terminal và làm theo hướng dẫn đăng nhập.
-3. **Đọc ví dụ mẫu** — `.claude/skills/sql-helper/SKILL.md`, và xem qua `BANK_DATASET_SCHEMA.md` để biết dữ liệu gồm những gì.
+3. **Đọc ví dụ mẫu** — `.claude/skills/sql-helper/SKILL.md`, và xem qua `schemas/BANK_DATASET_SCHEMA.md` để biết dữ liệu gồm những gì.
 4. **Đặt câu hỏi bằng ngôn ngữ tự nhiên** — cùng nhau làm qua `exercises.md`.
 5. **Tự xây dựng skill của riêng bạn** — sao chép `templates/skill-template/SKILL.md`, viết quy tắc riêng của bạn, rồi thử nghiệm.
 6. **Chia sẻ kết quả** — một vài tình nguyện viên demo skill của mình trực tiếp.
@@ -41,8 +41,8 @@ lý kỹ thuật hỗ trợ trực tiếp nếu cần cài đặt từ đầu.
 
 - `dataset/` — file CSV gốc từ Kaggle cho dữ liệu ngân hàng (bị git bỏ qua; không được đóng gói vào Codespace).
 - `data/workshop.duckdb` — cơ sở dữ liệu ngân hàng đã được chuẩn bị và nạp sẵn dữ liệu mà người tham gia thực sự truy vấn (được theo dõi qua Git LFS).
-- `BANK_DATASET_SCHEMA.md` — từ điển dữ liệu ngân hàng: mọi bảng, cột, kiểu dữ liệu, và giá trị ví dụ.
-- `data/tech_salary.duckdb`, `TECH_SALARY_DATASET_SCHEMA.md` — bộ dữ liệu thứ hai (Tech Salary) và từ điển dữ liệu tương ứng, dùng cho bài tập mở rộng tùy chọn.
+- `schemas/BANK_DATASET_SCHEMA.md` — từ điển dữ liệu ngân hàng: mọi bảng, cột, kiểu dữ liệu, và giá trị ví dụ.
+- `data/tech_salary.duckdb`, `schemas/TECH_SALARY_DATASET_SCHEMA.md` — bộ dữ liệu thứ hai (Tech Salary) và từ điển dữ liệu tương ứng, dùng cho bài tập mở rộng tùy chọn.
 - `tech_salary_dataset/`, `scripts/build_tech_salary_db.sh` — file CSV gốc từ Kaggle cho dữ liệu tech salary (bị git bỏ qua) và công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb`; không dành cho người tham gia.
 - `exercises.md` — luồng bài tập của workshop và các câu hỏi ví dụ.
 - `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` — skill ví dụ mẫu.

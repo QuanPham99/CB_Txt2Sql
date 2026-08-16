@@ -118,11 +118,11 @@ cat <<'BANNER'
       claude
       codex
 
- 2. Skim BANK_DATASET_SCHEMA.md to see what's in the dataset.
+ 2. Skim schemas/BANK_DATASET_SCHEMA.md to see what's in the dataset.
 
  3. Follow exercises.md to start asking questions.
 
- 3b. (Tuỳ chọn) Xem TECH_SALARY_DATASET_SCHEMA.md và thử phần
+ 3b. (Tuỳ chọn) Xem schemas/TECH_SALARY_DATASET_SCHEMA.md và thử phần
      mở rộng "Tech Salary" ở cuối exercises.md — mở rộng skill
      bạn vừa xây để dùng được với cả hai bộ dữ liệu.
 

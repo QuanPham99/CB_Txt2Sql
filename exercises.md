@@ -1,10 +1,10 @@
 # Bài Tập Workshop
 
-Làm theo cùng facilitator theo thời gian thực. Bạn cần `claude` hoặc `codex` đã được xác thực trong terminal (xem README) và mở sẵn `BANK_DATASET_SCHEMA.md` trong một tab.
+Làm theo cùng facilitator theo thời gian thực. Bạn cần `claude` hoặc `codex` đã được xác thực trong terminal (xem README) và mở sẵn `schemas/BANK_DATASET_SCHEMA.md` trong một tab.
 
 ## Bước 1 — Đọc ví dụ mẫu
 
-Mở `.claude/skills/sql-helper/SKILL.md` (hoặc `.codex/skills/sql-helper/SKILL.md` — nội dung giống nhau). Đây là một **skill**: các chỉ dẫn bằng ngôn ngữ tự nhiên mà AI đọc trước khi trả lời, cho nó biết *cách* hành xử (dựa vào `BANK_DATASET_SCHEMA.md`, luôn hiển thị SQL đã chạy, luôn `LIMIT 100`, v.v.).
+Mở `.claude/skills/sql-helper/SKILL.md` (hoặc `.codex/skills/sql-helper/SKILL.md` — nội dung giống nhau). Đây là một **skill**: các chỉ dẫn bằng ngôn ngữ tự nhiên mà AI đọc trước khi trả lời, cho nó biết *cách* hành xử — nó tự xác định câu hỏi thuộc database nào (xem thư mục `schemas/`), dựa vào đúng file schema tương ứng, luôn hiển thị SQL đã chạy, luôn `LIMIT 100`, v.v. Ở bước này bạn sẽ chỉ hỏi về dữ liệu ngân hàng, nên skill sẽ tự chọn `schemas/BANK_DATASET_SCHEMA.md` / `data/workshop.duckdb` — phần chọn database sẽ rõ hơn ở Bước 7.
 
 ## Bước 2 — Đặt câu hỏi bằng ngôn ngữ tự nhiên
 
@@ -67,14 +67,20 @@ Một vài tình nguyện viên trình bày file skill của mình và demo mộ
 Bài tập nhanh này không dạy kỹ năng mới — nó chứng minh rằng skill bạn vừa xây ở
 Bước 4 áp dụng được cho một bộ dữ liệu hoàn toàn khác, không chỉ riêng dữ liệu
 ngân hàng. Có một database DuckDB thứ hai, độc lập với database ngân hàng:
-`data/tech_salary.duckdb`.
+`data/tech_salary.duckdb`. Đây cũng chính xác là kỹ thuật mà skill mẫu
+`sql-helper` bạn đọc ở Bước 1 đã dùng — nó tự chọn đúng database dựa vào chủ đề
+câu hỏi thay vì gắn cứng với một database duy nhất. Bây giờ bạn sẽ tự tay thêm
+kỹ thuật đó vào skill của chính mình.
 
-1. Mở `TECH_SALARY_DATASET_SCHEMA.md` ở thư mục gốc repo — từ điển dữ liệu cho
-   `data/tech_salary.duckdb`, cùng định dạng với `BANK_DATASET_SCHEMA.md`.
+1. Mở `schemas/TECH_SALARY_DATASET_SCHEMA.md` — từ điển dữ liệu cho
+   `data/tech_salary.duckdb`, cùng định dạng với `schemas/BANK_DATASET_SCHEMA.md`.
+   (Cả hai file schema của workshop đều nằm trong thư mục `schemas/`.)
 2. **Mở rộng chính skill bạn đã xây ở Bước 4** (`.claude/skills/<tên-của-bạn>/SKILL.md`)
    — không tạo skill mới. Sửa để nó:
-   - Cũng tự "ground" vào `TECH_SALARY_DATASET_SCHEMA.md`, bên cạnh
-     `BANK_DATASET_SCHEMA.md` đã có.
+   - Cũng tự "ground" vào `schemas/TECH_SALARY_DATASET_SCHEMA.md`, bên cạnh
+     `schemas/BANK_DATASET_SCHEMA.md` đã có. (Gợi ý: đọc lại cách
+     `.claude/skills/sql-helper/SKILL.md` mô tả bước "Xác định đúng database"
+     nếu bạn muốn tham khảo — không bắt buộc phải làm giống hệt.)
    - Có thêm một quy tắc để tự xác định: câu hỏi đang hỏi đang nói về dữ liệu
      nào — nếu về ngân hàng thì truy vấn `data/workshop.duckdb`, nếu về lương
      ngành công nghệ thì truy vấn `data/tech_salary.duckdb`.

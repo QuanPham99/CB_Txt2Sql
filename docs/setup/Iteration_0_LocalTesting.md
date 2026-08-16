@@ -4,7 +4,7 @@ Trước khi động đến Codespaces hay mời bất kỳ ai, hãy chạy toà
 
 ## Kiến trúc
 
-Có hai pipeline riêng biệt: một pipeline **build-time** mà chỉ ban tổ chức chạy một lần (đã hoàn tất — xem `BANK_DATASET_SCHEMA.md` và `data/workshop.duckdb`), và một pipeline **run-time** mà container của mỗi người tham gia tái tạo lại từ đầu. Kiểm thử cục bộ chỉ thực hiện pipeline run-time.
+Có hai pipeline riêng biệt: một pipeline **build-time** mà chỉ ban tổ chức chạy một lần (đã hoàn tất — xem `schemas/BANK_DATASET_SCHEMA.md` và `data/workshop.duckdb`), và một pipeline **run-time** mà container của mỗi người tham gia tái tạo lại từ đầu. Kiểm thử cục bộ chỉ thực hiện pipeline run-time.
 
 ```mermaid
 flowchart TB
@@ -28,7 +28,7 @@ flowchart TB
         claude["claude CLI"]
         codex["codex CLI"]
         skills[".claude/skills/sql-helper/\n.codex/skills/sql-helper/\n(mirrored SKILL.md)"]
-        schema["BANK_DATASET_SCHEMA.md\n(data dictionary)"]
+        schema["schemas/BANK_DATASET_SCHEMA.md\n(data dictionary)"]
         postcreate --> postattach
     end
 
@@ -50,7 +50,7 @@ flowchart TB
 
 - `data/workshop.duckdb` được build một lần, bên ngoài container, và được vận chuyển qua Git LFS — container không bao giờ tự tạo lại nó, chỉ đọc nó. Nếu LFS không pull được, smoke test của `postCreate.sh` sẽ bắt được điều này (xem `../reference/FACILITATOR_TROUBLESHOOTING.md`).
 - Container không phụ thuộc trực tiếp vào `dataset/*.csv` — các file đó bị git-ignore và không liên quan ở run time. Chỉ `data/workshop.duckdb` và các file markdown/skill của repo mới quan trọng khi container đã chạy.
-- `claude` và `codex` không nói chuyện trực tiếp với `data/workshop.duckdb` — chúng shell out sang CLI `duckdb`, dùng hướng dẫn từ `SKILL.md` (dựa trên `BANK_DATASET_SCHEMA.md`) để quyết định viết SQL gì và tuân theo quy tắc nào.
+- `claude` và `codex` không nói chuyện trực tiếp với `data/workshop.duckdb` — chúng shell out sang CLI `duckdb`, dùng hướng dẫn từ `SKILL.md` (dựa trên `schemas/BANK_DATASET_SCHEMA.md`) để quyết định viết SQL gì và tuân theo quy tắc nào.
 - `.claude/skills/` và `.codex/skills/` được giữ đồng bộ bằng cách mirror cùng một `SKILL.md` (hiện tại qua symlink cho skill mẫu) để cả hai CLI hoạt động giống hệt nhau — đáng để xác nhận điều này vẫn đúng với bất kỳ skill mới nào bạn thêm qua `templates/skill-template/`.
 - Ở cục bộ, `devcontainer up` đóng vai trò thay cho "Docker Engine" mà GitHub chạy ngầm cho một Codespace thật — mọi thứ từ `postCreateCommand` trở xuống đều giống hệt nhau; chỉ khác máy chạy bên dưới và đường mạng OAuth (xem lưu ý ở Bước 6).
 
@@ -139,11 +139,11 @@ Làm theo các bước OAuth (hoặc đặt một API key theo hướng dẫn �
 What were the top 5 transaction categories by total amount last quarter?
 ```
 
-Xác nhận model đọc `BANK_DATASET_SCHEMA.md`, hiển thị câu SQL đã chạy, và áp dụng các quy tắc trong `SKILL.md` (LIMIT 100 trên raw rows, làm tròn tiền tệ, v.v.) trước khi tin dùng skill này cho buổi workshop thật.
+Xác nhận model đọc `schemas/BANK_DATASET_SCHEMA.md`, hiển thị câu SQL đã chạy, và áp dụng các quy tắc trong `SKILL.md` (LIMIT 100 trên raw rows, làm tròn tiền tệ, v.v.) trước khi tin dùng skill này cho buổi workshop thật.
 
 ## Bước 8 — Làm qua `exercises.md`
 
-Tự chạy qua cả 8 câu hỏi mẫu. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột, hãy sửa `SKILL.md` hoặc `BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong lúc workshop.
+Tự chạy qua cả 8 câu hỏi mẫu. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột, hãy sửa `SKILL.md` hoặc `schemas/BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong lúc workshop.
 
 ## Bước 9 — Xây một skill dùng thử từ template
 

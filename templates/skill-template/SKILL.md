@@ -9,7 +9,7 @@ TODO: Một hoặc hai câu về việc skill này giúp làm gì.
 
 ## Nắm vững dữ liệu trước
 
-Đọc `BANK_DATASET_SCHEMA.md` ở thư mục gốc của repo trước khi viết SQL. Không bao giờ tự bịa ra tên bảng hoặc tên cột không có trong đó.
+Đọc `schemas/BANK_DATASET_SCHEMA.md` ở thư mục gốc của repo trước khi viết SQL. Không bao giờ tự bịa ra tên bảng hoặc tên cột không có trong đó.
 
 ## Chạy truy vấn
 
