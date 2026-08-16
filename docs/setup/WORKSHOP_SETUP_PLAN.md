@@ -33,6 +33,48 @@ Lưu ý: tôi không thể lấy nội dung trang Kaggle thực tế từ môi t
 
 ---
 
+## Phần 0b — Ban tổ chức: Chuẩn bị bộ dữ liệu Tech Salary (tùy chọn, độc lập với Phần 0)
+
+Đây là một database DuckDB **thứ hai**, hoàn toàn độc lập với `data/workshop.duckdb`
+— dùng cho bài tập mở rộng tùy chọn ở Phần 6 bên dưới, không thay thế dữ liệu
+ngân hàng.
+
+1. Tải file CSV từ https://www.kaggle.com/datasets/yaaryiitturan/global-tech-salary-dataset
+   (nút "Download" trên Kaggle — file có thể ở dạng `.zip`, không sao, bước 3 tự
+   giải nén).
+2. Đặt file (CSV hoặc `.zip` như tải về) vào thư mục `tech_salary_dataset/` ở
+   gốc repo (thư mục này bị git bỏ qua, giống `dataset/`).
+3. Chạy:
+   ```bash
+   ./scripts/build_tech_salary_db.sh
+   ```
+   Script tự nhận diện mọi file CSV trong `tech_salary_dataset/` (tự giải nén
+   `.zip` nếu cần), tạo một bảng cho mỗi CSV trong `data/tech_salary.duckdb`,
+   và dừng lại kèm thông báo lỗi rõ ràng nếu có file nào không đúng định dạng
+   — không bao giờ để lại một database dở dang.
+4. Kiểm tra dữ liệu vừa nạp:
+   ```bash
+   duckdb data/tech_salary.duckdb
+   .tables
+   DESCRIBE <tên_bảng>;
+   SUMMARIZE <tên_bảng>;
+   SELECT * FROM <tên_bảng> LIMIT 20;
+   ```
+5. Viết `TECH_SALARY_DATASET_SCHEMA.md` ở thư mục gốc repo, cùng định dạng
+   với `BANK_DATASET_SCHEMA.md` (tên bảng/cột/kiểu dữ liệu/ý nghĩa/ví dụ +
+   phần "Lưu ý & điểm đặc biệt"). Gợi ý: mở một phiên Claude Code ngay trong
+   repo này và nhờ nó đọc `data/tech_salary.duckdb` rồi cùng bạn soạn tài
+   liệu — đúng quy trình đã dùng để viết `BANK_DATASET_SCHEMA.md` ban đầu.
+6. Điền câu hỏi ví dụ cụ thể vào Bước 7 của `exercises.md` (hiện đang là
+   TODO, vì tên bảng/cột thật chưa xác định được cho tới khi bạn tải file ở
+   bước 1), và các cell tương ứng trong
+   `docs/reference/exercises_answer_key.ipynb`.
+7. Commit cả `data/tech_salary.duckdb` (đã được theo dõi qua Git LFS bởi
+   pattern `data/*.duckdb` có sẵn trong `.gitattributes` — không cần chỉnh
+   gì thêm) và `TECH_SALARY_DATASET_SCHEMA.md`.
+
+---
+
 ## Phần 1 — Ban tổ chức: Thiết lập Repo & Codespaces
 
 1. Tạo một repo GitHub mới (ví dụ `text2sql-skills-workshop`) — public hoặc nội bộ tổ chức, tùy vào việc người tham gia có thể truy cập được gì.
@@ -101,6 +143,55 @@ Lưu ý: tôi không thể lấy nội dung trang Kaggle thực tế từ môi t
 3. **Tự xây dựng skill của bạn**: sao chép `templates/skill-template/SKILL.md` vào một folder mới trong `.claude/skills/<tên-của-họ>/` (và nhân bản sang `.codex/skills/`), viết 3–5 dòng chỉ dẫn thể hiện một quy tắc do họ chọn (ví dụ: "luôn giải thích câu truy vấn bằng một câu," "luôn làm tròn tiền tệ về 2 chữ số thập phân," "luôn sắp xếp theo ngày giảm dần theo mặc định").
 4. **Kiểm thử**: đặt lại câu hỏi cũ hoặc một câu hỏi mới bằng ngôn ngữ tự nhiên và xác nhận câu trả lời của AI giờ đã tuân theo quy tắc riêng của họ — đây là khoảnh khắc "à ha" dành cho người tham gia không có kỹ thuật (họ chỉ viết một đoạn văn mà đã thay đổi hành vi của AI, không cần viết code).
 5. **Chia sẻ kết quả**: một vài tình nguyện viên trình bày skill của mình và demo câu hỏi/câu trả lời trực tiếp.
+
+---
+
+## Phần 6 (tùy chọn) — Bài tập mở rộng Tech Salary: vì sao lại thiết kế như vậy
+
+- **Vẫn nửa ngày, không kéo dài.** Dữ liệu ngân hàng giữ nguyên độ sâu bài tập
+  hiện tại (đây là lượt "học pattern"); Tech Salary chỉ là một lượt "wrap-up"
+  ngắn — 2–3 câu hỏi, không phải một bộ bài tập đầy đủ thứ hai.
+- **Một skill hợp nhất, không phải hai skill riêng.** Người tham gia mở rộng
+  chính `SKILL.md` họ vừa xây ở Bước 4 để nó tự "ground" vào cả hai từ điển
+  dữ liệu và tự chọn đúng database theo từng câu hỏi — thay vì copy sang một
+  skill thứ hai. Đây là lựa chọn có cân nhắc: cách làm hai-skill-riêng đơn
+  giản và an toàn hơn (không có rủi ro chọn nhầm database), nhưng một skill
+  hợp nhất là phép thử trung thực hơn cho câu hỏi "skill này có thực sự khái
+  quát hóa được không, hay chỉ đang lặp lại một schema đã thuộc." Kỹ thuật cụ
+  thể (chạy hai lệnh `duckdb` riêng, hay dùng `ATTACH`) cố tình không được
+  quy định trước trong bất kỳ tài liệu nào — để người tham gia tự quyết định.
+- **Không có skill mẫu thứ hai do ban tổ chức cung cấp.** Chỉ có
+  `TECH_SALARY_DATASET_SCHEMA.md` được chuẩn bị trước, giống `BANK_DATASET_SCHEMA.md`.
+  Việc mở rộng skill là bài tập của người tham gia, không phải thứ họ copy từ
+  một ví dụ mẫu thứ hai.
+- **Không chấm điểm tự động.** Vẫn theo đúng pattern hiện tại: `exercises.md`
+  + notebook đáp án tham khảo (`docs/reference/exercises_answer_key.ipynb`),
+  người tham gia/facilitator tự đối chiếu bằng mắt.
+- **"Insight Report dựa trên SQL" chỉ là gợi ý take-home**, không phải một
+  skill/script/template nào được xây trong repo — mục tiêu chính của phần
+  này là dạy cách xây skill và kiểm thử nó với tác vụ Text-to-SQL; bước tiếp
+  theo (biến nhiều truy vấn thành một bản tóm tắt) là để người tham gia tự
+  phát triển sau workshop.
+
+## Phần 7 (tùy chọn) — Dữ liệu tùy chỉnh cục bộ: vì sao lại thiết kế như vậy
+
+- **Chạy cục bộ, không phải Codespaces** — người tham gia clone repo về máy
+  cá nhân. Xem `WORKSHOP_SETUP_GUIDE_LOCAL.md` (Phần 0b, Phần 9) cho hướng
+  dẫn từng bước.
+- **Hướng dẫn thủ công + trợ lý kỹ thuật, không phải installer tự động.** Có
+  một trợ lý kỹ thuật hỗ trợ trực tiếp người tham gia cài đặt, nên phần này
+  ưu tiên một tài liệu rõ ràng, chính xác (để trợ lý đọc/làm cùng người tham
+  gia) hơn là một script cài đặt tự động không người giám sát — bớt rủi ro
+  và công sức bảo trì một installer đa nền tảng (Windows/macOS), đổi lại mỗi
+  người cài cục bộ cần trợ lý hỗ trợ ít nhất ở những bước đầu.
+- **Chỉ hỗ trợ CSV.** Hỗ trợ Excel bị loại khỏi phạm vi `load_custom_data.sh`
+  một cách có chủ đích — có một sản phẩm riêng (Claude for Excel) đã xử lý
+  tốt việc này, sẽ được giới thiệu như một phần trình bày/demo riêng, không
+  cần xây lại trong repo workshop này.
+- **Không có từ điển dữ liệu được tạo tự động.** Khác với `BANK_DATASET_SCHEMA.md`,
+  người tham gia tự khám phá schema của chính dữ liệu họ (`.tables`,
+  `DESCRIBE`) và tự viết vào `SKILL.md` của mình — đây là một phần cố ý của
+  bài tập, không phải một tính năng còn thiếu.
 
 ---
 

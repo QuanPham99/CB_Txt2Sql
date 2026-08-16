@@ -61,3 +61,43 @@ Các câu này cố tình phức tạp — không có một câu SQL "đúng" du
 ## Bước 6 — Chia sẻ kết quả
 
 Một vài tình nguyện viên trình bày file skill của mình và demo một câu hỏi/câu trả lời trực tiếp cho cả nhóm.
+
+## Bước 7 (tùy chọn) — Mở rộng: bộ dữ liệu Tech Salary
+
+Bài tập nhanh này không dạy kỹ năng mới — nó chứng minh rằng skill bạn vừa xây ở
+Bước 4 áp dụng được cho một bộ dữ liệu hoàn toàn khác, không chỉ riêng dữ liệu
+ngân hàng. Có một database DuckDB thứ hai, độc lập với database ngân hàng:
+`data/tech_salary.duckdb`.
+
+1. Mở `TECH_SALARY_DATASET_SCHEMA.md` ở thư mục gốc repo — từ điển dữ liệu cho
+   `data/tech_salary.duckdb`, cùng định dạng với `BANK_DATASET_SCHEMA.md`.
+2. **Mở rộng chính skill bạn đã xây ở Bước 4** (`.claude/skills/<tên-của-bạn>/SKILL.md`)
+   — không tạo skill mới. Sửa để nó:
+   - Cũng tự "ground" vào `TECH_SALARY_DATASET_SCHEMA.md`, bên cạnh
+     `BANK_DATASET_SCHEMA.md` đã có.
+   - Có thêm một quy tắc để tự xác định: câu hỏi đang hỏi đang nói về dữ liệu
+     nào — nếu về ngân hàng thì truy vấn `data/workshop.duckdb`, nếu về lương
+     ngành công nghệ thì truy vấn `data/tech_salary.duckdb`.
+   - Kỹ thuật để làm việc với cả hai database trong cùng một skill (chạy hai
+     lệnh `duckdb <file> -c "..."` riêng biệt, hay dùng `ATTACH` để mở cả hai
+     cùng lúc) — không quy định trước, tự bạn quyết định cách nào phù hợp.
+3. Đặt các câu hỏi sau bằng ngôn ngữ tự nhiên (đừng gõ SQL trực tiếp — để skill
+   tự sinh SQL) và xác nhận skill của bạn chọn đúng database
+   (`data/tech_salary.duckdb`, không phải `data/workshop.duckdb`) cho từng câu,
+   vẫn tuân theo các quy tắc riêng bạn đã viết ở Bước 4 dù đang chạy trên schema
+   mới:
+   - "Mức lương trung bình cho vị trí Data Scientist là bao nhiêu?" (gợi ý đáp
+     án: ~122.723 USD, tính trên trung bình `salary_min_usd`/`salary_max_usd`,
+     gộp cả hai bảng, 769 tin đăng)
+   - "3 tổ hợp công nghệ (tech_stack) xuất hiện trong nhiều tin đăng nhất là
+     gì?" (gợi ý đáp án: `Java, Spring Boot, Kafka, PostgreSQL` (1.555 tin),
+     `Rust, WebAssembly, System Architecture` (1.548 tin), `Ruby on Rails,
+     Redis, Heroku` (1.528 tin))
+   - "So sánh mức lương tối đa trung bình giữa tin đăng từ USAJOBS và toàn bộ
+     thị trường tech nói chung" (gợi ý đáp án: USAJOBS ~143.374 USD so với
+     ~141.565 USD trên toàn bộ `global_tech_market_2026` — khá gần nhau)
+
+> Gợi ý mở rộng sau workshop (không phải bài tập, không có trong repo này):
+> skill của bạn cũng có thể học cách nối nhiều truy vấn lại thành một bản tóm
+> tắt/insight report bằng ngôn ngữ tự nhiên — đó là hướng để bạn tự phát triển
+> tiếp, không phải nội dung của buổi hôm nay.

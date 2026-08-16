@@ -25,5 +25,51 @@ Mở sẵn tài liệu này trên màn hình thứ hai trong suốt workshop. C�
 - Extension cài đặt bất đồng bộ sau khi container báo "ready" — bảo họ chờ khoảng 30 giây rồi reload cửa sổ (`Cmd/Ctrl+Shift+P` → "Developer: Reload Window").
 - Nếu vẫn thiếu, kiểm tra sidebar Extensions xem có lỗi cài đặt không, rồi cài thủ công từ marketplace như phương án dự phòng (extension ID nằm trong `.devcontainer/devcontainer.json`).
 
+## Hỗ trợ cài đặt cục bộ (dành cho trợ lý kỹ thuật)
+
+Chỉ áp dụng cho người tham gia chạy cục bộ (không dùng Codespaces) — xem
+Phần 0b và Phần 9 của `../setup/WORKSHOP_SETUP_GUIDE_LOCAL.md` cho luồng đầy
+đủ. Không có script tự động cho phần này — bạn (trợ lý kỹ thuật) là người
+chạy cùng người tham gia, nên kiểm tra sau đây giúp bạn tự tin xác nhận từng
+bước đã đúng trước khi chuyển sang bước kế.
+
+**Kiểm tra đầu tiên, trước khi bắt đầu bất kỳ cài đặt nào:**
+- Người tham gia có quyền Administrator (Windows) / có thể nhập mật khẩu máy
+  (macOS) không? Cả hai luồng cài đặt đều cần quyền này ở ít nhất một bước.
+- Máy có phải máy công ty bị khóa bởi chính sách IT (antivirus/EDR chặn chạy
+  script, chặn `wsl --install`, chặn tải file qua `curl`) không? Nếu có, đây
+  thường là giới hạn ở tầng chính sách, không sửa được từ phía người dùng —
+  chuyển người đó sang dùng Codespaces thay vì cố tiếp tục cài cục bộ.
+- Máy đã từng cài WSL (Windows) hoặc Homebrew (macOS) trước đây chưa? Nếu có,
+  bỏ qua bước cài tương ứng trong Phần 0b, chỉ cần xác nhận `git`/`node` có
+  sẵn (`git --version`, `node --version`) rồi đi thẳng vào "1. Clone repo".
+
+**Các điểm hay vướng nhất, theo đúng thứ tự các bước trong Phần 0b:**
+- `wsl --install -d Ubuntu` báo lỗi ngay lập tức (không phải yêu cầu restart)
+  → thường là do ảo hóa (virtualization) chưa bật trong BIOS/UEFI, hoặc máy
+  đang chạy trong một VM lồng nhau. Đây là giới hạn phần cứng, không sửa
+  được nhanh tại chỗ — chuyển người đó sang Codespaces.
+- Sau khi restart, cửa sổ Ubuntu không tự mở → mở thủ công qua Start Menu,
+  gõ "Ubuntu".
+- `sudo apt install` báo lỗi mạng → kiểm tra Wi-Fi của địa điểm workshop có
+  chặn một số domain không (một số mạng công ty/khách sạn có whitelist).
+- macOS: script cài Homebrew treo ở bước nhập mật khẩu → đó là ô nhập mật
+  khẩu ẩn (không hiện ký tự khi gõ, kể cả dấu `*`) — vẫn đang nhận input
+  bình thường, chỉ cần gõ và nhấn Enter.
+- `npm install -g @anthropic-ai/claude-code` báo lỗi quyền (permission
+  denied) trên macOS/Linux → dấu hiệu Node.js được cài qua kênh cần `sudo`
+  cho global install; bảo họ thử lại với `sudo npm install -g
+  @anthropic-ai/claude-code`, hoặc cài lại Node qua `brew`/`nvm` để tránh
+  cần `sudo` về sau.
+
+**Trạng thái đúng khi hoàn tất** (để bạn xác nhận thay vì đoán):
+- `./setup.sh` chạy xong không có dòng nào bắt đầu bằng `ERROR:`, và in ra
+  banner "Setup complete! Next steps" ở cuối — giống hệt log mà
+  `postCreate.sh` in ra trong Codespaces.
+- Cả hai smoke test đều xuất hiện: `transactions table has 2000000 rows.`
+  và ít nhất một dòng `<tên_bảng> table has <n> rows.` cho phía tech-salary.
+- `claude --version` và `codex --version` đều chạy được (chưa cần đăng nhập
+  ở bước này — đăng nhập là Bước 4 riêng).
+
 ## Phương án chung khi bí
 Nếu hơn 2–3 người cùng gặp một vấn đề cùng lúc, dừng việc xử lý từng người và nói với cả phòng — nhiều khả năng đó là vấn đề hệ thống (prebuild chưa sẵn sàng, SSO của tổ chức chặn tất cả mọi người từ một công ty, v.v.), không phải vấn đề cá nhân.

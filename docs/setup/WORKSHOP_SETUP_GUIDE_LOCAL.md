@@ -20,9 +20,72 @@ Hướng dẫn này bao phủ cách **A**. Nếu bạn muốn môi trường gi�
 - **Git** kèm **Git LFS** đã cài đặt (`git lfs version` phải chạy thành công — `data/workshop.duckdb` được lưu qua LFS; nếu không có LFS bạn sẽ chỉ nhận một file pointer nhỏ thay vì dữ liệu thật).
 - **Node.js + npm** (`node --version`) — cần thiết để `npm install -g @anthropic-ai/claude-code`.
 - **curl**.
-- macOS hoặc Linux, hoặc **WSL2** trên Windows — các lệnh cài đặt trong `postCreate.sh` dựa trên Bash/curl và giả định một shell kiểu Unix. Windows thuần (cmd/PowerShell) không được hỗ trợ ở đây.
+- macOS hoặc Linux, hoặc **WSL2** trên Windows — các lệnh cài đặt trong `postCreate.sh` dựa trên Bash/curl và giả định một shell kiểu Unix. Windows thuần (cmd/PowerShell) không được hỗ trợ ở đây. Nếu máy chưa có gì cài sẵn (Git, Node, WSL2, ...), xem Phần 0b bên dưới — có hướng dẫn từng bước dành cho một trợ lý kỹ thuật làm cùng người tham gia không rành kỹ thuật.
 - Một **tài khoản Claude.ai** với gói đang hoạt động (Pro/Max), hoặc một Anthropic API key cá nhân.
 - Một **tài khoản ChatGPT** với quyền truy cập Codex (Plus/Pro/Business/Edu), hoặc một OpenAI API key cá nhân.
+
+---
+
+## 0b. Cài đặt từ máy hoàn toàn mới (dành cho trợ lý kỹ thuật hỗ trợ trực tiếp)
+
+Phần này viết cho một **trợ lý kỹ thuật** đọc/làm cùng một người tham gia không
+rành kỹ thuật, trên một máy chưa từng cài gì liên quan đến lập trình. Đưa
+từng lệnh, giải thích ngắn gọn nó làm gì, rồi chạy. Nếu máy đã có sẵn
+Git/Node/v.v., bỏ qua bước tương ứng và chuyển thẳng sang "1. Clone repo".
+
+### Windows
+
+1. Mở **PowerShell với quyền Administrator** (nhấn phím Windows, gõ
+   "PowerShell", chuột phải vào kết quả → "Run as Administrator").
+2. Cài WSL2 kèm Ubuntu — đây là một môi trường Linux chạy bên trong Windows;
+   các lệnh cài đặt của workshop chỉ chạy trên Linux/macOS, không chạy trực
+   tiếp trên Windows thuần:
+   ```powershell
+   wsl --install -d Ubuntu
+   ```
+3. **Máy gần như chắc chắn sẽ yêu cầu khởi động lại (restart)** sau lệnh
+   trên — đây là bình thường, không phải lỗi hay máy bị treo. Khởi động lại
+   máy khi được yêu cầu.
+4. Sau khi khởi động lại, Ubuntu sẽ tự mở và hỏi bạn tạo một **username/
+   password Linux** (khác với tài khoản đăng nhập Windows) — tạo một cái đơn
+   giản, dễ nhớ, đây là tài khoản bạn sẽ dùng trong suốt workshop.
+5. Từ giờ, mọi lệnh trong hướng dẫn này chạy **bên trong cửa sổ Ubuntu** đó
+   (không phải PowerShell/cmd). Mở lại cửa sổ này bất cứ lúc nào bằng cách gõ
+   `wsl` trong menu Start, hoặc mở app "Ubuntu".
+6. Trong cửa sổ Ubuntu, cài các gói cần thiết:
+   ```bash
+   sudo apt update
+   sudo apt install -y git git-lfs curl
+   ```
+7. Tiếp tục với "1. Clone repo" bên dưới — thực hiện trong cửa sổ Ubuntu này.
+
+> Gợi ý hiệu năng: nếu clone repo vào trong hệ thống file của chính WSL2 (ví
+> dụ `~/CB_Txt2Sql`) thay vì `/mnt/c/...`, mọi thứ sẽ chạy nhanh hơn đáng kể.
+> Cả hai cách đều hoạt động được — nếu không chắc, dùng `~/CB_Txt2Sql`.
+
+### macOS
+
+1. Mở app **Terminal** (Spotlight: nhấn `Cmd + Space`, gõ "Terminal", Enter).
+2. Kiểm tra xem máy đã có **Homebrew** chưa:
+   ```bash
+   brew --version
+   ```
+   Nếu báo lỗi "command not found", cài Homebrew:
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+   Làm theo hướng dẫn hiện trên màn hình (có thể yêu cầu nhập mật khẩu máy Mac).
+3. Cài Git, Git LFS, Node.js:
+   ```bash
+   brew install git git-lfs node
+   ```
+4. Tiếp tục với "1. Clone repo" bên dưới, trong cùng cửa sổ Terminal này.
+
+Sau khi hoàn tất Windows hoặc macOS ở trên, làm theo đúng các bước 1–8 phía
+dưới (Clone repo → ... → Xây dựng skill tùy chỉnh) — không có gì khác biệt
+từ đây trở đi, dù đang ở Ubuntu-trong-WSL2 hay macOS. Nếu có trục trặc trong
+lúc cài đặt, xem mục "Hỗ trợ cài đặt cục bộ" trong
+`../reference/FACILITATOR_TROUBLESHOOTING.md`.
 
 ---
 
@@ -148,6 +211,43 @@ Tự làm qua tất cả các câu hỏi ví dụ, theo thứ tự. Nếu câu t
 
 ---
 
+## 9. (Tùy chọn) Dữ liệu tùy chỉnh cục bộ — dùng file CSV của riêng bạn
+
+Phần này chỉ áp dụng khi chạy cục bộ (không nằm trong luồng Codespaces
+chính). Cần đã hoàn thành Bước 1–4 ở trên (repo đã clone, `claude`/`codex`
+đã xác thực).
+
+**Chỉ hỗ trợ file `.csv`.** Nếu dữ liệu của bạn đang ở dạng Excel, xuất từng
+sheet cần dùng ra một file `.csv` riêng trước — Excel được hỗ trợ riêng qua
+Claude for Excel, không phải một phần của repo/workshop này.
+
+1. Tạo thư mục và đặt file CSV vào đó:
+   ```bash
+   mkdir -p my-data
+   cp ~/Downloads/du_lieu_cua_ban.csv my-data/
+   ```
+2. Chạy:
+   ```bash
+   ./load_custom_data.sh
+   ```
+   Script nạp mỗi file CSV thành một bảng trong `data/custom.duckdb` (luôn
+   xây lại từ đầu mỗi lần chạy) và in tóm tắt số dòng mỗi bảng.
+3. Khám phá schema của chính bạn:
+   ```bash
+   duckdb data/custom.duckdb -c ".tables"
+   duckdb data/custom.duckdb -c "DESCRIBE <tên_bảng>;"
+   ```
+4. Sao chép khung skill: `templates/custom-data-skill-template/SKILL.md` →
+   `.claude/skills/<tên-của-bạn>/SKILL.md` (và mirror sang
+   `.codex/skills/<tên-của-bạn>/`), rồi điền phần "Bảng & cột" bằng những gì
+   bạn vừa khám phá ở bước 3.
+5. Đặt câu hỏi bằng ngôn ngữ tự nhiên về dữ liệu của chính bạn.
+
+Mỗi khi bạn thêm/sửa/xóa file trong `my-data/`, chạy lại `./load_custom_data.sh`
+để đồng bộ `data/custom.duckdb`.
+
+---
+
 ## Chạy với một nhóm nhỏ, cục bộ, không dùng Codespaces
 
 Nếu bạn đang kiểm thử với vài người trực tiếp thay vì một mình:
@@ -160,7 +260,7 @@ Nếu bạn đang kiểm thử với vài người trực tiếp thay vì một 
 ## Các lưu ý chỉ áp dụng khi chạy cục bộ
 
 - `dataset/*.csv` (các file CSV gốc từ Kaggle) bị git bỏ qua — chúng không cần thiết lúc chạy, chỉ `data/workshop.duckdb` mới quan trọng. Nếu bạn cần dựng lại file `.duckdb` từ đầu, xem Phần 0 của `WORKSHOP_SETUP_PLAN.md`.
-- Windows thuần (không có WSL) không được hướng dẫn này hỗ trợ — các lệnh cài đặt trong `postCreate.sh` chỉ chạy trên Bash. Người tham gia dùng Windows nên dùng WSL2 cục bộ, hoặc dùng Codespaces thay thế để tránh hẳn vấn đề hệ điều hành.
+- Windows thuần (không có WSL2) không được hướng dẫn này hỗ trợ trực tiếp — các lệnh cài đặt trong `postCreate.sh`/`setup.sh` chỉ chạy trên Bash. Xem Phần 0b để cài WSL2 từng bước; sau đó mọi thứ chạy y hệt macOS/Linux bên trong cửa sổ Ubuntu. Nếu không muốn cài WSL2, dùng Codespaces thay thế để tránh hẳn vấn đề hệ điều hành.
 - Cách này không kiểm thử được các lỗi riêng của Codespaces (OAuth qua forwarded-port, pull LFS qua hạ tầng GitHub, khởi động prebuild, giới hạn chi tiêu). Nếu bạn là người tổ chức đang chuẩn bị cho một workshop thật trên Codespaces, vẫn nên chạy qua `WORKSHOP_SETUP_GUIDE_CODESPACES.md` trước sự kiện — một lần chạy cục bộ suôn sẻ không đảm bảo Codespaces cũng sẽ suôn sẻ.
 
 ---
@@ -174,7 +274,12 @@ Nếu bạn đang kiểm thử với vài người trực tiếp thay vì một 
 | `exercises.md` | Luồng bài tập trong workshop + câu hỏi ví dụ |
 | `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill ví dụ mẫu (đồng bộ) |
 | `templates/skill-template/` | Khung mẫu trống cho "tự xây dựng skill" |
-| `data/workshop.duckdb` | DB đã nạp sẵn dữ liệu (Git LFS) — dữ liệu duy nhất người tham gia chạm vào |
+| `data/workshop.duckdb` | DB ngân hàng đã nạp sẵn dữ liệu (Git LFS) |
+| `data/tech_salary.duckdb` | DB thứ hai (Tech Salary), dùng cho bài tập mở rộng tùy chọn — Bước 7 trong `exercises.md` |
+| `TECH_SALARY_DATASET_SCHEMA.md` | Từ điển dữ liệu cho `data/tech_salary.duckdb` |
+| `scripts/build_tech_salary_db.sh` | Công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb` — không dành cho người tham gia |
+| `load_custom_data.sh`, `my-data/` | Nạp file CSV của riêng bạn vào `data/custom.duckdb` (cục bộ, tùy chọn) — xem Phần 9 |
+| `templates/custom-data-skill-template/` | Khung mẫu skill cho dữ liệu tùy chỉnh |
 | `docs/setup/WORKSHOP_SETUP_GUIDE_CODESPACES.md` | Cùng luồng, chạy trên một GitHub Codespace thật |
 | `docs/setup/Iteration_0_LocalTesting.md` | Kiểm thử cục bộ tương đương container qua Docker + devcontainer CLI |
 | `docs/setup/WORKSHOP_SETUP_PLAN.md` | Toàn bộ bối cảnh/lý do của ban tổ chức cho tất cả những điều trên |
