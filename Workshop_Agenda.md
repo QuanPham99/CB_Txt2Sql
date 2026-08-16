@@ -16,11 +16,12 @@ Workshop này dạy cách giải quyết cả ba điểm nghẽn trên bằng Cl
 
 ## Tổng quan thời lượng
 
-Buổi workshop nửa ngày (~3h45 phần lõi + tối đa 20 phút phần mở rộng tùy chọn).
+Buổi workshop nửa ngày (~3h55 phần lõi + tối đa 20 phút phần mở rộng tùy chọn).
 
 | # | Phần | Thời lượng | Ghi chú |
 |---|------|-----------|---------|
 | 0 | Mở đầu & đặt vấn đề | 15 phút | |
+| 0.5 | Thuật ngữ cơ bản & Cheat sheet lệnh | 10 phút | mới |
 | 1 | Nền tảng: đọc skill mẫu, hỏi câu đầu tiên | 20 phút | tương ứng Bước 1–2 trong `exercises.md` |
 | 2 | Thực hành: tự xây skill Text-to-SQL (Skill 1) | 75 phút | tương ứng Bước 3–6 trong `exercises.md` |
 | — | Giải lao | 10 phút | |
@@ -38,6 +39,58 @@ Phần 5 là phần đầu tiên bị cắt nếu thiếu thời gian — nó đ
 - Mở bằng câu hỏi thực tế: "Ai từng cần một con số từ database và phải chờ kỹ sư lấy giúp?" — dẫn vào ba điểm nghẽn ở trên.
 - Giới thiệu khung sườn 3(+1) skill của cả ngày: Hiểu → Truy vấn → Diễn giải → (mở rộng) Kết nối.
 - Nói rõ kỳ vọng: Skill 1 (buổi sáng) có đầy đủ "bánh xe phụ" — skill mẫu, template, đáp án. Skill 0 và Skill 2 (buổi chiều) chỉ nhận một đề bài ngắn, không có template sẵn — tự thiết kế hướng dẫn cho agent, cùng một kỹ năng nhưng ít cầm tay chỉ việc hơn.
+
+## Phần 0.5 — Thuật ngữ cơ bản & Cheat sheet lệnh (10 phút, mới)
+
+Phát trước cho người tham gia như tài liệu tham khảo (giấy hoặc file), dùng lại xuyên suốt cả buổi — không cần giải thích hết trong 10 phút, chỉ điểm nhanh những từ sẽ gặp ngay ở Phần 1.
+
+### Thuật ngữ cơ bản
+
+| Thuật ngữ | Giải thích ngắn gọn |
+|---|---|
+| **LLM** (Large Language Model) | Mô hình ngôn ngữ lớn — "bộ não" đứng sau Claude và Codex, hiểu và sinh ra ngôn ngữ tự nhiên lẫn code. |
+| **Agent** | Một LLM được cho phép tự hành động — tự quyết định chạy lệnh, đọc/ghi file, gọi công cụ — để hoàn thành một nhiệm vụ, chứ không chỉ trả lời một câu hỏi rồi dừng. |
+| **CLI** (Command-Line Interface) | Công cụ chạy trong terminal bằng dòng lệnh, thay vì giao diện web/click chuột. Ở đây là hai lệnh `claude` và `codex`. |
+| **Skill** | Một "gói hướng dẫn" viết bằng ngôn ngữ tự nhiên (file `SKILL.md`) dạy agent cách làm tốt một việc cụ thể, lặp lại được — ví dụ: cách trả lời câu hỏi SQL đúng quy tắc của bạn. |
+| **SKILL.md / frontmatter** | Cấu trúc file của một Skill: phần **frontmatter** ở đầu file (`name`, `description`) giúp agent biết *khi nào* nên dùng skill này; phần thân file là hướng dẫn chi tiết *làm sao* để thực hiện. |
+| **Prompt** | Câu lệnh/câu hỏi bằng ngôn ngữ tự nhiên bạn gửi cho agent. |
+| **Schema / Data dictionary** | Tài liệu mô tả cấu trúc một database: có bảng nào, cột nào, kiểu dữ liệu gì, giá trị hợp lệ ra sao. Trong workshop này là các file `schemas/*.md`. |
+| **DuckDB** | Công cụ database dùng trong workshop, thao tác qua CLI riêng của nó (`duckdb <file>.duckdb -c "SQL..."`) — khác với CLI của Claude/Codex. |
+| **Devcontainer / Codespaces** | Môi trường phát triển đóng gói sẵn (chạy trên máy bạn hoặc trên GitHub) để mọi người có cùng một setup, không phải cài đặt thủ công từng phần. |
+| **Context / Context window** | "Bộ nhớ làm việc" của agent trong một phiên trò chuyện — càng nhiều nội dung trao đổi, context càng đầy; một số lệnh (xem cheat sheet bên dưới) giúp dọn bớt context. |
+
+### Cheat sheet: slash command hữu ích
+
+Danh sách bên dưới là các lệnh phổ biến, thường gặp — vì hai CLI này cập nhật khá thường xuyên, hãy gõ `/help` ngay trong công cụ để xem danh sách đầy đủ và chính xác nhất tại thời điểm workshop diễn ra.
+
+**Claude Code CLI (`claude`)**
+
+| Lệnh | Công dụng |
+|---|---|
+| `/help` | Hiện danh sách lệnh đầy đủ |
+| `/clear` | Xóa lịch sử hội thoại hiện tại, bắt đầu phiên mới sạch |
+| `/compact` | Nén bớt lịch sử hội thoại dài để tiết kiệm context, vẫn giữ ý chính |
+| `/model` | Đổi model đang dùng |
+| `/init` | Tạo/khởi tạo file `CLAUDE.md` — nơi ghi hướng dẫn riêng cho một project |
+| `/agents` | Xem/quản lý các subagent |
+| `/permissions` | Xem hoặc chỉnh quyền hạn công cụ được phép tự chạy không cần hỏi |
+| `/mcp` | Xem/quản lý các kết nối MCP server |
+| `/resume` | Tiếp tục một phiên làm việc trước đó |
+| `/cost` | Xem chi phí/mức sử dụng của phiên hiện tại |
+| `/doctor` | Kiểm tra nhanh xem cấu hình/cài đặt có vấn đề gì không |
+| `Esc` hoặc `Ctrl+C` | Dừng một lệnh/tác vụ đang chạy |
+
+**Codex CLI (`codex`)**
+
+| Lệnh | Công dụng |
+|---|---|
+| `/help` | Hiện danh sách lệnh đầy đủ |
+| `/model` | Đổi model đang dùng |
+| `/diff` | Xem các thay đổi (file đã sửa) trong phiên hiện tại |
+| `/clear` | Xóa lịch sử phiên hiện tại |
+| `/approvals` | Đổi chế độ phê duyệt hành động (tự động chạy vs. hỏi trước mỗi bước) |
+
+*Ghi chú cho người hướng dẫn: nên tự kiểm tra lại danh sách này bằng `/help` trong bản `claude`/`codex` đang cài trên devcontainer trước ngày diễn ra, vì hai CLI này thay đổi khá nhanh giữa các phiên bản.*
 
 ## Phần 1 — Nền tảng (20 phút) — giữ nguyên như Bước 1–2 hiện tại
 
