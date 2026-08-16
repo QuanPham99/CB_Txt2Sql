@@ -19,7 +19,7 @@ Mở sẵn tài liệu này trên màn hình thứ hai trong suốt workshop. C�
 
 ## Rate limit / thông báo "please wait and try again" từ Claude hoặc ChatGPT
 - Các gói miễn phí/thấp có thể chạm rate limit khi cả phòng 20–50 người cùng truy vấn một lúc. Cho người bị ảnh hưởng ghép cặp với người bên cạnh trong vài phút, hoặc chuyển sang xem màn hình demo chung.
-- Chuẩn bị sẵn video màn hình dự phòng 2 phút của luồng chuẩn (xem Phần 3 của `../setup/WORKSHOP_SETUP_PLAN.md`) trong trường hợp tình trạng này lan rộng — phát video đó trong lúc chờ hồi phục thay vì để cả phòng chờ đợi.
+- Chuẩn bị sẵn video màn hình dự phòng 2 phút của luồng chuẩn (xem Phần 3 của `WORKSHOP_SETUP_PLAN.md`) trong trường hợp tình trạng này lan rộng — phát video đó trong lúc chờ hồi phục thay vì để cả phòng chờ đợi.
 
 ## Extension VS Code không load (sidebar Claude Code / Codex bị thiếu)
 - Extension cài đặt bất đồng bộ sau khi container báo "ready" — bảo họ chờ khoảng 30 giây rồi reload cửa sổ (`Cmd/Ctrl+Shift+P` → "Developer: Reload Window").
@@ -28,7 +28,7 @@ Mở sẵn tài liệu này trên màn hình thứ hai trong suốt workshop. C�
 ## Hỗ trợ cài đặt cục bộ (dành cho trợ lý kỹ thuật)
 
 Chỉ áp dụng cho người tham gia chạy cục bộ (không dùng Codespaces) — xem
-Phần 0b và Phần 9 của `../setup/WORKSHOP_SETUP_GUIDE_LOCAL.md` cho luồng đầy
+Phần A và Phần C của `../participants/LOCAL_SETUP_GUIDE.md` cho luồng đầy
 đủ. Không có script tự động cho phần này — bạn (trợ lý kỹ thuật) là người
 chạy cùng người tham gia, nên kiểm tra sau đây giúp bạn tự tin xác nhận từng
 bước đã đúng trước khi chuyển sang bước kế.
@@ -44,7 +44,7 @@ bước đã đúng trước khi chuyển sang bước kế.
   bỏ qua bước cài tương ứng trong Phần 0b, chỉ cần xác nhận `git`/`node` có
   sẵn (`git --version`, `node --version`) rồi đi thẳng vào "1. Clone repo".
 
-**Các điểm hay vướng nhất, theo đúng thứ tự các bước trong Phần 0b:**
+**Các điểm hay vướng nhất, theo đúng thứ tự các bước trong Phần A của `../participants/LOCAL_SETUP_GUIDE.md`:**
 - `wsl --install -d Ubuntu` báo lỗi ngay lập tức (không phải yêu cầu restart)
   → thường là do ảo hóa (virtualization) chưa bật trong BIOS/UEFI, hoặc máy
   đang chạy trong một VM lồng nhau. Đây là giới hạn phần cứng, không sửa

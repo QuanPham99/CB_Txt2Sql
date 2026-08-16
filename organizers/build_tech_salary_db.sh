@@ -3,7 +3,7 @@
 # tech_salary_dataset/. Always rebuilds from scratch — run again any time the
 # raw CSV(s) change.
 #
-#   ./scripts/build_tech_salary_db.sh
+#   ./organizers/build_tech_salary_db.sh
 #
 # Source dataset: https://www.kaggle.com/datasets/yaaryiitturan/global-tech-salary-dataset
 # Download it, drop the CSV(s) (or the Kaggle .zip as-is) into
@@ -111,7 +111,7 @@ cat <<'BANNER'
 
  3. Fill in the real example questions in exercises.md's
     tech-salary wrap-up section, and the matching answer cells
-    in docs/reference/exercises_answer_key.ipynb.
+    in participants/exercises_answer_key.ipynb.
 
  4. Commit both data/tech_salary.duckdb (Git LFS — already
     covered by the existing .gitattributes data/*.duckdb rule)
