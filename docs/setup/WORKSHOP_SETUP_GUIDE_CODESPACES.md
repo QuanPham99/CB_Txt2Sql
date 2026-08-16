@@ -14,6 +14,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
 - [ ] Một **tài khoản Claude.ai** có gói đang hoạt động (Pro/Max), hoặc một API key Anthropic cá nhân.
 - [ ] Một **tài khoản ChatGPT** có quyền truy cập Codex (Plus/Pro/Business/Edu), hoặc một API key OpenAI cá nhân.
 - [ ] `data/workshop.duckdb` được theo dõi qua Git LFS và đã push lên `origin/main` (`git lfs ls-files` phải liệt kê nó; đã xác nhận có mặt cục bộ ở khoảng 75MB).
+- [ ] `data/tech_salary.duckdb` cũng đã được dựng (xem `WORKSHOP_SETUP_PLAN.md` → Phần 0b, `scripts/build_tech_salary_db.sh`), theo dõi qua Git LFS, và đã push lên `origin/main` — bắt buộc để `postCreateCommand` không báo lỗi cho người tham gia.
 
 ---
 
@@ -27,7 +28,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
    - Cài DuckDB CLI
    - `npm install -g @anthropic-ai/claude-code`
    - Cài Codex CLI
-   - Chạy smoke test dữ liệu — nó phải in ra `Smoke test: transactions table has 2000000 rows.` rồi `== Setup complete ==`
+   - Chạy smoke test dữ liệu — nó phải in ra `Smoke test: transactions table has 2000000 rows.`, rồi ít nhất một dòng `Smoke test: <tên_bảng> table has <n> rows.` cho `data/tech_salary.duckdb`, rồi `== Setup complete ==`
 4. **Nếu log hiện lỗi và build thất bại**, dừng lại ngay và sửa lỗi (xem `../reference/FACILITATOR_TROUBLESHOOTING.md` → "`data/workshop.duckdb` missing or empty") trước khi làm bất cứ điều gì khác — một `postCreateCommand` bị hỏng sẽ thất bại y hệt với mọi người tham gia.
 5. Khi Codespace mở lên, bạn sẽ thấy banner chào mừng của `postAttach.sh` được in trong terminal:
    ```
@@ -59,6 +60,18 @@ bash .devcontainer/postCreate.sh
 ```
 
 rồi kiểm tra lại. Đây là kiểu lỗi dễ gặp trên Codespaces nhưng lại vô hình ở cục bộ nếu bạn đã có sẵn file trong cache — hãy xem đây là điều chính mà hướng dẫn này tồn tại để bắt lỗi.
+
+Làm tương tự cho database thứ hai (tên bảng chưa biết trước, vì schema thật
+tùy vào file Kaggle bạn đã tải ở Phần 0b của `WORKSHOP_SETUP_PLAN.md`):
+
+```bash
+duckdb data/tech_salary.duckdb -c "SELECT table_name FROM information_schema.tables;"
+```
+
+Kỳ vọng ít nhất một tên bảng được liệt kê (không rỗng). Nếu rỗng hoặc báo
+lỗi, quy trình xử lý giống hệt ở trên (`git lfs pull` rồi chạy lại
+`bash .devcontainer/postCreate.sh`) — nếu vẫn rỗng sau đó, khả năng cao là
+`data/tech_salary.duckdb` chưa từng được dựng/commit, xem lại Phần 0b.
 
 ---
 
@@ -102,6 +115,9 @@ code BANK_DATASET_SCHEMA.md   # hoặc mở trực tiếp trong editor
 
 Đây là bước "hiểu dữ liệu" duy nhất mà một người tham gia cần — xác nhận nó vẫn mô tả chính xác `data/workshop.duckdb` (tên bảng, số dòng, các cột, các điểm đặc biệt). Nếu bạn đã chỉnh sửa dataset kể từ khi tài liệu này được viết, hãy cập nhật `BANK_DATASET_SCHEMA.md` ngay bây giờ.
 
+Tương tự, mở `TECH_SALARY_DATASET_SCHEMA.md` và xác nhận nó vẫn mô tả đúng
+`data/tech_salary.duckdb` — cần cho bài tập mở rộng tùy chọn ở Bước 7.
+
 ---
 
 ## 6. Kiểm thử skill mẫu
@@ -125,6 +141,11 @@ code exercises.md
 ```
 
 Tự chạy qua tất cả các câu hỏi mẫu, theo thứ tự, trong Codespace thật này. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột/bảng, hãy sửa `SKILL.md` hoặc `BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong buổi workshop trực tiếp.
+
+Đừng quên thử luôn "Bước 7 (tùy chọn)" ở cuối `exercises.md` — bài tập mở
+rộng skill sang `data/tech_salary.duckdb`. Nếu skill không tự chọn đúng
+database, hoặc câu hỏi TODO trong Bước 7 chưa được điền câu hỏi thật, đây là
+lúc để sửa, không phải trong buổi workshop.
 
 ---
 
@@ -173,7 +194,9 @@ Khi các bước 1–9 đều đạt trơn tru trong một Codespace mới:
 | `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill mẫu (đã mirror) |
 | `templates/skill-template/` | Khung sườn trống cho "tự xây skill của bạn" |
 | `.devcontainer/` | Định nghĩa môi trường Codespaces |
-| `data/workshop.duckdb` | DB đã nạp sẵn (Git LFS) — dữ liệu duy nhất người tham gia chạm vào |
+| `data/workshop.duckdb` | DB ngân hàng đã nạp sẵn (Git LFS) |
+| `data/tech_salary.duckdb`, `TECH_SALARY_DATASET_SCHEMA.md` | DB thứ hai + data dictionary, dùng cho Bước 7 (tùy chọn) trong `exercises.md` |
+| `scripts/build_tech_salary_db.sh` | Công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb` (xem Phần 0b của `WORKSHOP_SETUP_PLAN.md`) |
 | `docs/setup/WORKSHOP_SETUP_PLAN.md` | Bối cảnh/lý do đầy đủ cho ban tổ chức về tất cả những điều trên |
 | `docs/reference/DAY_OF_CHECKLIST.md` | Checklist hậu cần trước workshop và ngày diễn ra |
 | `docs/reference/FACILITATOR_TROUBLESHOOTING.md` | Xử lý sự cố trong buổi trực tiếp (chỉ dành cho facilitator) |

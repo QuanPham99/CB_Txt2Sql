@@ -6,7 +6,7 @@ Tài liệu này dành cho các kỹ sư (techies) muốn hiểu cách repo này
 
 Repo này **không phải là một ứng dụng** — không có build step, không có test suite, không có server chạy liên tục. Nó là:
 
-1. Một **cơ sở dữ liệu DuckDB đã đóng gói sẵn** (`data/workshop.duckdb`, ~5.87 triệu dòng / 10 bảng, phân phối qua Git LFS).
+1. Hai **cơ sở dữ liệu DuckDB đã đóng gói sẵn**, độc lập với nhau: `data/workshop.duckdb` (ngân hàng, ~5.87 triệu dòng / 10 bảng) và `data/tech_salary.duckdb` (tech salary, dùng cho bài tập mở rộng tùy chọn) — cả hai phân phối qua Git LFS. Cộng thêm một database thứ ba, `data/custom.duckdb`, do chính người tham gia tự dựng cục bộ từ CSV của họ (không qua Git LFS, không commit — xem "Đường nạp dữ liệu tùy chỉnh cục bộ" bên dưới).
 2. Một **môi trường devcontainer** tái tạo được (Codespaces hoặc Docker cục bộ) cài sẵn DuckDB CLI, Claude Code CLI, và Codex CLI.
 3. Một **cặp Skill mẫu** (`.claude/skills/sql-helper/`, mirror sang `.codex/skills/sql-helper/`) hướng dẫn model chuyển câu hỏi ngôn ngữ tự nhiên thành SQL, dựa trên `BANK_DATASET_SCHEMA.md` làm nguồn sự thật duy nhất về dữ liệu.
 4. Bộ tài liệu Markdown làm "chất keo" — dữ liệu thô + hướng dẫn agent + tài liệu hướng dẫn con người, không có tầng logic ứng dụng nào ở giữa.
@@ -26,16 +26,24 @@ flowchart TB
         csv --> script --> db
     end
 
+    subgraph build2["BUILD-TIME (thứ 2) — ban tổ chức, chạy một lần, độc lập với trên"]
+        tcsv["tech_salary_dataset/*.csv\n(Kaggle, git-ignored)"]
+        tscript["scripts/build_tech_salary_db.sh"]
+        tdb["data/tech_salary.duckdb\n(theo dõi qua Git LFS)"]
+        tcsv --> tscript --> tdb
+    end
+
     subgraph distribute["PHÂN PHỐI"]
         lfs["Git LFS\n(pointer file trong Git, blob thật lưu ở LFS storage)"]
         db -->|"git lfs push / commit"| lfs
+        tdb -->|"git lfs push / commit"| lfs
     end
 
     subgraph runtime["RUN-TIME — mỗi người tham gia, container riêng, tái tạo mỗi lần"]
         checkout["repo checkout + git lfs pull"]
         container["Devcontainer\n(Codespaces hoặc Docker cục bộ)"]
         skills[".claude/skills/sql-helper/\n.codex/skills/sql-helper/"]
-        schema["BANK_DATASET_SCHEMA.md\n(từ điển dữ liệu)"]
+        schema["BANK_DATASET_SCHEMA.md\nTECH_SALARY_DATASET_SCHEMA.md"]
         clis["claude CLI  /  codex CLI"]
         duckcli["duckdb CLI"]
 
@@ -45,16 +53,26 @@ flowchart TB
         skills -->|"tự neo (ground) vào"| schema
         clis -->|"sinh SQL, chạy qua"| duckcli
         duckcli -->|"truy vấn"| db
+        duckcli -->|"truy vấn (Bước 7 tùy chọn)"| tdb
+    end
+
+    subgraph ondemand["ON-DEMAND — người tham gia, máy cục bộ, chạy bất kỳ lúc nào, không qua Git"]
+        mydata["my-data/*.csv\n(của người tham gia, git-ignored)"]
+        loadscript["load_custom_data.sh"]
+        cdb["data/custom.duckdb\n(git-ignored, KHÔNG commit)"]
+        mydata --> loadscript --> cdb
     end
 
     user(["Người tham gia\nđặt câu hỏi ngôn ngữ tự nhiên"]) --> clis
     duckcli -->|"kết quả dạng bảng"| user
+    cdb -.->|"truy vấn qua skill riêng của người tham gia\n(không đi qua git lfs/distribute)"| clis
 ```
 
 **Vì sao tách ra như vậy:**
-- Build-time chỉ chạy **một lần** vì dữ liệu tĩnh — không có ingest pipeline sống, không có cron job cập nhật dữ liệu.
+- Build-time chỉ chạy **một lần** vì dữ liệu tĩnh — không có ingest pipeline sống, không có cron job cập nhật dữ liệu. Có hai pipeline build-time độc lập (ngân hàng, tech-salary) vì đây là hai dataset không liên quan, không có kỳ vọng join xuyên dataset nào.
 - Run-time phải **tái tạo được hoàn toàn từ đầu** với chi phí thấp, vì nó chạy 20–50 lần song song (mỗi người tham gia một Codespace) trong nửa ngày.
-- Container không bao giờ tự dựng lại `data/workshop.duckdb` — nó chỉ đọc file đã build sẵn. Điều này giữ cho `postCreateCommand` nhanh (vài chục giây, không phải vài phút) và loại bỏ khả năng mỗi Codespace nạp dữ liệu khác nhau.
+- Container không bao giờ tự dựng lại `data/workshop.duckdb`/`data/tech_salary.duckdb` — nó chỉ đọc file đã build sẵn. Điều này giữ cho `postCreateCommand` nhanh (vài chục giây, không phải vài phút) và loại bỏ khả năng mỗi Codespace nạp dữ liệu khác nhau.
+- Đường **on-demand** (dữ liệu tùy chỉnh cục bộ) khác về bản chất với hai đường build-time ở trên: nó không chạy một lần bởi ban tổ chức, mà chạy lại **bất kỳ lúc nào** bởi chính người tham gia, trên máy của họ, và kết quả (`data/custom.duckdb`) không bao giờ đi qua Git/Git LFS — luôn git-ignored, không commit.
 
 ## Vòng đời một câu truy vấn
 
@@ -92,9 +110,13 @@ flowchart LR
         shim[".devcontainer/duckdb_shim.py\nfallback CLI cho môi trường musl/Alpine"]
         setupsh["setup.sh\nphiên bản cục bộ của postCreate.sh,\ndùng khi không chạy trong devcontainer"]
         schema["BANK_DATASET_SCHEMA.md\ntừ điển dữ liệu — nguồn sự thật duy nhất"]
+        schema2["TECH_SALARY_DATASET_SCHEMA.md\ntừ điển dữ liệu cho dataset thứ 2"]
         skillA[".claude/skills/sql-helper/SKILL.md\nfile thật"]
         skillB[".codex/skills/sql-helper/SKILL.md\nsymlink → bản .claude"]
         tmpl["templates/skill-template/SKILL.md\nkhung trống cho bài tập tự xây skill"]
+        tmplCustom["templates/custom-data-skill-template/SKILL.md\nkhung trống cho dữ liệu tùy chỉnh"]
+        tbuild["scripts/build_tech_salary_db.sh\nchỉ ban tổ chức"]
+        lcustom["load_custom_data.sh\nngười tham gia tự chạy cục bộ"]
         exdoc["exercises.md\ncâu hỏi mẫu để luyện tập"]
         docsSetup["docs/setup/\nkế hoạch + hướng dẫn thiết lập (ban tổ chức)"]
         docsRef["docs/reference/\nchecklist ngày diễn ra + xử lý sự cố (facilitator)"]
@@ -109,6 +131,8 @@ flowchart LR
     subgraph data_layer["Tầng dữ liệu"]
         direction TB
         duckdb_file["data/workshop.duckdb\n(Git LFS)"]
+        duckdb_file2["data/tech_salary.duckdb\n(Git LFS)"]
+        duckdb_custom["data/custom.duckdb\n(git-ignored, cục bộ)"]
     end
 
     cfg -->|"postCreateCommand"| pc
@@ -116,11 +140,17 @@ flowchart LR
     pc -->|"cài lên"| base --> installed
     pc -->|"musl fallback dùng"| shim
     pc -->|"chạy smoke test trên"| duckdb_file
+    pc -->|"chạy smoke test trên"| duckdb_file2
     installed -->|"đọc"| skillA
     skillA -.->|"symlink"| skillB
     skillA -->|"tham chiếu"| schema
+    skillA -->|"tham chiếu (Bước 7 tùy chọn)"| schema2
     skillA -->|"truy vấn"| duckdb_file
+    skillA -->|"truy vấn (Bước 7 tùy chọn)"| duckdb_file2
     tmpl -.->|"copy làm khung cho skill mới"| skillA
+    tbuild -->|"dựng"| duckdb_file2
+    lcustom -->|"dựng"| duckdb_custom
+    tmplCustom -.->|"copy làm khung cho skill truy vấn"| duckdb_custom
 ```
 
 ## Hai đường chạy container: Codespaces và cục bộ
@@ -134,9 +164,10 @@ flowchart LR
 | `postCreateCommand` / `postAttachCommand` | Giống hệt | Giống hệt |
 | Git LFS pull | Tự động qua GitHub token có sẵn | `git lfs pull` cần credentials cục bộ |
 | OAuth redirect (đăng nhập `claude`/`codex`) | Qua port forwarding của Codespaces | Qua `localhost` trực tiếp |
+| Bộ dữ liệu thứ hai (`data/tech_salary.duckdb`) | Preload tự động (cùng `git lfs pull`), smoke test riêng trong `postCreate.sh` | Preload tự động qua `setup.sh` (mirror smoke test) |
 | Dùng để | Trải nghiệm thật của người tham gia | Chạy thử của ban tổ chức trước ngày diễn ra (xem `../setup/Iteration_0_LocalTesting.md`) |
 
-`setup.sh` (ở gốc repo) là một đường thứ ba — dùng khi ai đó muốn chạy workshop **ngoài** devcontainer hoàn toàn (máy cá nhân, không Docker). Nó lặp lại đúng các bước của `postCreate.sh` (cài DuckDB/Claude/Codex CLI, `git lfs pull`, smoke test) nhưng chạy trực tiếp trên máy host thay vì trong container, và có thêm các bước kiểm tra prerequisite (`git`, `curl`, `node`) mà devcontainer đã đảm bảo sẵn qua base image.
+`setup.sh` (ở gốc repo) là một đường thứ ba — dùng khi ai đó muốn chạy workshop **ngoài** devcontainer hoàn toàn (máy cá nhân, không Docker). Nó lặp lại đúng các bước của `postCreate.sh` (cài DuckDB/Claude/Codex CLI, `git lfs pull`, smoke test cho cả hai database) nhưng chạy trực tiếp trên máy host thay vì trong container, và có thêm các bước kiểm tra prerequisite (`git`, `curl`, `node`, `git-lfs`) mà devcontainer đã đảm bảo sẵn qua base image — nếu thiếu, script chỉ báo lỗi kèm hướng dẫn cài thủ công, không tự cài (xem "Cài đặt cục bộ là tài liệu + trợ lý kỹ thuật" bên dưới).
 
 ## Các quyết định thiết kế đáng chú ý
 
@@ -146,12 +177,20 @@ flowchart LR
 - **Fallback musl/Alpine cho DuckDB CLI (`duckdb_shim.py`).** Binary CLI chính thức của DuckDB liên kết với glibc và không chạy trên musl. Thay vì yêu cầu mọi môi trường phải là glibc, `postCreate.sh` phát hiện Alpine và cài gói Python `duckdb` (có sẵn musllinux wheel) đứng sau một shim script mô phỏng interface CLI (`duckdb <db> -c "<SQL>"`, `-csv`, `-json`, `-noheader`, stdin). Bất kỳ thay đổi nào về cách workshop gọi CLI `duckdb` đều phải giữ tương thích với tập flag mà shim này hỗ trợ.
 - **Không có tầng validate SQL giữa model và DuckDB.** Model shell trực tiếp ra `duckdb` CLI với câu SQL nó tự sinh — không có allowlist câu lệnh, không có read-only enforcement ở tầng ứng dụng. An toàn dữ liệu dựa vào: (a) dataset là bản sao tổng hợp/không nhạy cảm, (b) mỗi người tham gia chỉ có quyền trên container/file của chính họ, và (c) các quy tắc trong `SKILL.md` (ví dụ ưu tiên `SELECT`/tổng hợp) là hướng dẫn hành vi cho model, không phải rào chắn kỹ thuật.
 - **Container tách biệt hoàn toàn khỏi `dataset/*.csv`.** File CSV gốc bị git-ignore và không tồn tại trong container lúc chạy — chỉ `data/workshop.duckdb` (đã build sẵn) mới quan trọng ở run-time. Điều này giữ cho kích thước container nhỏ và loại bỏ phụ thuộc vào toolchain build (Python + `duckdb` package) ở phía người tham gia.
+- **Hai file `.duckdb` độc lập cho hai dataset, không gộp chung schema.** `data/workshop.duckdb` và `data/tech_salary.duckdb` không có join xuyên dataset nào được kỳ vọng — giữ mô hình tinh thần đơn giản (mỗi dataset một file, một từ điển dữ liệu riêng) và loại bỏ hoàn toàn rủi ro đụng tên bảng/cột giữa hai domain không liên quan.
+- **Bài tập mở rộng dùng một skill hợp nhất, không phải hai skill riêng.** Người tham gia mở rộng chính `SKILL.md` họ đã xây để nó tự "ground" vào cả hai từ điển dữ liệu và tự chọn đúng database theo câu hỏi, thay vì copy sang một skill thứ hai. Đây là lựa chọn có cân nhắc — cách hai-skill-riêng an toàn và đơn giản hơn (không có rủi ro chọn nhầm database), nhưng một skill hợp nhất là phép thử trung thực hơn cho khả năng khái quát hóa của skill. Kỹ thuật cụ thể (nhiều lệnh `duckdb` riêng hay `ATTACH`) cố tình không được quy định trước.
+- **Cài đặt cục bộ là tài liệu + trợ lý kỹ thuật, không phải installer tự động.** Không có `setup.ps1` hay bước tự cài Homebrew/apt-get nào trong `setup.sh` — có một trợ lý kỹ thuật hỗ trợ trực tiếp người tham gia cài đặt cục bộ, nên đầu tư vào một hướng dẫn thủ công chính xác (`../setup/WORKSHOP_SETUP_GUIDE_LOCAL.md` Phần 0b/9 + `../reference/FACILITATOR_TROUBLESHOOTING.md`) mang lại giá trị cao hơn so với rủi ro/chi phí bảo trì một installer đa nền tảng không người giám sát.
+- **Dữ liệu tùy chỉnh cục bộ chỉ hỗ trợ CSV.** Excel/.xlsx bị loại khỏi phạm vi `load_custom_data.sh` một cách có chủ đích — việc đó được xử lý bởi một sản phẩm riêng (Claude for Excel), giới thiệu qua trình bày/demo, không xây lại trong repo này.
+- **Không có từ điển dữ liệu tự động sinh cho dữ liệu tùy chỉnh.** Khác với `BANK_DATASET_SCHEMA.md`/`TECH_SALARY_DATASET_SCHEMA.md` (do ban tổ chức viết trước), người tham gia tự khám phá schema dữ liệu của chính họ (`.tables`, `DESCRIBE`) và tự viết vào `SKILL.md` — một phần cố ý của bài tập, không phải tính năng còn thiếu.
 
 ## Bản đồ tài liệu liên quan
 
 - `../setup/WORKSHOP_SETUP_PLAN.md` — vì sao các quyết định thiết kế ở trên được đưa ra, dưới góc nhìn tổ chức workshop.
 - `../setup/WORKSHOP_SETUP_GUIDE_LOCAL.md`, `../setup/WORKSHOP_SETUP_GUIDE_CODESPACES.md` — checklist xác minh dry-run cho hai đường chạy container.
 - `../setup/Iteration_0_LocalTesting.md` — kiểm thử toàn bộ luồng run-time cục bộ trước khi mời người tham gia.
-- `../reference/DAY_OF_CHECKLIST.md`, `../reference/FACILITATOR_TROUBLESHOOTING.md` — vận hành thực tế trong ngày diễn ra.
-- `../../BANK_DATASET_SCHEMA.md` — từ điển dữ liệu đầy đủ (10 bảng).
+- `../reference/DAY_OF_CHECKLIST.md`, `../reference/FACILITATOR_TROUBLESHOOTING.md` — vận hành thực tế trong ngày diễn ra, bao gồm mục "Hỗ trợ cài đặt cục bộ" cho trợ lý kỹ thuật.
+- `../../BANK_DATASET_SCHEMA.md` — từ điển dữ liệu ngân hàng đầy đủ (10 bảng).
+- `../../TECH_SALARY_DATASET_SCHEMA.md` — từ điển dữ liệu cho dataset thứ hai (Tech Salary).
+- `../../scripts/build_tech_salary_db.sh` — công cụ nội bộ ban tổ chức dựng `data/tech_salary.duckdb`.
+- `../../load_custom_data.sh`, `../../templates/custom-data-skill-template/SKILL.md` — luồng dữ liệu tùy chỉnh cục bộ (tùy chọn, chỉ CSV).
 - `../../CLAUDE.md` — hướng dẫn dành cho Claude Code khi làm việc trong repo này (tiếng Anh, không dịch).

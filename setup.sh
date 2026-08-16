@@ -52,6 +52,11 @@ if [ ! -f "data/workshop.duckdb" ]; then
 fi
 ok "data/workshop.duckdb present"
 
+if [ ! -f "data/tech_salary.duckdb" ]; then
+  fail "data/tech_salary.duckdb is still missing after 'git lfs pull'. Confirm you're inside a clone of the workshop repo and that Git LFS is set up correctly."
+fi
+ok "data/tech_salary.duckdb present"
+
 step "DuckDB CLI"
 
 if command -v duckdb >/dev/null 2>&1; then
@@ -90,7 +95,19 @@ step "Data smoke test"
 ROW_COUNT="$(duckdb data/workshop.duckdb -csv -noheader -c "SELECT count(*) FROM transactions;")"
 echo "transactions table has ${ROW_COUNT} rows."
 [ "$ROW_COUNT" -ge 1 ] || fail "transactions table is empty — data did not load correctly."
-ok "smoke test passed"
+ok "smoke test passed (banking)"
+
+TECH_SALARY_TABLES="$(duckdb data/tech_salary.duckdb -csv -noheader -c "SELECT table_name FROM information_schema.tables ORDER BY table_name;")"
+[ -n "$TECH_SALARY_TABLES" ] || fail "data/tech_salary.duckdb has no tables — data did not build/load correctly."
+TECH_SALARY_TOTAL_ROWS=0
+while IFS= read -r TBL; do
+  [ -z "$TBL" ] && continue
+  CNT="$(duckdb data/tech_salary.duckdb -csv -noheader -c "SELECT count(*) FROM \"${TBL}\";")"
+  echo "${TBL} table has ${CNT} rows."
+  TECH_SALARY_TOTAL_ROWS=$((TECH_SALARY_TOTAL_ROWS + CNT))
+done <<< "$TECH_SALARY_TABLES"
+[ "$TECH_SALARY_TOTAL_ROWS" -ge 1 ] || fail "data/tech_salary.duckdb tables are all empty — data did not load correctly."
+ok "smoke test passed (tech-salary)"
 
 cat <<'BANNER'
 
@@ -104,5 +121,12 @@ cat <<'BANNER'
  2. Skim BANK_DATASET_SCHEMA.md to see what's in the dataset.
 
  3. Follow exercises.md to start asking questions.
+
+ 3b. (Tuỳ chọn) Xem TECH_SALARY_DATASET_SCHEMA.md và thử phần
+     mở rộng "Tech Salary" ở cuối exercises.md — mở rộng skill
+     bạn vừa xây để dùng được với cả hai bộ dữ liệu.
+
+ 4. (Tuỳ chọn) Có dữ liệu CSV của riêng bạn? Đặt file vào
+     my-data/ rồi chạy: ./load_custom_data.sh
 ========================================================
 BANNER

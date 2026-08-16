@@ -31,11 +31,23 @@ fi
 # needs, so a hook conflict here must not abort the whole setup.
 git lfs install --local || true
 
-echo "== Pulling LFS data (data/workshop.duckdb) =="
+echo "== Pulling LFS data (data/workshop.duckdb, data/tech_salary.duckdb) =="
 git lfs pull
 
 if head -c 20 data/workshop.duckdb 2>/dev/null | grep -q "git-lfs"; then
   echo "ERROR: data/workshop.duckdb is still an LFS pointer, not the real file." >&2
+  echo "        Run 'git lfs pull' manually once you have GitHub credentials." >&2
+  exit 1
+fi
+
+if [ ! -f data/tech_salary.duckdb ]; then
+  echo "ERROR: data/tech_salary.duckdb is missing. The organizer needs to build and" >&2
+  echo "        commit it first — see scripts/build_tech_salary_db.sh." >&2
+  exit 1
+fi
+
+if head -c 20 data/tech_salary.duckdb 2>/dev/null | grep -q "git-lfs"; then
+  echo "ERROR: data/tech_salary.duckdb is still an LFS pointer, not the real file." >&2
   echo "        Run 'git lfs pull' manually once you have GitHub credentials." >&2
   exit 1
 fi
@@ -81,6 +93,24 @@ echo "Smoke test: transactions table has ${ROW_COUNT} rows."
 
 if [ "$ROW_COUNT" -lt 1 ]; then
   echo "ERROR: transactions table is empty — data did not load correctly." >&2
+  exit 1
+fi
+
+echo "== Verifying tech-salary data =="
+TECH_SALARY_TABLES=$(duckdb data/tech_salary.duckdb -csv -noheader -c "SELECT table_name FROM information_schema.tables ORDER BY table_name;")
+if [ -z "$TECH_SALARY_TABLES" ]; then
+  echo "ERROR: data/tech_salary.duckdb has no tables — data did not build/load correctly." >&2
+  exit 1
+fi
+TECH_SALARY_TOTAL_ROWS=0
+while IFS= read -r TBL; do
+  [ -z "$TBL" ] && continue
+  CNT=$(duckdb data/tech_salary.duckdb -csv -noheader -c "SELECT count(*) FROM \"${TBL}\";")
+  echo "Smoke test: ${TBL} table has ${CNT} rows."
+  TECH_SALARY_TOTAL_ROWS=$((TECH_SALARY_TOTAL_ROWS + CNT))
+done <<< "$TECH_SALARY_TABLES"
+if [ "$TECH_SALARY_TOTAL_ROWS" -lt 1 ]; then
+  echo "ERROR: data/tech_salary.duckdb tables are all empty — data did not load correctly." >&2
   exit 1
 fi
 

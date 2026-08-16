@@ -1,2 +1,7 @@
 dataset/
 *.csv
+tech_salary_dataset/
+my-data/
+data/custom.duckdb
+data/custom.duckdb.wal
+data/tech_salary.duckdb.wal
