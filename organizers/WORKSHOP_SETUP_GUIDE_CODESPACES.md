@@ -14,7 +14,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
 - [ ] Một **tài khoản Claude.ai** có gói đang hoạt động (Pro/Max), hoặc một API key Anthropic cá nhân.
 - [ ] Một **tài khoản ChatGPT** có quyền truy cập Codex (Plus/Pro/Business/Edu), hoặc một API key OpenAI cá nhân.
 - [ ] `data/workshop.duckdb` được theo dõi qua Git LFS và đã push lên `origin/main` (`git lfs ls-files` phải liệt kê nó; đã xác nhận có mặt cục bộ ở khoảng 75MB).
-- [ ] `data/tech_salary.duckdb` cũng đã được dựng (xem `WORKSHOP_SETUP_PLAN.md` → Phần 0b, `scripts/build_tech_salary_db.sh`), theo dõi qua Git LFS, và đã push lên `origin/main` — bắt buộc để `postCreateCommand` không báo lỗi cho người tham gia.
+- [ ] `data/tech_salary.duckdb` cũng đã được dựng (xem `WORKSHOP_SETUP_PLAN.md` → Phần 0b, `build_tech_salary_db.sh`), theo dõi qua Git LFS, và đã push lên `origin/main` — bắt buộc để `postCreateCommand` không báo lỗi cho người tham gia.
 
 ---
 
@@ -29,7 +29,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
    - `npm install -g @anthropic-ai/claude-code`
    - Cài Codex CLI
    - Chạy smoke test dữ liệu — nó phải in ra `Smoke test: transactions table has 2000000 rows.`, rồi ít nhất một dòng `Smoke test: <tên_bảng> table has <n> rows.` cho `data/tech_salary.duckdb`, rồi `== Setup complete ==`
-4. **Nếu log hiện lỗi và build thất bại**, dừng lại ngay và sửa lỗi (xem `../reference/FACILITATOR_TROUBLESHOOTING.md` → "`data/workshop.duckdb` missing or empty") trước khi làm bất cứ điều gì khác — một `postCreateCommand` bị hỏng sẽ thất bại y hệt với mọi người tham gia.
+4. **Nếu log hiện lỗi và build thất bại**, dừng lại ngay và sửa lỗi (xem `FACILITATOR_TROUBLESHOOTING.md` → "`data/workshop.duckdb` missing or empty") trước khi làm bất cứ điều gì khác — một `postCreateCommand` bị hỏng sẽ thất bại y hệt với mọi người tham gia.
 5. Khi Codespace mở lên, bạn sẽ thấy banner chào mừng của `postAttach.sh` được in trong terminal:
    ```
    ========================================================
@@ -40,7 +40,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
    ========================================================
    ```
 
-**Đo thời gian bước này.** Ghi lại thời gian thực tế từ lúc click "Create codespace" đến khi banner xuất hiện — bạn sẽ cần con số này cho agenda ngày diễn ra (xem `../reference/DAY_OF_CHECKLIST.md`).
+**Đo thời gian bước này.** Ghi lại thời gian thực tế từ lúc click "Create codespace" đến khi banner xuất hiện — bạn sẽ cần con số này cho agenda ngày diễn ra (xem `DAY_OF_CHECKLIST.md`).
 
 ---
 
@@ -92,7 +92,7 @@ Làm theo URL được in ra / lời nhắc "Sign in with ChatGPT" (hoặc dán 
 - Kiểm tra xem tài khoản GitHub/Claude/OpenAI của bạn có nằm sau SSO của tổ chức không — thử một tài khoản cá nhân thay thế.
 - Kiểm tra tab **Ports** trong VS Code — tạm thời đặt visibility của port xác thực được forward thành "Public," thử lại, rồi đặt lại như cũ.
 
-(Chi tiết đầy đủ trong `../reference/FACILITATOR_TROUBLESHOOTING.md`.)
+(Chi tiết đầy đủ trong `FACILITATOR_TROUBLESHOOTING.md`.)
 
 ---
 
@@ -180,7 +180,7 @@ Khi các bước 1–9 đều đạt trơn tru trong một Codespace mới:
 - [ ] Đặt **giới hạn chi tiêu Codespaces** phù hợp với số người tham gia dự kiến × nửa ngày sử dụng (org/repo → Settings → Billing → Codespaces spending limit).
 - [ ] Xác nhận Codespaces được bật cho loại tài khoản mà người tham gia sẽ thực sự dùng — tài khoản cá nhân hoạt động sẵn; tài khoản work/enterprise có thể cần admin của tổ chức bật lên. Nêu rõ điều này trong thông báo trước workshop nếu liên quan.
 - [ ] Quay lại video màn hình dự phòng khoảng 2 phút của luồng chuẩn này trong trường hợp demo trực tiếp gặp sự cố vào ngày diễn ra.
-- [ ] Chuyển sang `../reference/DAY_OF_CHECKLIST.md` cho phần hậu cần còn lại trước workshop và ngày diễn ra.
+- [ ] Chuyển sang `DAY_OF_CHECKLIST.md` cho phần hậu cần còn lại trước workshop và ngày diễn ra.
 
 ---
 
@@ -196,9 +196,9 @@ Khi các bước 1–9 đều đạt trơn tru trong một Codespace mới:
 | `.devcontainer/` | Định nghĩa môi trường Codespaces |
 | `data/workshop.duckdb` | DB ngân hàng đã nạp sẵn (Git LFS) |
 | `data/tech_salary.duckdb`, `schemas/TECH_SALARY_DATASET_SCHEMA.md` | DB thứ hai + data dictionary, dùng cho Bước 7 (tùy chọn) trong `exercises.md` |
-| `scripts/build_tech_salary_db.sh` | Công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb` (xem Phần 0b của `WORKSHOP_SETUP_PLAN.md`) |
-| `docs/setup/WORKSHOP_SETUP_PLAN.md` | Bối cảnh/lý do đầy đủ cho ban tổ chức về tất cả những điều trên |
-| `docs/reference/DAY_OF_CHECKLIST.md` | Checklist hậu cần trước workshop và ngày diễn ra |
-| `docs/reference/FACILITATOR_TROUBLESHOOTING.md` | Xử lý sự cố trong buổi trực tiếp (chỉ dành cho facilitator) |
-| `docs/setup/WORKSHOP_SETUP_GUIDE_LOCAL.md` | Chạy workshop trực tiếp trên máy của bạn, không cần GitHub/Codespaces |
-| `docs/setup/Iteration_0_LocalTesting.md` | Phiên bản cục bộ dựa trên Docker/devcontainer tương đương hướng dẫn này |
+| `build_tech_salary_db.sh` | Công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb` (xem Phần 0b của `WORKSHOP_SETUP_PLAN.md`) |
+| `WORKSHOP_SETUP_PLAN.md` | Bối cảnh/lý do đầy đủ cho ban tổ chức về tất cả những điều trên |
+| `DAY_OF_CHECKLIST.md` | Checklist hậu cần trước workshop và ngày diễn ra |
+| `FACILITATOR_TROUBLESHOOTING.md` | Xử lý sự cố trong buổi trực tiếp (chỉ dành cho facilitator) |
+| `WORKSHOP_SETUP_GUIDE_LOCAL.md` | Chạy workshop trực tiếp trên máy của bạn, không cần GitHub/Codespaces |
+| `Iteration_0_LocalTesting.md` | Phiên bản cục bộ dựa trên Docker/devcontainer tương đương hướng dẫn này |

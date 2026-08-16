@@ -58,6 +58,8 @@ Các câu này cố tình phức tạp — không có một câu SQL "đúng" du
 
 Đặt lại một vài câu hỏi từ Bước 3 (mỗi cấp độ một câu là đủ), hoặc một câu hỏi mới. Xác nhận rằng hành vi của AI giờ đã tuân theo quy tắc của bạn — đặc biệt ở các câu Nâng cao, đây là nơi dễ thấy rõ nhất liệu skill của bạn có giúp AI xử lý tốt hơn các truy vấn phức tạp hay không. Đó chính là khoảnh khắc "à ha": bạn chỉ viết ngôn ngữ tự nhiên, không phải code, mà nó đã thay đổi cách AI hành xử.
 
+Muốn tự đối chiếu kết quả của Bước 3 với một đáp án tham khảo? Xem `participants/exercises_answer_key.ipynb`.
+
 ## Bước 6 — Chia sẻ kết quả
 
 Một vài tình nguyện viên trình bày file skill của mình và demo một câu hỏi/câu trả lời trực tiếp cho cả nhóm.

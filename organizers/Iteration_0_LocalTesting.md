@@ -48,7 +48,7 @@ flowchart TB
 
 **Các điểm cần rà soát kỹ khi xem lại:**
 
-- `data/workshop.duckdb` được build một lần, bên ngoài container, và được vận chuyển qua Git LFS — container không bao giờ tự tạo lại nó, chỉ đọc nó. Nếu LFS không pull được, smoke test của `postCreate.sh` sẽ bắt được điều này (xem `../reference/FACILITATOR_TROUBLESHOOTING.md`).
+- `data/workshop.duckdb` được build một lần, bên ngoài container, và được vận chuyển qua Git LFS — container không bao giờ tự tạo lại nó, chỉ đọc nó. Nếu LFS không pull được, smoke test của `postCreate.sh` sẽ bắt được điều này (xem `FACILITATOR_TROUBLESHOOTING.md`).
 - Container không phụ thuộc trực tiếp vào `dataset/*.csv` — các file đó bị git-ignore và không liên quan ở run time. Chỉ `data/workshop.duckdb` và các file markdown/skill của repo mới quan trọng khi container đã chạy.
 - `claude` và `codex` không nói chuyện trực tiếp với `data/workshop.duckdb` — chúng shell out sang CLI `duckdb`, dùng hướng dẫn từ `SKILL.md` (dựa trên `schemas/BANK_DATASET_SCHEMA.md`) để quyết định viết SQL gì và tuân theo quy tắc nào.
 - `.claude/skills/` và `.codex/skills/` được giữ đồng bộ bằng cách mirror cùng một `SKILL.md` (hiện tại qua symlink cho skill mẫu) để cả hai CLI hoạt động giống hệt nhau — đáng để xác nhận điều này vẫn đúng với bất kỳ skill mới nào bạn thêm qua `templates/skill-template/`.
@@ -129,7 +129,7 @@ claude
 codex
 ```
 
-Làm theo các bước OAuth (hoặc đặt một API key theo hướng dẫn ở phần "Before you arrive" của README). Đây là bước có khả năng cao nhất sẽ hoạt động khác so với một Codespace mới — port forwarding và redirect trình duyệt hoạt động khác nhau khi chạy cục bộ, vì vậy đừng xem việc đăng nhập cục bộ trơn tru là bằng chứng đầy đủ rằng nó sẽ hoạt động trên Codespaces. Hãy thực hiện thêm một lần chạy thử Codespaces thật (xem `../reference/DAY_OF_CHECKLIST.md`).
+Làm theo các bước OAuth (hoặc đặt một API key theo hướng dẫn ở phần "Before you arrive" của README). Đây là bước có khả năng cao nhất sẽ hoạt động khác so với một Codespace mới — port forwarding và redirect trình duyệt hoạt động khác nhau khi chạy cục bộ, vì vậy đừng xem việc đăng nhập cục bộ trơn tru là bằng chứng đầy đủ rằng nó sẽ hoạt động trên Codespaces. Hãy thực hiện thêm một lần chạy thử Codespaces thật (xem `DAY_OF_CHECKLIST.md`).
 
 ## Bước 7 — Kiểm thử skill mẫu
 
@@ -159,4 +159,4 @@ Hoặc chỉ cần `docker ps` / `docker rm -f <container>` nếu `down` không 
 
 ## Khi tất cả đều đạt
 
-Chuyển sang bước chạy thử thật trong `../reference/DAY_OF_CHECKLIST.md` — một Codespace mới được tạo đúng như một người tham gia sẽ làm, đo thời gian từ đầu đến cuối. Kiểm thử cục bộ bắt được các script hỏng và logic skill sai; chỉ một Codespace thật mới bắt được các vấn đề đặc thù của Codespaces (prebuild, redirect OAuth, LFS pull, giới hạn chi tiêu).
+Chuyển sang bước chạy thử thật trong `DAY_OF_CHECKLIST.md` — một Codespace mới được tạo đúng như một người tham gia sẽ làm, đo thời gian từ đầu đến cuối. Kiểm thử cục bộ bắt được các script hỏng và logic skill sai; chỉ một Codespace thật mới bắt được các vấn đề đặc thù của Codespaces (prebuild, redirect OAuth, LFS pull, giới hạn chi tiêu).

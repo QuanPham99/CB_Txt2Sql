@@ -42,7 +42,7 @@ fi
 
 if [ ! -f data/tech_salary.duckdb ]; then
   echo "ERROR: data/tech_salary.duckdb is missing. The organizer needs to build and" >&2
-  echo "        commit it first — see scripts/build_tech_salary_db.sh." >&2
+  echo "        commit it first — see organizers/build_tech_salary_db.sh." >&2
   exit 1
 fi
 

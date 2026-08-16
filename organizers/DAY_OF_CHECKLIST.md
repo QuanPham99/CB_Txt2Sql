@@ -1,6 +1,6 @@
 # Checklist Cho Ban Tổ Chức — Chạy Thử & Hậu Cần Ngày Diễn Ra
 
-Tài liệu đi kèm Phần 3 của `../setup/WORKSHOP_SETUP_PLAN.md`. Các mục đánh dấu **[THỦ CÔNG]** diễn ra trên website của GitHub hoặc trong một buổi trực tiếp, không thể thực hiện từ repo này — chúng được liệt kê ở đây để không bị bỏ sót.
+Tài liệu đi kèm Phần 3 của `WORKSHOP_SETUP_PLAN.md`. Các mục đánh dấu **[THỦ CÔNG]** diễn ra trên website của GitHub hoặc trong một buổi trực tiếp, không thể thực hiện từ repo này — chúng được liệt kê ở đây để không bị bỏ sót.
 
 ## Vài ngày trước
 

@@ -46,7 +46,7 @@ ngân hàng.
    gốc repo (thư mục này bị git bỏ qua, giống `dataset/`).
 3. Chạy:
    ```bash
-   ./scripts/build_tech_salary_db.sh
+   ./organizers/build_tech_salary_db.sh
    ```
    Script tự nhận diện mọi file CSV trong `tech_salary_dataset/` (tự giải nén
    `.zip` nếu cần), tạo một bảng cho mỗi CSV trong `data/tech_salary.duckdb`,
@@ -68,7 +68,8 @@ ngân hàng.
 6. Điền câu hỏi ví dụ cụ thể vào Bước 7 của `exercises.md` (hiện đang là
    TODO, vì tên bảng/cột thật chưa xác định được cho tới khi bạn tải file ở
    bước 1), và các cell tương ứng trong
-   `docs/reference/exercises_answer_key.ipynb`.
+   `../participants/exercises_answer_key.ipynb` (notebook này dành cho
+   người tham gia tự đối chiếu kết quả, không còn là tài liệu facilitator-only).
 7. Commit cả `data/tech_salary.duckdb` (đã được theo dõi qua Git LFS bởi
    pattern `data/*.duckdb` có sẵn trong `.gitattributes` — không cần chỉnh
    gì thêm) và `schemas/TECH_SALARY_DATASET_SCHEMA.md`.
@@ -165,8 +166,8 @@ ngân hàng.
   Việc mở rộng skill là bài tập của người tham gia, không phải thứ họ copy từ
   một ví dụ mẫu thứ hai.
 - **Không chấm điểm tự động.** Vẫn theo đúng pattern hiện tại: `exercises.md`
-  + notebook đáp án tham khảo (`docs/reference/exercises_answer_key.ipynb`),
-  người tham gia/facilitator tự đối chiếu bằng mắt.
+  + notebook đáp án tham khảo (`../participants/exercises_answer_key.ipynb`),
+  người tham gia tự đối chiếu bằng mắt.
 - **"Insight Report dựa trên SQL" chỉ là gợi ý take-home**, không phải một
   skill/script/template nào được xây trong repo — mục tiêu chính của phần
   này là dạy cách xây skill và kiểm thử nó với tác vụ Text-to-SQL; bước tiếp
@@ -176,8 +177,8 @@ ngân hàng.
 ## Phần 7 (tùy chọn) — Dữ liệu tùy chỉnh cục bộ: vì sao lại thiết kế như vậy
 
 - **Chạy cục bộ, không phải Codespaces** — người tham gia clone repo về máy
-  cá nhân. Xem `WORKSHOP_SETUP_GUIDE_LOCAL.md` (Phần 0b, Phần 9) cho hướng
-  dẫn từng bước.
+  cá nhân. Xem `../participants/LOCAL_SETUP_GUIDE.md` (Phần A, Phần C) cho
+  hướng dẫn từng bước.
 - **Hướng dẫn thủ công + trợ lý kỹ thuật, không phải installer tự động.** Có
   một trợ lý kỹ thuật hỗ trợ trực tiếp người tham gia cài đặt, nên phần này
   ưu tiên một tài liệu rõ ràng, chính xác (để trợ lý đọc/làm cùng người tham
