@@ -58,7 +58,7 @@ Các câu này cố tình phức tạp — không có một câu SQL "đúng" du
 
 Đặt lại một vài câu hỏi từ Bước 3 (mỗi cấp độ một câu là đủ), hoặc một câu hỏi mới. Xác nhận rằng hành vi của AI giờ đã tuân theo quy tắc của bạn — đặc biệt ở các câu Nâng cao, đây là nơi dễ thấy rõ nhất liệu skill của bạn có giúp AI xử lý tốt hơn các truy vấn phức tạp hay không. Đó chính là khoảnh khắc "à ha": bạn chỉ viết ngôn ngữ tự nhiên, không phải code, mà nó đã thay đổi cách AI hành xử.
 
-Muốn tự đối chiếu kết quả của Bước 3 với một đáp án tham khảo? Xem `participants/exercises_answer_key_bank_schema.ipynb`.
+Muốn tự đối chiếu kết quả của Bước 3 với một đáp án tham khảo? Xem `participants/exercises_answer_key_bank_schema.ipynb` (facilitator sẽ publish file này vào cuối buổi, sau phần thực hành).
 
 ## Bước 6 — Chia sẻ kết quả
 
@@ -105,7 +105,7 @@ kỹ thuật đó vào skill của chính mình.
      thị trường tech nói chung" (gợi ý đáp án: USAJOBS ~143.374 USD so với
      ~141.565 USD trên toàn bộ `global_tech_market_2026` — khá gần nhau)
 
-Muốn luyện thêm với bộ dữ liệu này? Xem `participants/exercises_answer_key_salary_schema.ipynb` — có thêm các câu Cơ bản/Trung cấp/Nâng cao khác, không có trong danh sách trên.
+Muốn luyện thêm với bộ dữ liệu này? Xem `participants/exercises_answer_key_salary_schema.ipynb` — có thêm các câu Cơ bản/Trung cấp/Nâng cao khác, không có trong danh sách trên (facilitator sẽ publish file này vào cuối buổi).
 
 > Gợi ý mở rộng sau workshop (không phải bài tập, không có trong repo này):
 > skill của bạn cũng có thể học cách nối nhiều truy vấn lại thành một bản tóm
