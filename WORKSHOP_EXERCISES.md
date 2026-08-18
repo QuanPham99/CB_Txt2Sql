@@ -14,9 +14,9 @@ Mở terminal trong repo này và khởi động `claude` hoặc `codex`. Đặt
 
 Quan sát nó đọc skill, viết SQL chạy trên `data/workshop.duckdb`, thực thi, và giải thích câu trả lời.
 
-## Bước 3 — Thử lần lượt các câu hỏi sau
+## Bước 3 — Bài tập 1: Bank Transaction Schema
 
-Bộ câu hỏi dưới đây chia làm 3 cấp độ tăng dần, dùng để kiểm tra xem skill (`SKILL.md`) xử lý tốt đến đâu — từ truy vấn một bảng đơn giản, đến join nhiều bảng, đến những câu đòi hỏi CTE/window function và suy luận nghiệp vụ thật sự. Đi từ trên xuống dưới; nếu câu trả lời có vẻ sai ở bất kỳ đâu, hãy yêu cầu AI hiển thị SQL nó đã chạy — thường lỗi sẽ lộ rõ ở đó.
+Đây là bài tập đầu tiên trong 2 bài tập của workshop — bài còn lại (Salary Schema) nằm ở Bước 7. Bộ câu hỏi dưới đây chia làm 3 cấp độ tăng dần, dùng để kiểm tra xem skill (`SKILL.md`) xử lý tốt đến đâu trên `data/workshop.duckdb` — từ truy vấn một bảng đơn giản, đến join nhiều bảng, đến những câu đòi hỏi CTE/window function và suy luận nghiệp vụ thật sự. Đi từ trên xuống dưới; nếu câu trả lời có vẻ sai ở bất kỳ đâu, hãy yêu cầu AI hiển thị SQL nó đã chạy — thường lỗi sẽ lộ rõ ở đó.
 
 ### Cấp độ Cơ bản — một bảng, tổng hợp đơn giản
 
@@ -25,6 +25,11 @@ Bộ câu hỏi dưới đây chia làm 3 cấp độ tăng dần, dùng để k
 3. Có bao nhiêu ticket hỗ trợ đang ở trạng thái "Open," phân theo loại vấn đề?
 4. Liệt kê 10 khoản vay (loan) có số tiền gốc (`loan_amount`) lớn nhất, kèm loại vay và trạng thái.
 5. Trong số các giao dịch thẻ (`card_transactions`), bao nhiêu phần trăm bị đánh dấu gian lận (`is_fraud`)?
+6. Số lượng khách hàng theo từng nghề nghiệp (`occupation`), sắp xếp giảm dần?
+7. Lương trung bình hàng năm của nhân viên (`employees.salary`), phân theo từng vai trò (`role`)?
+8. Có bao nhiêu thẻ (`cards`) ở mỗi loại thẻ (`card_type`), phân theo trạng thái (`status`)?
+9. Tổng số tiền giao dịch (`transactions.amount`) theo từng kênh giao dịch (`channel`) là bao nhiêu?
+10. Có bao nhiêu khoản vay (`loans`) ở mỗi trạng thái (`status`), kèm tổng dư nợ gốc (`loan_amount`)?
 
 ### Cấp độ Trung cấp — join 2 bảng, GROUP BY có điều kiện
 
@@ -64,15 +69,16 @@ Muốn tự đối chiếu kết quả của Bước 3 với một đáp án tha
 
 Một vài tình nguyện viên trình bày file skill của mình và demo một câu hỏi/câu trả lời trực tiếp cho cả nhóm.
 
-## Bước 7 (tùy chọn) — Mở rộng: bộ dữ liệu Tech Salary
+## Bước 7 (tùy chọn) — Bài tập 2: Salary Schema
 
-Bài tập nhanh này không dạy kỹ năng mới — nó chứng minh rằng skill bạn vừa xây ở
-Bước 4 áp dụng được cho một bộ dữ liệu hoàn toàn khác, không chỉ riêng dữ liệu
-ngân hàng. Có một database DuckDB thứ hai, độc lập với database ngân hàng:
-`data/tech_salary.duckdb`. Đây cũng chính xác là kỹ thuật mà skill mẫu
-`sql-helper` bạn đọc ở Bước 1 đã dùng — nó tự chọn đúng database dựa vào chủ đề
-câu hỏi thay vì gắn cứng với một database duy nhất. Bây giờ bạn sẽ tự tay thêm
-kỹ thuật đó vào skill của chính mình.
+Đây là bài tập thứ hai trong 2 bài tập của workshop (bài đầu — Bank Transaction
+Schema — nằm ở Bước 3). Bài tập này không dạy kỹ năng mới — nó chứng minh rằng
+skill bạn vừa xây ở Bước 4 áp dụng được cho một bộ dữ liệu hoàn toàn khác,
+không chỉ riêng dữ liệu ngân hàng. Có một database DuckDB thứ hai, độc lập với
+database ngân hàng: `data/tech_salary.duckdb`. Đây cũng chính xác là kỹ thuật
+mà skill mẫu `sql-helper` bạn đọc ở Bước 1 đã dùng — nó tự chọn đúng database
+dựa vào chủ đề câu hỏi thay vì gắn cứng với một database duy nhất. Bây giờ bạn
+sẽ tự tay thêm kỹ thuật đó vào skill của chính mình.
 
 1. Mở `schemas/TECH_SALARY_DATASET_SCHEMA.md` — từ điển dữ liệu cho
    `data/tech_salary.duckdb`, cùng định dạng với `schemas/BANK_DATASET_SCHEMA.md`.
@@ -89,23 +95,59 @@ kỹ thuật đó vào skill của chính mình.
    - Kỹ thuật để làm việc với cả hai database trong cùng một skill (chạy hai
      lệnh `duckdb <file> -c "..."` riêng biệt, hay dùng `ATTACH` để mở cả hai
      cùng lúc) — không quy định trước, tự bạn quyết định cách nào phù hợp.
-3. Đặt các câu hỏi sau bằng ngôn ngữ tự nhiên (đừng gõ SQL trực tiếp — để skill
-   tự sinh SQL) và xác nhận skill của bạn chọn đúng database
+3. Đặt lần lượt các câu hỏi dưới đây bằng ngôn ngữ tự nhiên (đừng gõ SQL trực
+   tiếp — để skill tự sinh SQL) và xác nhận skill của bạn chọn đúng database
    (`data/tech_salary.duckdb`, không phải `data/workshop.duckdb`) cho từng câu,
    vẫn tuân theo các quy tắc riêng bạn đã viết ở Bước 4 dù đang chạy trên schema
-   mới:
-   - "Mức lương trung bình cho vị trí Data Scientist là bao nhiêu?" (gợi ý đáp
-     án: ~122.723 USD, tính trên trung bình `salary_min_usd`/`salary_max_usd`,
-     gộp cả hai bảng, 769 tin đăng)
-   - "3 tổ hợp công nghệ (tech_stack) xuất hiện trong nhiều tin đăng nhất là
-     gì?" (gợi ý đáp án: `Java, Spring Boot, Kafka, PostgreSQL` (1.555 tin),
-     `Rust, WebAssembly, System Architecture` (1.548 tin), `Ruby on Rails,
-     Redis, Heroku` (1.528 tin))
-   - "So sánh mức lương tối đa trung bình giữa tin đăng từ USAJOBS và toàn bộ
-     thị trường tech nói chung" (gợi ý đáp án: USAJOBS ~143.374 USD so với
-     ~141.565 USD trên toàn bộ `global_tech_market_2026` — khá gần nhau)
+   mới. Cùng 3 cấp độ như Bước 3, nhưng vì `global_tech_market_2026` và
+   `usajobs_tech_roles_2026` không có khóa ngoại nối nhau, "Trung cấp" ở đây là
+   `UNION ALL` hai bảng + điều kiện lọc/phân nhóm, không phải JOIN như dữ liệu
+   ngân hàng.
 
-Muốn luyện thêm với bộ dữ liệu này? Xem `participants/exercises_answer_key_salary_schema.ipynb` — có thêm các câu Cơ bản/Trung cấp/Nâng cao khác, không có trong danh sách trên (facilitator sẽ publish file này vào cuối buổi).
+### Cấp độ Cơ bản — một bảng (hoặc `UNION ALL` đơn giản), tổng hợp cơ bản
+
+1. Mức lương trung bình cho vị trí Data Scientist là bao nhiêu? (gợi ý đáp án:
+   ~122.723 USD, tính trên trung bình `salary_min_usd`/`salary_max_usd`, gộp cả
+   hai bảng, 769 tin đăng)
+2. 3 tổ hợp công nghệ (`tech_stack`) xuất hiện trong nhiều tin đăng nhất là gì?
+   (gợi ý đáp án: `Java, Spring Boot, Kafka, PostgreSQL` (1.555 tin), `Rust,
+   WebAssembly, System Architecture` (1.548 tin), `Ruby on Rails, Redis,
+   Heroku` (1.528 tin))
+3. So sánh mức lương tối đa trung bình giữa tin đăng từ USAJOBS và toàn bộ thị
+   trường tech nói chung (gợi ý đáp án: USAJOBS ~143.374 USD so với ~141.565
+   USD trên toàn bộ `global_tech_market_2026` — khá gần nhau).
+4. Số lượng tin đăng theo từng chức danh (`job_title`) trong
+   `global_tech_market_2026`, sắp xếp giảm dần?
+5. Mức lương tối đa trung bình (`salary_max_usd`) theo từng địa điểm
+   (`location`) trong `global_tech_market_2026`?
+
+### Cấp độ Trung cấp — kết hợp `UNION ALL` cả hai bảng, phân nhóm/lọc theo nhiều tiêu chí
+
+1. Mức lương trung bình và số tin đăng có khác nhau giữa vị trí Remote và vị
+   trí tại văn phòng không?
+2. Trong số các tin đăng có `tech_stack` chứa "Python", mức lương trung bình
+   theo từng chức danh (`job_title`) là bao nhiêu?
+3. Mức lương trung bình chênh lệch bao nhiêu giữa các vị trí cấp cao (chức
+   danh có tiền tố Senior/Lead/Staff) và các vị trí còn lại?
+4. Trong `usajobs_tech_roles_2026`, cơ quan (`company_name`) nào trả mức
+   lương trung bình cao nhất?
+5. 5 chức danh (`job_title`) nào có tỷ lệ tin đăng Remote cao nhất?
+
+### Cấp độ Nâng cao — CTE/window function, suy luận nghiệp vụ
+
+Không có một câu SQL "đúng" duy nhất — SQL tham khảo trong đáp án mẫu chỉ là
+một cách hợp lý để trả lời.
+
+1. **Xếp hạng độ hấp dẫn:** kết hợp mức lương trung bình (70%) và số lượng tin
+   đăng (30%) mỗi chức danh, cả hai chuẩn hóa min-max, thành một điểm 0–100.
+2. Trong số các tổ hợp công nghệ (`tech_stack`) có ít nhất 500 tin đăng, tổ
+   hợp nào trả lương trung bình cao nhất?
+3. Trong nhóm 10% tin đăng có `salary_max_usd` cao nhất (`PERCENT_RANK()`),
+   chức danh (`job_title`) nào chiếm đa số?
+4. Với mỗi nguồn tin đăng (`source`), tổ hợp công nghệ (`tech_stack`) phổ biến
+   nhất là gì? (`ROW_NUMBER()` theo `PARTITION BY source`)
+
+Muốn tự đối chiếu kết quả? Xem `participants/exercises_answer_key_salary_schema.ipynb` (facilitator sẽ publish file này vào cuối buổi).
 
 > Gợi ý mở rộng sau workshop (không phải bài tập, không có trong repo này):
 > skill của bạn cũng có thể học cách nối nhiều truy vấn lại thành một bản tóm

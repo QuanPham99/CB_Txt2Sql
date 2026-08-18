@@ -63,7 +63,7 @@ bước đã đúng trước khi chuyển sang bước kế.
   cần `sudo` về sau.
 
 **Trạng thái đúng khi hoàn tất** (để bạn xác nhận thay vì đoán):
-- `./setup.sh` chạy xong không có dòng nào bắt đầu bằng `ERROR:`, và in ra
+- `./participants/local_setup/setup.sh` chạy xong không có dòng nào bắt đầu bằng `ERROR:`, và in ra
   banner "Setup complete! Next steps" ở cuối — giống hệt log mà
   `postCreate.sh` in ra trong Codespaces.
 - Cả hai smoke test đều xuất hiện: `transactions table has 2000000 rows.`

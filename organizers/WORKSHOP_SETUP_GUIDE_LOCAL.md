@@ -140,7 +140,7 @@ Xác nhận nó:
 ## 7. Làm qua các bài tập
 
 ```bash
-open exercises.md
+open WORKSHOP_EXERCISES.md
 ```
 
 Tự làm qua tất cả các câu hỏi ví dụ, theo thứ tự. Nếu câu trả lời nào có vẻ sai hoặc model tự bịa cột/bảng, hãy sửa `SKILL.md` hoặc `schemas/BANK_DATASET_SCHEMA.md` ngay bây giờ.
@@ -173,7 +173,7 @@ Nếu bạn đang kiểm thử với vài người trực tiếp thay vì một 
 ## Các lưu ý chỉ áp dụng khi chạy cục bộ
 
 - `dataset/*.csv` (các file CSV gốc từ Kaggle) bị git bỏ qua — chúng không cần thiết lúc chạy, chỉ `data/workshop.duckdb` mới quan trọng. Nếu bạn cần dựng lại file `.duckdb` từ đầu, xem Phần 0 của `WORKSHOP_SETUP_PLAN.md`.
-- Windows thuần (không có WSL2) không được hướng dẫn này hỗ trợ trực tiếp — các lệnh cài đặt trong `postCreate.sh`/`setup.sh` chỉ chạy trên Bash. Xem `../participants/LOCAL_SETUP_GUIDE.md` (Phần A) để cài WSL2 từng bước; sau đó mọi thứ chạy y hệt macOS/Linux bên trong cửa sổ Ubuntu. Nếu không muốn cài WSL2, dùng Codespaces thay thế để tránh hẳn vấn đề hệ điều hành.
+- Windows thuần (không có WSL2) không được hướng dẫn này hỗ trợ trực tiếp — các lệnh cài đặt trong `postCreate.sh`/`participants/local_setup/setup.sh` chỉ chạy trên Bash. Xem `../participants/LOCAL_SETUP_GUIDE.md` (Phần A) để cài WSL2 từng bước; sau đó mọi thứ chạy y hệt macOS/Linux bên trong cửa sổ Ubuntu. Nếu không muốn cài WSL2, dùng Codespaces thay thế để tránh hẳn vấn đề hệ điều hành.
 - Cách này không kiểm thử được các lỗi riêng của Codespaces (OAuth qua forwarded-port, pull LFS qua hạ tầng GitHub, khởi động prebuild, giới hạn chi tiêu). Nếu bạn là người tổ chức đang chuẩn bị cho một workshop thật trên Codespaces, vẫn nên chạy qua `WORKSHOP_SETUP_GUIDE_CODESPACES.md` trước sự kiện — một lần chạy cục bộ suôn sẻ không đảm bảo Codespaces cũng sẽ suôn sẻ.
 
 ---
@@ -184,14 +184,14 @@ Nếu bạn đang kiểm thử với vài người trực tiếp thay vì một 
 |---|---|
 | `README.md` | Điểm vào dành cho người tham gia, badge Codespaces một-cú-click |
 | `schemas/BANK_DATASET_SCHEMA.md` | Từ điển dữ liệu mà AI dựa vào |
-| `exercises.md` | Luồng bài tập trong workshop + câu hỏi ví dụ |
+| `WORKSHOP_EXERCISES.md` | Luồng bài tập trong workshop (2 bài tập: Bank Transaction Schema, Salary Schema) + câu hỏi ví dụ |
 | `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill ví dụ mẫu (đồng bộ) |
 | `templates/skill-template/` | Khung mẫu trống cho "tự xây dựng skill" |
 | `data/workshop.duckdb` | DB ngân hàng đã nạp sẵn dữ liệu (Git LFS) |
-| `data/tech_salary.duckdb` | DB thứ hai (Tech Salary), dùng cho bài tập mở rộng tùy chọn — Bước 7 trong `exercises.md` |
+| `data/tech_salary.duckdb` | DB thứ hai (Tech Salary), dùng cho Bài tập 2 — Bước 7 trong `WORKSHOP_EXERCISES.md` |
 | `schemas/TECH_SALARY_DATASET_SCHEMA.md` | Từ điển dữ liệu cho `data/tech_salary.duckdb` |
 | `organizers/build_tech_salary_db.sh` | Công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb` — không dành cho người tham gia |
-| `load_custom_data.sh`, `my-data/` | Nạp file CSV của riêng bạn vào `data/custom.duckdb` (cục bộ, tùy chọn) — xem `../participants/LOCAL_SETUP_GUIDE.md` Phần C |
+| `participants/local_setup/load_custom_data.sh`, `my-data/` | Nạp file CSV của riêng bạn vào `data/custom.duckdb` (cục bộ, tùy chọn) — xem `../participants/LOCAL_SETUP_GUIDE.md` Phần C |
 | `templates/custom-data-skill-template/` | Khung mẫu skill cho dữ liệu tùy chỉnh |
 | `WORKSHOP_SETUP_GUIDE_CODESPACES.md` | Cùng luồng, chạy trên một GitHub Codespace thật |
 | `Iteration_0_LocalTesting.md` | Kiểm thử cục bộ tương đương container qua Docker + devcontainer CLI |

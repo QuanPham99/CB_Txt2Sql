@@ -16,22 +16,24 @@ Một workshop thực hành, nơi người tham gia xây dựng một **Claude S
 1. **Mở Codespace của bạn** — nhấn vào badge phía trên, hoặc Code → Codespaces → Create codespace on main. Đợi container (đã được dựng sẵn) khởi động xong.
 2. **Xác thực** — chạy `claude` và `codex` trong terminal và làm theo hướng dẫn đăng nhập.
 3. **Đọc ví dụ mẫu** — `.claude/skills/sql-helper/SKILL.md`, và xem qua `schemas/BANK_DATASET_SCHEMA.md` để biết dữ liệu gồm những gì.
-4. **Đặt câu hỏi bằng ngôn ngữ tự nhiên** — cùng nhau làm qua `exercises.md`.
+4. **Đặt câu hỏi bằng ngôn ngữ tự nhiên** — cùng nhau làm qua `WORKSHOP_EXERCISES.md`.
 5. **Tự xây dựng skill của riêng bạn** — sao chép `templates/skill-template/SKILL.md`, viết quy tắc riêng của bạn, rồi thử nghiệm.
 6. **Chia sẻ kết quả** — một vài tình nguyện viên demo skill của mình trực tiếp.
 
 ## Mở rộng (tùy chọn): bộ dữ liệu Tech Salary
 
-Sau khi hoàn thành Bước 5, thử `exercises.md` → "Bước 7 (tùy chọn)": mở rộng
-skill bạn vừa xây để nó cũng hoạt động được với một bộ dữ liệu hoàn toàn khác
-(`data/tech_salary.duckdb`), chứng minh pattern skill-building bạn học được
-không chỉ áp dụng riêng cho dữ liệu ngân hàng.
+Sau khi hoàn thành Bước 5, thử `WORKSHOP_EXERCISES.md` → "Bước 7 (tùy chọn)":
+bài tập thứ hai của workshop — cùng 3 cấp độ Cơ bản/Trung cấp/Nâng cao như
+Bước 3, nhưng trên một bộ dữ liệu hoàn toàn khác (`data/tech_salary.duckdb`) —
+mở rộng skill bạn vừa xây để nó cũng hoạt động được với database này, chứng
+minh pattern skill-building bạn học được không chỉ áp dụng riêng cho dữ liệu
+ngân hàng.
 
 ## Làm việc với dữ liệu của riêng bạn (tùy chọn, chạy cục bộ)
 
 Muốn thử pattern này với file CSV của chính bạn? Xem
 `participants/LOCAL_SETUP_GUIDE.md` (Phần C) — đặt file vào `my-data/`,
-chạy `./load_custom_data.sh`, rồi tự viết schema và skill của riêng bạn từ
+chạy `./participants/local_setup/load_custom_data.sh`, rồi tự viết schema và skill của riêng bạn từ
 `templates/custom-data-skill-template/SKILL.md`. Chỉ hỗ trợ file `.csv`; Excel
 được giới thiệu riêng qua Claude for Excel, không phải một phần của repo này.
 Đây là bài tập chạy trên máy cá nhân của bạn (không phải Codespaces), có trợ
@@ -43,12 +45,12 @@ lý kỹ thuật hỗ trợ trực tiếp nếu cần cài đặt từ đầu.
 - `data/workshop.duckdb` — cơ sở dữ liệu ngân hàng đã được chuẩn bị và nạp sẵn dữ liệu mà người tham gia thực sự truy vấn (được theo dõi qua Git LFS).
 - `schemas/BANK_DATASET_SCHEMA.md` — từ điển dữ liệu ngân hàng: mọi bảng, cột, kiểu dữ liệu, và giá trị ví dụ.
 - `data/tech_salary.duckdb`, `schemas/TECH_SALARY_DATASET_SCHEMA.md` — bộ dữ liệu thứ hai (Tech Salary) và từ điển dữ liệu tương ứng, dùng cho bài tập mở rộng tùy chọn.
-- `exercises.md` — luồng bài tập của workshop và các câu hỏi ví dụ.
+- `WORKSHOP_EXERCISES.md` — luồng bài tập của workshop (2 bài tập: Bank Transaction Schema và Salary Schema) và các câu hỏi ví dụ.
 - `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` — skill ví dụ mẫu.
 - `templates/skill-template/` — khung mẫu trống cho bài tập "tự xây dựng skill".
-- `my-data/`, `load_custom_data.sh`, `templates/custom-data-skill-template/` — luồng dữ liệu tùy chỉnh cục bộ (tùy chọn, chỉ CSV): đặt file CSV của bạn vào `my-data/`, chạy `load_custom_data.sh`, rồi xây skill từ khung mẫu này.
+- `my-data/`, `participants/local_setup/load_custom_data.sh`, `templates/custom-data-skill-template/` — luồng dữ liệu tùy chỉnh cục bộ (tùy chọn, chỉ CSV): đặt file CSV của bạn vào `my-data/`, chạy `load_custom_data.sh`, rồi xây skill từ khung mẫu này.
 - `.devcontainer/` — môi trường Codespaces mở một lần là dùng được ngay (DuckDB CLI + Claude Code + Codex CLI + các extension VS Code, đã cài sẵn).
-- `setup.sh` — thiết lập tương đương trên máy cục bộ (không dùng Codespaces); xem `participants/LOCAL_SETUP_GUIDE.md` để có hướng dẫn cài đặt từng bước, kể cả cho máy hoàn toàn mới.
+- `participants/local_setup/setup.sh` — thiết lập tương đương trên máy cục bộ (không dùng Codespaces); xem `participants/LOCAL_SETUP_GUIDE.md` để có hướng dẫn cài đặt từng bước, kể cả cho máy hoàn toàn mới.
 - `participants/` — mọi tài nguyên dành cho người tham gia: tài liệu kiến trúc hệ thống (`ARCHITECTURE.md`), đáp án mẫu để tự kiểm tra bài tập (`exercises_answer_key_bank_schema.ipynb` cho dữ liệu ngân hàng, `exercises_answer_key_salary_schema.ipynb` cho dữ liệu Tech Salary), và hướng dẫn cục bộ/dữ liệu tùy chỉnh (`LOCAL_SETUP_GUIDE.md`) — xem `participants/README.md` để có danh sách đầy đủ.
 - `organizers/` — dành cho ban tổ chức: kế hoạch thiết lập, các hướng dẫn dry-run cho local/Codespaces, checklist ngày diễn ra, tài liệu xử lý sự cố, và công cụ dựng bộ dữ liệu Tech Salary (`tech_salary_dataset/`, git-ignored, là input cho `organizers/build_tech_salary_db.sh`) — xem `organizers/README.md` nếu bạn là người tổ chức workshop này.
 

@@ -141,13 +141,13 @@ What were the top 5 transaction categories by total amount last quarter?
 
 Xác nhận model đọc `schemas/BANK_DATASET_SCHEMA.md`, hiển thị câu SQL đã chạy, và áp dụng các quy tắc trong `SKILL.md` (LIMIT 100 trên raw rows, làm tròn tiền tệ, v.v.) trước khi tin dùng skill này cho buổi workshop thật.
 
-## Bước 8 — Làm qua `exercises.md`
+## Bước 8 — Làm qua `WORKSHOP_EXERCISES.md`
 
 Tự chạy qua cả 8 câu hỏi mẫu. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột, hãy sửa `SKILL.md` hoặc `schemas/BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong lúc workshop.
 
 ## Bước 9 — Xây một skill dùng thử từ template
 
-Sao chép `templates/skill-template/SKILL.md` vào một thư mục nháp, điền vào một hoặc hai quy tắc, và xác nhận nó thay đổi hành vi của model đúng như mong đợi. Đây chính xác là điều người tham gia sẽ làm ở Bước 4 của `exercises.md` — nếu nó gây khó hiểu cho bạn, nó sẽ gây khó hiểu cho họ.
+Sao chép `templates/skill-template/SKILL.md` vào một thư mục nháp, điền vào một hoặc hai quy tắc, và xác nhận nó thay đổi hành vi của model đúng như mong đợi. Đây chính xác là điều người tham gia sẽ làm ở Bước 4 của `WORKSHOP_EXERCISES.md` — nếu nó gây khó hiểu cho bạn, nó sẽ gây khó hiểu cho họ.
 
 ## Bước 10 — Dọn dẹp
 

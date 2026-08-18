@@ -65,7 +65,7 @@ ngân hàng.
    phần "Lưu ý & điểm đặc biệt"). Gợi ý: mở một phiên Claude Code ngay trong
    repo này và nhờ nó đọc `data/tech_salary.duckdb` rồi cùng bạn soạn tài
    liệu — đúng quy trình đã dùng để viết `schemas/BANK_DATASET_SCHEMA.md` ban đầu.
-6. Điền câu hỏi ví dụ cụ thể vào Bước 7 của `exercises.md` (hiện đang là
+6. Điền câu hỏi ví dụ cụ thể vào Bước 7 của `WORKSHOP_EXERCISES.md` (hiện đang là
    TODO, vì tên bảng/cột thật chưa xác định được cho tới khi bạn tải file ở
    bước 1), và các cell tương ứng trong
    `../participants/exercises_answer_key_salary_schema.ipynb` (notebook này
@@ -105,7 +105,7 @@ ngân hàng.
    - `.claude/skills/sql-helper/SKILL.md` — file thật
    - `.codex/skills/sql-helper/SKILL.md` — symlink (hoặc bản sao) trỏ tới cùng nội dung
    - Nội dung: frontmatter với mô tả kích hoạt ("query the transactions data", "text to SQL"), chỉ dẫn luôn truy vấn qua DuckDB trên `data/workshop.duckdb`, dựa vào `schemas/BANK_DATASET_SCHEMA.md`, và tuân theo các quy tắc chung bạn chọn dạy (ví dụ luôn `LIMIT 100` trừ khi được yêu cầu khác, luôn hiển thị SQL đã chạy, không bao giờ bịa tên cột không có trong `schemas/BANK_DATASET_SCHEMA.md`).
-4. `exercises.md` — luồng bài tập hướng dẫn người tham gia làm theo trực tiếp (xem Phần 5), cộng thêm 5–8 câu hỏi ví dụ bằng ngôn ngữ tự nhiên với độ khó tăng dần (ví dụ: "tháng trước có bao nhiêu giao dịch" → "tài khoản nào có tổng số tiền chuyển đi cao nhất, phân theo tháng").
+4. `WORKSHOP_EXERCISES.md` — luồng bài tập hướng dẫn người tham gia làm theo trực tiếp (xem Phần 5), cộng thêm 5–8 câu hỏi ví dụ bằng ngôn ngữ tự nhiên với độ khó tăng dần (ví dụ: "tháng trước có bao nhiêu giao dịch" → "tài khoản nào có tổng số tiền chuyển đi cao nhất, phân theo tháng").
 5. `templates/skill-template/SKILL.md` — một khung mẫu trống với frontmatter placeholder và các phần chỉ dẫn `TODO` cho bài tập "tự xây dựng skill".
 6. Một tài liệu **xử lý sự cố dành cho facilitator** dài một trang (không nằm trong README dành cho người tham gia) bao gồm: Codespace bị kẹt lúc dựng → rebuild container; vòng lặp đăng nhập OAuth → thử flow device-code / kiểm tra SSO tổ chức; file DuckDB bị thiếu → chạy lại thủ công postCreateCommand; gặp rate limit → chuyển sang màn hình demo dùng chung.
 
@@ -166,7 +166,7 @@ ngân hàng.
   `schemas/TECH_SALARY_DATASET_SCHEMA.md` được chuẩn bị trước, giống `schemas/BANK_DATASET_SCHEMA.md`.
   Việc mở rộng skill là bài tập của người tham gia, không phải thứ họ copy từ
   một ví dụ mẫu thứ hai.
-- **Không chấm điểm tự động.** Vẫn theo đúng pattern hiện tại: `exercises.md`
+- **Không chấm điểm tự động.** Vẫn theo đúng pattern hiện tại: `WORKSHOP_EXERCISES.md`
   + notebook đáp án tham khảo (`../participants/exercises_answer_key_bank_schema.ipynb`,
   `../participants/exercises_answer_key_salary_schema.ipynb`), người tham gia
   tự đối chiếu bằng mắt.
@@ -187,7 +187,7 @@ ngân hàng.
   gia) hơn là một script cài đặt tự động không người giám sát — bớt rủi ro
   và công sức bảo trì một installer đa nền tảng (Windows/macOS), đổi lại mỗi
   người cài cục bộ cần trợ lý hỗ trợ ít nhất ở những bước đầu.
-- **Chỉ hỗ trợ CSV.** Hỗ trợ Excel bị loại khỏi phạm vi `load_custom_data.sh`
+- **Chỉ hỗ trợ CSV.** Hỗ trợ Excel bị loại khỏi phạm vi `participants/local_setup/load_custom_data.sh`
   một cách có chủ đích — có một sản phẩm riêng (Claude for Excel) đã xử lý
   tốt việc này, sẽ được giới thiệu như một phần trình bày/demo riêng, không
   cần xây lại trong repo workshop này.

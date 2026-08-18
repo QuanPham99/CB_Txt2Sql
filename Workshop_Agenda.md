@@ -22,13 +22,13 @@ Buổi workshop nửa ngày (~3h55 phần lõi + tối đa 20 phút phần mở 
 |---|------|-----------|---------|
 | 0 | Mở đầu & đặt vấn đề | 15 phút | |
 | 0.5 | Thuật ngữ cơ bản & Cheat sheet lệnh | 10 phút | mới |
-| 1 | Nền tảng: đọc skill mẫu, hỏi câu đầu tiên | 20 phút | tương ứng Bước 1–2 trong `exercises.md` |
-| 2 | Thực hành: tự xây skill Text-to-SQL (Skill 1) | 75 phút | tương ứng Bước 3–6 trong `exercises.md` |
+| 1 | Nền tảng: đọc skill mẫu, hỏi câu đầu tiên | 20 phút | tương ứng Bước 1–2 trong `WORKSHOP_EXERCISES.md` |
+| 2 | Thực hành: tự xây skill Text-to-SQL (Skill 1) — Bài tập 1: Bank Transaction Schema | 75 phút | tương ứng Bước 3–6 trong `WORKSHOP_EXERCISES.md` |
 | — | Giải lao | 10 phút | |
 | 3 | Skill 0 — dạy agent tự đọc hiểu một database chưa từng thấy | 40 phút | mới |
 | 4 | Skill 2 — dạy agent biến kết quả truy vấn thành báo cáo insight | 35 phút | mới |
-| 5 | *(tùy chọn, nếu còn thời gian)* Skill 4 — ghép schema → query → report thành một chuỗi; hoặc bài mở rộng đa-dataset có sẵn | 15–20 phút | mới, có thể cắt |
-| 6 | Demo & tổng kết | 15–20 phút | tương ứng Bước 6 trong `exercises.md` |
+| 5 | *(tùy chọn, nếu còn thời gian)* Skill 4 — ghép schema → query → report thành một chuỗi; hoặc Bài tập 2 (Salary Schema) có sẵn | 15–20 phút | mới, có thể cắt |
+| 6 | Demo & tổng kết | 15–20 phút | tương ứng Bước 6 trong `WORKSHOP_EXERCISES.md` |
 
 Phần 5 là phần đầu tiên bị cắt nếu thiếu thời gian — nó được thiết kế là bài mở rộng, không phải nội dung bắt buộc.
 
@@ -100,7 +100,7 @@ Danh sách bên dưới là các lệnh phổ biến, thường gặp — vì ha
 
 ## Phần 2 — Thực hành Skill 1: Text-to-SQL (75 phút) — giữ nguyên như Bước 3–6 hiện tại
 
-- Làm bộ câu hỏi phân cấp trong `exercises.md` (Cơ bản → Trung cấp → Nâng cao).
+- Làm bộ câu hỏi phân cấp của Bài tập 1 — Bank Transaction Schema trong `WORKSHOP_EXERCISES.md` (Cơ bản → Trung cấp → Nâng cao).
 - Copy `templates/skill-template/SKILL.md`, điền 3–5 quy tắc riêng, mirror sang `.codex/skills/`.
 - Thử lại một câu hỏi mỗi cấp độ để thấy quy tắc riêng thay đổi hành vi của skill ("aha moment" của buổi sáng).
 - 2–3 bạn tình nguyện demo nhanh để kết thúc phần này.
@@ -109,7 +109,7 @@ Danh sách bên dưới là các lệnh phổ biến, thường gặp — vì ha
 
 **Đặt vấn đề với người tham gia:** `sql-helper` chạy tốt vì đã có người viết sẵn `schemas/BANK_DATASET_SCHEMA.md`. Dữ liệu thực tế thường không có tài liệu như vậy — đây chính là điểm nghẽn #1. Thử thách: xây một skill mà khi trỏ vào một file DuckDB chưa từng thấy, tự khám phá và viết ra một tài liệu schema đáng tin cậy.
 
-- **Dữ liệu mục tiêu:** `data/custom.duckdb` của chính mỗi người (đã build từ `my-data/*.csv` qua `load_custom_data.sh` ở phần setup trước đó) — hoặc một file CSV "bí ẩn" do người hướng dẫn chuẩn bị sẵn cho ai chưa mang dữ liệu riêng.
+- **Dữ liệu mục tiêu:** `data/custom.duckdb` của chính mỗi người (đã build từ `my-data/*.csv` qua `participants/local_setup/load_custom_data.sh` ở phần setup trước đó) — hoặc một file CSV "bí ẩn" do người hướng dẫn chuẩn bị sẵn cho ai chưa mang dữ liệu riêng.
 - **Đề bài phát ra** (chỉ là checklist ngắn, không phải template đầy đủ — đúng tinh thần "tự tạo skill và bài tập của riêng mình"):
   - chạy `.tables`, `DESCRIBE` từng bảng, xem thử vài dòng dữ liệu mẫu
   - suy đoán ý nghĩa các cột chưa rõ ràng, nhưng phải nêu rõ mức độ không chắc chắn thay vì đoán bừa rồi im lặng
@@ -128,7 +128,7 @@ Danh sách bên dưới là các lệnh phổ biến, thường gặp — vì ha
 ## Phần 5 — *(tùy chọn, nếu còn thời gian)* Skill 4: Kết nối thành một chuỗi (15–20 phút, mới, có thể cắt)
 
 - Ghép Skill 0 → Skill 1 → Skill 2 thành một chuỗi trên một bộ dữ liệu agent chưa từng thấy: tạo schema → trả lời một câu hỏi nghiệp vụ → tóm tắt thành báo cáo. Đây là phần "trang bị cho agent các skill để hiểu dữ liệu của bạn tốt hơn" — tổng kết toàn bộ buổi.
-- Nếu nhóm không đủ thời gian cho việc kết nối đầy đủ, có thể dùng bài mở rộng đa-dataset sẵn có (Bước 7 trong `exercises.md`, mở rộng skill từ Phần 2 để định tuyến sang cả bộ dữ liệu tech-salary) làm phương án nhẹ hơn.
+- Nếu nhóm không đủ thời gian cho việc kết nối đầy đủ, có thể dùng Bài tập 2 sẵn có (Bước 7 trong `WORKSHOP_EXERCISES.md`, mở rộng skill từ Phần 2 để định tuyến sang cả bộ dữ liệu tech-salary) làm phương án nhẹ hơn.
 - Luôn nói rõ đây là phần tùy chọn: cắt đầu tiên nếu trễ giờ, hoặc giao làm bài tự học sau buổi, tham khảo `participants/ARCHITECTURE.md` để hiểu mô hình tư duy nền tảng (skill chỉ là hướng dẫn, không có runtime lưu trạng thái, mọi thứ kết nối qua tài liệu schema + lệnh CLI).
 
 ## Phần 6 — Demo & tổng kết (15–20 phút)
@@ -140,6 +140,6 @@ Danh sách bên dưới là các lệnh phổ biến, thường gặp — vì ha
 
 ## Điều gì giữ nguyên, điều gì mới
 
-- **Giữ nguyên:** nội dung Phần 0–2 (skill mẫu, bộ câu hỏi, tự xây skill, demo) — phần lõi đã được kiểm chứng, giữ y như Bước 1–6 trong `exercises.md` hiện tại.
+- **Giữ nguyên:** nội dung Phần 0–2 (skill mẫu, bộ câu hỏi, tự xây skill, demo) — phần lõi đã được kiểm chứng, giữ y như Bước 1–6 trong `WORKSHOP_EXERCISES.md` hiện tại.
 - **Mới:** Phần 3 và 4 (Skill 0 và Skill 2) trở thành bài tập chính thức trong buổi, thay vì chỉ là gợi ý làm sau workshop như hiện nay.
 - **Mới, tùy chọn rõ ràng:** Phần 5 (Skill 4 — kết nối chuỗi), đặt ở vị trí tương tự bài mở rộng đa-dataset (Bước 7) hiện có — một mục tiêu vươn xa cho nhóm còn thời gian, không phải nội dung cốt lõi.

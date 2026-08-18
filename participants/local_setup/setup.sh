@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # One-command local setup for the Text-to-SQL Skills Workshop.
-# Run this from anywhere after cloning the repo:
+# Run this from the repo root after cloning it:
 #
-#   ./setup.sh
+#   ./participants/local_setup/setup.sh
 #
 # It installs the DuckDB CLI, Claude Code, and Codex CLI (skipping any that
 # are already installed), pulls the workshop database via Git LFS if needed,
@@ -11,7 +11,7 @@
 # yourself afterwards (see the banner this script prints at the end).
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
 
 bold() { printf '\033[1m%s\033[0m\n' "$1"; }
@@ -120,13 +120,13 @@ cat <<'BANNER'
 
  2. Skim schemas/BANK_DATASET_SCHEMA.md to see what's in the dataset.
 
- 3. Follow exercises.md to start asking questions.
+ 3. Follow WORKSHOP_EXERCISES.md to start asking questions.
 
  3b. (Tuỳ chọn) Xem schemas/TECH_SALARY_DATASET_SCHEMA.md và thử phần
-     mở rộng "Tech Salary" ở cuối exercises.md — mở rộng skill
+     mở rộng "Tech Salary" ở cuối WORKSHOP_EXERCISES.md — mở rộng skill
      bạn vừa xây để dùng được với cả hai bộ dữ liệu.
 
  4. (Tuỳ chọn) Có dữ liệu CSV của riêng bạn? Đặt file vào
-     my-data/ rồi chạy: ./load_custom_data.sh
+     my-data/ rồi chạy: ./participants/local_setup/load_custom_data.sh
 ========================================================
 BANNER

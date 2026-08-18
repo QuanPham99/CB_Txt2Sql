@@ -2,14 +2,14 @@
 # Nạp dữ liệu CSV của riêng bạn vào DuckDB — một lệnh duy nhất.
 # Chạy từ thư mục gốc repo:
 #
-#   ./load_custom_data.sh
+#   ./participants/local_setup/load_custom_data.sh
 #
 # Đặt một hoặc nhiều file .csv vào thư mục my-data/, sau đó chạy lệnh trên.
 # Script sẽ luôn XÂY LẠI data/custom.duckdb từ đầu — dữ liệu trong đó luôn
 # khớp chính xác với những gì đang có trong my-data/ tại thời điểm chạy.
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
 
 INPUT_DIR="my-data"
@@ -23,7 +23,7 @@ fail() { printf '\nLỖI: %s\n' "$1" >&2; exit 1; }
 
 step "Kiểm tra điều kiện cần thiết"
 
-command -v duckdb >/dev/null 2>&1 || fail "Không tìm thấy duckdb CLI. Hãy chạy ./setup.sh trước, hoặc cài đặt: curl https://install.duckdb.org | sh"
+command -v duckdb >/dev/null 2>&1 || fail "Không tìm thấy duckdb CLI. Hãy chạy ./participants/local_setup/setup.sh trước, hoặc cài đặt: curl https://install.duckdb.org | sh"
 ok "duckdb đã sẵn sàng ($(duckdb --version))"
 
 step "Kiểm tra thư mục ${INPUT_DIR}/"

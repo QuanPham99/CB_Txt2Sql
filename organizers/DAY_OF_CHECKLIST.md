@@ -23,5 +23,5 @@ Tài liệu đi kèm Phần 3 của `WORKSHOP_SETUP_PLAN.md`. Các mục đánh 
 - [ ] Codespace mới xác nhận `SELECT count(*) FROM transactions;` trong `data/workshop.duckdb` trả về 2.000.000 (smoke test của `postCreateCommand` cũng nên tự động bắt lỗi này trong creation log).
 - [ ] Cả `claude` và `codex` đều xác thực được qua OAuth.
 - [ ] Cả hai extension VS Code (Claude Code, Codex) đều load được trong Codespace.
-- [ ] Skill mẫu (`.claude/skills/sql-helper/SKILL.md`) thay đổi rõ rệt hành vi của model khi thử với một câu hỏi mẫu từ `exercises.md`.
+- [ ] Skill mẫu (`.claude/skills/sql-helper/SKILL.md`) thay đổi rõ rệt hành vi của model khi thử với một câu hỏi mẫu từ `WORKSHOP_EXERCISES.md`.
 - [ ] Thời gian từ cold-open đến câu truy vấn đầu tiên nằm gọn trong khối mở đầu của agenda nửa ngày.

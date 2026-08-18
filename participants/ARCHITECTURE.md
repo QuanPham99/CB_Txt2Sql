@@ -58,7 +58,7 @@ flowchart TB
 
     subgraph ondemand["ON-DEMAND — người tham gia, máy cục bộ, chạy bất kỳ lúc nào, không qua Git"]
         mydata["my-data/*.csv\n(của người tham gia, git-ignored)"]
-        loadscript["load_custom_data.sh"]
+        loadscript["participants/local_setup/load_custom_data.sh"]
         cdb["data/custom.duckdb\n(git-ignored, KHÔNG commit)"]
         mydata --> loadscript --> cdb
     end
@@ -111,7 +111,7 @@ flowchart LR
         pc[".devcontainer/postCreate.sh\ncài đặt, chạy 1 lần khi container được tạo"]
         pa[".devcontainer/postAttach.sh\nin banner chào mừng, chạy mỗi lần attach"]
         shim[".devcontainer/duckdb_shim.py\nfallback CLI cho môi trường musl/Alpine"]
-        setupsh["setup.sh\nphiên bản cục bộ của postCreate.sh,\ndùng khi không chạy trong devcontainer"]
+        setupsh["participants/local_setup/setup.sh\nphiên bản cục bộ của postCreate.sh,\ndùng khi không chạy trong devcontainer"]
         schema["schemas/BANK_DATASET_SCHEMA.md\ntừ điển dữ liệu — nguồn sự thật duy nhất"]
         schema2["schemas/TECH_SALARY_DATASET_SCHEMA.md\ntừ điển dữ liệu cho dataset thứ 2"]
         skillA[".claude/skills/sql-helper/SKILL.md\nfile thật"]
@@ -119,8 +119,8 @@ flowchart LR
         tmpl["templates/skill-template/SKILL.md\nkhung trống cho bài tập tự xây skill"]
         tmplCustom["templates/custom-data-skill-template/SKILL.md\nkhung trống cho dữ liệu tùy chỉnh"]
         tbuild["organizers/build_tech_salary_db.sh\nchỉ ban tổ chức"]
-        lcustom["load_custom_data.sh\nngười tham gia tự chạy cục bộ"]
-        exdoc["exercises.md\ncâu hỏi mẫu để luyện tập"]
+        lcustom["participants/local_setup/load_custom_data.sh\nngười tham gia tự chạy cục bộ"]
+        exdoc["WORKSHOP_EXERCISES.md\ncâu hỏi mẫu để luyện tập (2 bài tập)"]
         docsSetup["organizers/\nkế hoạch + hướng dẫn thiết lập + checklist (ban tổ chức)"]
         docsRef["participants/\nkiến trúc + đáp án mẫu + hướng dẫn cục bộ (người tham gia)"]
     end
@@ -167,10 +167,10 @@ flowchart LR
 | `postCreateCommand` / `postAttachCommand` | Giống hệt | Giống hệt |
 | Git LFS pull | Tự động qua GitHub token có sẵn | `git lfs pull` cần credentials cục bộ |
 | OAuth redirect (đăng nhập `claude`/`codex`) | Qua port forwarding của Codespaces | Qua `localhost` trực tiếp |
-| Bộ dữ liệu thứ hai (`data/tech_salary.duckdb`) | Preload tự động (cùng `git lfs pull`), smoke test riêng trong `postCreate.sh` | Preload tự động qua `setup.sh` (mirror smoke test) |
+| Bộ dữ liệu thứ hai (`data/tech_salary.duckdb`) | Preload tự động (cùng `git lfs pull`), smoke test riêng trong `postCreate.sh` | Preload tự động qua `participants/local_setup/setup.sh` (mirror smoke test) |
 | Dùng để | Trải nghiệm thật của người tham gia | Chạy thử của ban tổ chức trước ngày diễn ra (xem `../organizers/Iteration_0_LocalTesting.md`) |
 
-`setup.sh` (ở gốc repo) là một đường thứ ba — dùng khi ai đó muốn chạy workshop **ngoài** devcontainer hoàn toàn (máy cá nhân, không Docker). Nó lặp lại đúng các bước của `postCreate.sh` (cài DuckDB/Claude/Codex CLI, `git lfs pull`, smoke test cho cả hai database) nhưng chạy trực tiếp trên máy host thay vì trong container, và có thêm các bước kiểm tra prerequisite (`git`, `curl`, `node`, `git-lfs`) mà devcontainer đã đảm bảo sẵn qua base image — nếu thiếu, script chỉ báo lỗi kèm hướng dẫn cài thủ công, không tự cài (xem "Cài đặt cục bộ là tài liệu + trợ lý kỹ thuật" bên dưới).
+`participants/local_setup/setup.sh` là một đường thứ ba — dùng khi ai đó muốn chạy workshop **ngoài** devcontainer hoàn toàn (máy cá nhân, không Docker). Nó lặp lại đúng các bước của `postCreate.sh` (cài DuckDB/Claude/Codex CLI, `git lfs pull`, smoke test cho cả hai database) nhưng chạy trực tiếp trên máy host thay vì trong container, và có thêm các bước kiểm tra prerequisite (`git`, `curl`, `node`, `git-lfs`) mà devcontainer đã đảm bảo sẵn qua base image — nếu thiếu, script chỉ báo lỗi kèm hướng dẫn cài thủ công, không tự cài (xem "Cài đặt cục bộ là tài liệu + trợ lý kỹ thuật" bên dưới). Nó và `load_custom_data.sh` sống chung trong `participants/local_setup/` thay vì gốc repo — cả hai tự dò thư mục gốc repo qua đường dẫn của chính script (`dirname "${BASH_SOURCE[0]}"/../..`), nên vẫn hoạt động y hệt dù nằm lồng hai cấp thư mục.
 
 ## Các quyết định thiết kế đáng chú ý
 
@@ -182,9 +182,9 @@ flowchart LR
 - **Container tách biệt hoàn toàn khỏi `dataset/*.csv`.** File CSV gốc bị git-ignore và không tồn tại trong container lúc chạy — chỉ `data/workshop.duckdb` (đã build sẵn) mới quan trọng ở run-time. Điều này giữ cho kích thước container nhỏ và loại bỏ phụ thuộc vào toolchain build (Python + `duckdb` package) ở phía người tham gia.
 - **Hai file `.duckdb` độc lập cho hai dataset, không gộp chung schema.** `data/workshop.duckdb` và `data/tech_salary.duckdb` không có join xuyên dataset nào được kỳ vọng — giữ mô hình tinh thần đơn giản (mỗi dataset một file, một từ điển dữ liệu riêng) và loại bỏ hoàn toàn rủi ro đụng tên bảng/cột giữa hai domain không liên quan.
 - **`sql-helper` (skill mẫu) là một skill hợp nhất, tự định tuyến, không phải một skill gắn cứng với một dataset.** Thay vì có một skill mẫu riêng cho ngân hàng, skill mẫu tự xác định database phù hợp với câu hỏi (quét `schemas/`, so khớp chủ đề) rồi mới neo vào đúng từ điển dữ liệu — người tham gia thấy pattern này ngay từ Bước 1, trước khi tự viết skill của mình. Đây là lựa chọn có cân nhắc — cách gắn cứng một dataset đơn giản hơn để đọc lúc mới học, nhưng một skill tự định tuyến là ví dụ trung thực hơn cho việc skill sẽ cần mở rộng ra sao khi có nhiều nguồn dữ liệu. Kỹ thuật chọn database cụ thể (so khớp từ khóa, đọc dòng "File cơ sở dữ liệu" đầu mỗi schema) được viết tường minh trong `SKILL.md` chứ không phải introspect runtime.
-- **Bài tập mở rộng (Bước 7) có người tham gia tự tay thêm lại đúng pattern định tuyến đó vào skill của chính họ.** Skill họ xây ở Bước 4 (từ `templates/skill-template/SKILL.md`) cố tình chỉ gắn với một dataset (ngân hàng) — Bước 7 yêu cầu họ mở rộng nó để tự "ground" vào cả hai từ điển dữ liệu và tự chọn đúng database theo câu hỏi, y hệt những gì `sql-helper` đã làm mẫu. Kỹ thuật cụ thể (nhiều lệnh `duckdb` riêng hay `ATTACH`) cố tình không được quy định trước trong bài tập, dù `sql-helper` đã chọn sẵn cách "hai lệnh `duckdb` riêng" làm ví dụ tham khảo.
-- **Cài đặt cục bộ là tài liệu + trợ lý kỹ thuật, không phải installer tự động.** Không có `setup.ps1` hay bước tự cài Homebrew/apt-get nào trong `setup.sh` — có một trợ lý kỹ thuật hỗ trợ trực tiếp người tham gia cài đặt cục bộ, nên đầu tư vào một hướng dẫn thủ công chính xác (`LOCAL_SETUP_GUIDE.md` Phần A/C trong thư mục này + `../organizers/FACILITATOR_TROUBLESHOOTING.md`) mang lại giá trị cao hơn so với rủi ro/chi phí bảo trì một installer đa nền tảng không người giám sát.
-- **Dữ liệu tùy chỉnh cục bộ chỉ hỗ trợ CSV.** Excel/.xlsx bị loại khỏi phạm vi `load_custom_data.sh` một cách có chủ đích — việc đó được xử lý bởi một sản phẩm riêng (Claude for Excel), giới thiệu qua trình bày/demo, không xây lại trong repo này.
+- **Bài tập 2 (Bước 7) có người tham gia tự tay thêm lại đúng pattern định tuyến đó vào skill của chính họ.** Skill họ xây ở Bước 4 (từ `templates/skill-template/SKILL.md`) cố tình chỉ gắn với một dataset (ngân hàng) — Bước 7 yêu cầu họ mở rộng nó để tự "ground" vào cả hai từ điển dữ liệu và tự chọn đúng database theo câu hỏi, y hệt những gì `sql-helper` đã làm mẫu. Kỹ thuật cụ thể (nhiều lệnh `duckdb` riêng hay `ATTACH`) cố tình không được quy định trước trong bài tập, dù `sql-helper` đã chọn sẵn cách "hai lệnh `duckdb` riêng" làm ví dụ tham khảo.
+- **Cài đặt cục bộ là tài liệu + trợ lý kỹ thuật, không phải installer tự động.** Không có `setup.ps1` hay bước tự cài Homebrew/apt-get nào trong `participants/local_setup/setup.sh` — có một trợ lý kỹ thuật hỗ trợ trực tiếp người tham gia cài đặt cục bộ, nên đầu tư vào một hướng dẫn thủ công chính xác (`LOCAL_SETUP_GUIDE.md` Phần A/C trong thư mục này + `../organizers/FACILITATOR_TROUBLESHOOTING.md`) mang lại giá trị cao hơn so với rủi ro/chi phí bảo trì một installer đa nền tảng không người giám sát.
+- **Dữ liệu tùy chỉnh cục bộ chỉ hỗ trợ CSV.** Excel/.xlsx bị loại khỏi phạm vi `participants/local_setup/load_custom_data.sh` một cách có chủ đích — việc đó được xử lý bởi một sản phẩm riêng (Claude for Excel), giới thiệu qua trình bày/demo, không xây lại trong repo này.
 - **Không có từ điển dữ liệu tự động sinh cho dữ liệu tùy chỉnh.** Khác với `schemas/BANK_DATASET_SCHEMA.md`/`schemas/TECH_SALARY_DATASET_SCHEMA.md` (do ban tổ chức viết trước), người tham gia tự khám phá schema dữ liệu của chính họ (`.tables`, `DESCRIBE`) và tự viết vào `SKILL.md` — một phần cố ý của bài tập, không phải tính năng còn thiếu.
 
 ## Bản đồ tài liệu liên quan
@@ -194,10 +194,10 @@ flowchart LR
 - `../organizers/Iteration_0_LocalTesting.md` — kiểm thử toàn bộ luồng run-time cục bộ trước khi mời người tham gia.
 - `../organizers/DAY_OF_CHECKLIST.md`, `../organizers/FACILITATOR_TROUBLESHOOTING.md` — vận hành thực tế trong ngày diễn ra, bao gồm mục "Hỗ trợ cài đặt cục bộ" cho trợ lý kỹ thuật.
 - `LOCAL_SETUP_GUIDE.md` — phiên bản dành cho người tham gia của luồng cài đặt cục bộ + dữ liệu tùy chỉnh.
-- `exercises_answer_key_bank_schema.ipynb` — đáp án mẫu (bộ dữ liệu ngân hàng) để người tham gia tự kiểm tra `../exercises.md`.
-- `exercises_answer_key_salary_schema.ipynb` — đáp án mẫu tương tự cho bộ dữ liệu Tech Salary (`data/tech_salary.duckdb`), cùng cấu trúc Cơ bản/Trung cấp/Nâng cao.
+- `exercises_answer_key_bank_schema.ipynb` — đáp án mẫu cho Bài tập 1 (bộ dữ liệu ngân hàng) trong `../WORKSHOP_EXERCISES.md`.
+- `exercises_answer_key_salary_schema.ipynb` — đáp án mẫu cho Bài tập 2 (bộ dữ liệu Tech Salary, `data/tech_salary.duckdb`) trong `../WORKSHOP_EXERCISES.md`, cùng cấu trúc Cơ bản/Trung cấp/Nâng cao.
 - `../schemas/BANK_DATASET_SCHEMA.md` — từ điển dữ liệu ngân hàng đầy đủ (10 bảng).
 - `../schemas/TECH_SALARY_DATASET_SCHEMA.md` — từ điển dữ liệu cho dataset thứ hai (Tech Salary).
 - `../organizers/build_tech_salary_db.sh` — công cụ nội bộ ban tổ chức dựng `data/tech_salary.duckdb`.
-- `../load_custom_data.sh`, `../templates/custom-data-skill-template/SKILL.md` — luồng dữ liệu tùy chỉnh cục bộ (tùy chọn, chỉ CSV).
+- `local_setup/load_custom_data.sh`, `../templates/custom-data-skill-template/SKILL.md` — luồng dữ liệu tùy chỉnh cục bộ (tùy chọn, chỉ CSV).
 - `../CLAUDE.md` — hướng dẫn dành cho Claude Code khi làm việc trong repo này (tiếng Anh, không dịch).

@@ -1,19 +1,20 @@
 # Tài Nguyên Dành Cho Người Tham Gia
 
-Đây là mọi tài liệu dành riêng cho người tham gia workshop, ngoài `../README.md` (điểm vào chính) và `../exercises.md` (luồng bài tập).
+Đây là mọi tài liệu dành riêng cho người tham gia workshop, ngoài `../README.md` (điểm vào chính) và `../WORKSHOP_EXERCISES.md` (luồng bài tập).
 
 | File | Mục đích |
 |---|---|
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Tài liệu kiến trúc hệ thống kèm sơ đồ — dành cho ai muốn hiểu repo này vận hành ra sao ở mức hệ thống (không bắt buộc để làm bài tập). |
-| `exercises_answer_key_bank_schema.ipynb` | Đáp án mẫu cho các câu hỏi ở Bước 3 của `../exercises.md` (bộ dữ liệu ngân hàng) — dùng để tự đối chiếu kết quả sau khi làm bài. **Facilitator sẽ publish file này vào cuối buổi**, sau phần thực hành — chưa có trong repo lúc này. |
-| `exercises_answer_key_salary_schema.ipynb` | Đáp án mẫu tương tự cho bộ dữ liệu Tech Salary (Bước 7 của `../exercises.md`) — Cơ bản/Trung cấp/Nâng cao. **Cũng sẽ được publish vào cuối buổi.** |
+| `exercises_answer_key_bank_schema.ipynb` | Đáp án mẫu cho Bài tập 1 (Bước 3 của `../WORKSHOP_EXERCISES.md`, bộ dữ liệu ngân hàng) — dùng để tự đối chiếu kết quả sau khi làm bài. **Facilitator sẽ publish file này vào cuối buổi**, sau phần thực hành — chưa có trong repo lúc này. |
+| `exercises_answer_key_salary_schema.ipynb` | Đáp án mẫu cho Bài tập 2 (Bước 7 của `../WORKSHOP_EXERCISES.md`, bộ dữ liệu Tech Salary) — Cơ bản/Trung cấp/Nâng cao. **Cũng sẽ được publish vào cuối buổi.** |
 | [`LOCAL_SETUP_GUIDE.md`](LOCAL_SETUP_GUIDE.md) | Chạy workshop trên máy cá nhân (không dùng Codespaces) và/hoặc dùng dữ liệu CSV của riêng bạn — cả hai đều tùy chọn. |
+| [`local_setup/`](local_setup/) | `setup.sh` (cài đặt cục bộ) và `load_custom_data.sh` (nạp CSV của riêng bạn) — hai script được `LOCAL_SETUP_GUIDE.md` hướng dẫn chạy. |
 
 ## Tài nguyên khác bạn sẽ cần (ở gốc repo)
 
-- [`../templates/skill-template/`](../templates/skill-template/) — khung mẫu trống cho bài tập "tự xây dựng skill" (Bước 4 của `exercises.md`).
+- [`../templates/skill-template/`](../templates/skill-template/) — khung mẫu trống cho bài tập "tự xây dựng skill" (Bước 4 của `WORKSHOP_EXERCISES.md`).
 - [`../templates/custom-data-skill-template/`](../templates/custom-data-skill-template/) — khung mẫu skill cho dữ liệu tùy chỉnh (đi kèm `LOCAL_SETUP_GUIDE.md`, Phần C).
 - [`../schemas/`](../schemas/) — từ điển dữ liệu cho cả hai bộ dữ liệu của workshop.
-- [`../.claude/skills/sql-helper/`](../.claude/skills/sql-helper/) — skill ví dụ mẫu bạn đọc ở Bước 1 của `exercises.md`.
+- [`../.claude/skills/sql-helper/`](../.claude/skills/sql-helper/) — skill ví dụ mẫu bạn đọc ở Bước 1 của `WORKSHOP_EXERCISES.md`.
 
 Là người tổ chức workshop này? Xem [`../organizers/README.md`](../organizers/README.md) thay vì thư mục này.

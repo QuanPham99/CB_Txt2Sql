@@ -5,7 +5,7 @@ Nguồn: Kaggle "Global Tech Salary Dataset" (dữ liệu tổng hợp — tên 
 
 Mở bằng: `duckdb data/tech_salary.duckdb`
 
-Đây là bộ dữ liệu **độc lập hoàn toàn** với `data/workshop.duckdb` — không có cột nào dùng để join giữa hai database này (không có `customer_id` chung, không có id trùng khớp có ý nghĩa). Dùng cho bài tập mở rộng ở `exercises.md` (Bước 7).
+Đây là bộ dữ liệu **độc lập hoàn toàn** với `data/workshop.duckdb` — không có cột nào dùng để join giữa hai database này (không có `customer_id` chung, không có id trùng khớp có ý nghĩa). Dùng cho Bài tập 2 ở `WORKSHOP_EXERCISES.md` (Bước 7).
 
 ---
 

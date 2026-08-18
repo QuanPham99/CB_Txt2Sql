@@ -4,7 +4,7 @@ Tài liệu này dành cho hai trường hợp **tùy chọn**, chạy trên má
 
 - **Phần A** — bạn muốn cài đặt và chạy toàn bộ workshop trên máy của chính mình, xuất phát từ một máy chưa từng cài gì liên quan đến lập trình (có trợ lý kỹ thuật hỗ trợ trực tiếp).
 - **Phần B** — các bước thiết lập cơ bản (clone repo, cài CLI, xác thực) cần có trước khi làm Phần C.
-- **Phần C** — làm việc với file CSV của riêng bạn (`my-data/` + `./load_custom_data.sh`), phần mở rộng được nhắc tới trong `README.md`.
+- **Phần C** — làm việc với file CSV của riêng bạn (`my-data/` + `./participants/local_setup/load_custom_data.sh`), phần mở rộng được nhắc tới trong `README.md`.
 
 Nếu bạn chỉ tham gia workshop chính qua Codespaces, bạn **không cần** đọc tài liệu này.
 
@@ -165,7 +165,7 @@ Claude for Excel, không phải một phần của repo/workshop này.
    ```
 2. Chạy:
    ```bash
-   ./load_custom_data.sh
+   ./participants/local_setup/load_custom_data.sh
    ```
    Script nạp mỗi file CSV thành một bảng trong `data/custom.duckdb` (luôn
    xây lại từ đầu mỗi lần chạy) và in tóm tắt số dòng mỗi bảng.
@@ -180,7 +180,7 @@ Claude for Excel, không phải một phần của repo/workshop này.
    bạn vừa khám phá ở bước 3.
 5. Đặt câu hỏi bằng ngôn ngữ tự nhiên về dữ liệu của chính bạn.
 
-Mỗi khi bạn thêm/sửa/xóa file trong `my-data/`, chạy lại `./load_custom_data.sh`
+Mỗi khi bạn thêm/sửa/xóa file trong `my-data/`, chạy lại `./participants/local_setup/load_custom_data.sh`
 để đồng bộ `data/custom.duckdb`.
 
 ---
@@ -190,9 +190,9 @@ Mỗi khi bạn thêm/sửa/xóa file trong `my-data/`, chạy lại `./load_cus
 | File | Mục đích |
 |---|---|
 | `../README.md` | Điểm vào chính của workshop |
-| `../exercises.md` | Luồng bài tập chính (Codespaces) |
+| `../WORKSHOP_EXERCISES.md` | Luồng bài tập chính (Codespaces) |
 | `../schemas/BANK_DATASET_SCHEMA.md` | Từ điển dữ liệu ngân hàng |
 | `../templates/custom-data-skill-template/` | Khung mẫu skill cho dữ liệu tùy chỉnh |
-| `../load_custom_data.sh`, `../my-data/` | Script nạp CSV + nơi đặt file CSV của bạn (git-ignored) |
+| `local_setup/load_custom_data.sh`, `../my-data/` | Script nạp CSV + nơi đặt file CSV của bạn (git-ignored) |
 | `../organizers/FACILITATOR_TROUBLESHOOTING.md` | Xử lý sự cố cài đặt cục bộ (dành cho trợ lý kỹ thuật) |
 | `../organizers/WORKSHOP_SETUP_GUIDE_LOCAL.md` | Phiên bản dry-run đầy đủ dành cho ban tổ chức (bao gồm cả luồng workshop chính chạy cục bộ) |

@@ -36,7 +36,7 @@ Một hướng dẫn từng bước, thực tế, để khởi chạy **chính r
     Welcome to the Text-to-SQL Skills Workshop!
     1. Read schemas/BANK_DATASET_SCHEMA.md to see what's in the dataset.
     2. Authenticate:  claude   /   codex
-    3. Follow exercises.md to get started.
+    3. Follow WORKSHOP_EXERCISES.md to get started.
    ========================================================
    ```
 
@@ -137,15 +137,15 @@ Xác nhận nó:
 ## 7. Làm qua các bài tập
 
 ```bash
-code exercises.md
+code WORKSHOP_EXERCISES.md
 ```
 
 Tự chạy qua tất cả các câu hỏi mẫu, theo thứ tự, trong Codespace thật này. Nếu câu trả lời nào có vẻ sai hoặc model bịa ra tên cột/bảng, hãy sửa `SKILL.md` hoặc `schemas/BANK_DATASET_SCHEMA.md` ngay bây giờ — không phải trong buổi workshop trực tiếp.
 
-Đừng quên thử luôn "Bước 7 (tùy chọn)" ở cuối `exercises.md` — bài tập mở
-rộng skill sang `data/tech_salary.duckdb`. Nếu skill không tự chọn đúng
-database, hoặc câu hỏi TODO trong Bước 7 chưa được điền câu hỏi thật, đây là
-lúc để sửa, không phải trong buổi workshop.
+Đừng quên thử luôn "Bước 7 (tùy chọn)" ở cuối `WORKSHOP_EXERCISES.md` — Bài
+tập 2, mở rộng skill sang `data/tech_salary.duckdb`. Nếu skill không tự chọn
+đúng database, hoặc câu trả lời sai ở bất kỳ cấp độ nào, đây là lúc để sửa,
+không phải trong buổi workshop.
 
 ---
 
@@ -190,12 +190,12 @@ Khi các bước 1–9 đều đạt trơn tru trong một Codespace mới:
 |---|---|
 | `README.md` | Điểm vào cho người tham gia, badge Codespaces một cú click |
 | `schemas/BANK_DATASET_SCHEMA.md` | Data dictionary mà AI dựa vào |
-| `exercises.md` | Luồng hướng dẫn trong workshop + câu hỏi mẫu |
+| `WORKSHOP_EXERCISES.md` | Luồng hướng dẫn trong workshop (2 bài tập: Bank Transaction Schema, Salary Schema) + câu hỏi mẫu |
 | `.claude/skills/sql-helper/`, `.codex/skills/sql-helper/` | Skill mẫu (đã mirror) |
 | `templates/skill-template/` | Khung sườn trống cho "tự xây skill của bạn" |
 | `.devcontainer/` | Định nghĩa môi trường Codespaces |
 | `data/workshop.duckdb` | DB ngân hàng đã nạp sẵn (Git LFS) |
-| `data/tech_salary.duckdb`, `schemas/TECH_SALARY_DATASET_SCHEMA.md` | DB thứ hai + data dictionary, dùng cho Bước 7 (tùy chọn) trong `exercises.md` |
+| `data/tech_salary.duckdb`, `schemas/TECH_SALARY_DATASET_SCHEMA.md` | DB thứ hai + data dictionary, dùng cho Bài tập 2 — Bước 7 (tùy chọn) trong `WORKSHOP_EXERCISES.md` |
 | `build_tech_salary_db.sh` | Công cụ nội bộ của ban tổ chức để dựng `data/tech_salary.duckdb` (xem Phần 0b của `WORKSHOP_SETUP_PLAN.md`) |
 | `WORKSHOP_SETUP_PLAN.md` | Bối cảnh/lý do đầy đủ cho ban tổ chức về tất cả những điều trên |
 | `DAY_OF_CHECKLIST.md` | Checklist hậu cần trước workshop và ngày diễn ra |

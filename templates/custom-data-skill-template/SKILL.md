@@ -48,6 +48,6 @@ dụ tham khảo (hãy thay bằng quy tắc của riêng bạn):
 ## Lưu ý
 
 Dữ liệu này chỉ đến từ file CSV trong `my-data/`. Nếu bạn thêm/sửa/xóa file
-trong đó và chạy lại `./load_custom_data.sh`, schema có thể thay đổi (bảng
+trong đó và chạy lại `./participants/local_setup/load_custom_data.sh`, schema có thể thay đổi (bảng
 đổi tên do trùng tên, cột đổi kiểu do dữ liệu mới) — hãy chạy lại bước khám
 phá schema ở trên và cập nhật phần "Bảng & cột" cho khớp.

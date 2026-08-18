@@ -22,7 +22,7 @@ ok()   { printf '  ok: %s\n' "$1"; }
 warn() { printf '  warning: %s\n' "$1"; }
 fail() { printf '\nERROR: %s\n' "$1" >&2; exit 1; }
 
-command -v duckdb >/dev/null 2>&1 || fail "duckdb CLI not found on PATH. Run ./setup.sh first, or install: curl https://install.duckdb.org | sh"
+command -v duckdb >/dev/null 2>&1 || fail "duckdb CLI not found on PATH. Run ./participants/local_setup/setup.sh first, or install: curl https://install.duckdb.org | sh"
 
 step "Locating input CSV(s) in ${INPUT_DIR}/"
 [ -d "$INPUT_DIR" ] || fail "${INPUT_DIR}/ doesn't exist. Download the dataset from https://www.kaggle.com/datasets/yaaryiitturan/global-tech-salary-dataset, place the CSV(s)/zip into ${INPUT_DIR}/, then re-run."
@@ -109,7 +109,7 @@ cat <<'BANNER'
     inspect data/tech_salary.duckdb and draft the doc with
     you — same process originally used for schemas/BANK_DATASET_SCHEMA.md.
 
- 3. Fill in the real example questions in exercises.md's
+ 3. Fill in the real example questions in WORKSHOP_EXERCISES.md's
     tech-salary wrap-up section, and the matching answer cells
     in participants/exercises_answer_key_salary_schema.ipynb.
 
