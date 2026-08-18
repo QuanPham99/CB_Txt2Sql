@@ -134,7 +134,7 @@ Danh sách bên dưới là các lệnh phổ biến, thường gặp — vì ha
 ## Phần 6 — Demo & tổng kết (15–20 phút)
 
 - 2–3 bạn tình nguyện trình bày tài liệu schema (Skill 0) và/hoặc báo cáo insight (Skill 2) của mình.
-- Tổng kết lại chuỗi Hiểu → Truy vấn → Diễn giải → Kết nối, chỉ đến `participants/exercises_answer_key.ipynb` và `participants/ARCHITECTURE.md` để tự học thêm, thu thập phản hồi.
+- Tổng kết lại chuỗi Hiểu → Truy vấn → Diễn giải → Kết nối, chỉ đến `participants/exercises_answer_key_bank_schema.ipynb`, `participants/exercises_answer_key_salary_schema.ipynb`, và `participants/ARCHITECTURE.md` để tự học thêm, thu thập phản hồi.
 
 ---
 

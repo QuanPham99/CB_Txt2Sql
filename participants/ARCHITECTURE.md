@@ -194,7 +194,8 @@ flowchart LR
 - `../organizers/Iteration_0_LocalTesting.md` — kiểm thử toàn bộ luồng run-time cục bộ trước khi mời người tham gia.
 - `../organizers/DAY_OF_CHECKLIST.md`, `../organizers/FACILITATOR_TROUBLESHOOTING.md` — vận hành thực tế trong ngày diễn ra, bao gồm mục "Hỗ trợ cài đặt cục bộ" cho trợ lý kỹ thuật.
 - `LOCAL_SETUP_GUIDE.md` — phiên bản dành cho người tham gia của luồng cài đặt cục bộ + dữ liệu tùy chỉnh.
-- `exercises_answer_key.ipynb` — đáp án mẫu để người tham gia tự kiểm tra `../exercises.md`.
+- `exercises_answer_key_bank_schema.ipynb` — đáp án mẫu (bộ dữ liệu ngân hàng) để người tham gia tự kiểm tra `../exercises.md`.
+- `exercises_answer_key_salary_schema.ipynb` — đáp án mẫu tương tự cho bộ dữ liệu Tech Salary (`data/tech_salary.duckdb`), cùng cấu trúc Cơ bản/Trung cấp/Nâng cao.
 - `../schemas/BANK_DATASET_SCHEMA.md` — từ điển dữ liệu ngân hàng đầy đủ (10 bảng).
 - `../schemas/TECH_SALARY_DATASET_SCHEMA.md` — từ điển dữ liệu cho dataset thứ hai (Tech Salary).
 - `../organizers/build_tech_salary_db.sh` — công cụ nội bộ ban tổ chức dựng `data/tech_salary.duckdb`.

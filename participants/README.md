@@ -5,7 +5,8 @@
 | File | Mục đích |
 |---|---|
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Tài liệu kiến trúc hệ thống kèm sơ đồ — dành cho ai muốn hiểu repo này vận hành ra sao ở mức hệ thống (không bắt buộc để làm bài tập). |
-| [`exercises_answer_key.ipynb`](exercises_answer_key.ipynb) | Đáp án mẫu cho các câu hỏi ở Bước 3 của `../exercises.md` — dùng để tự đối chiếu kết quả sau khi làm bài. |
+| [`exercises_answer_key_bank_schema.ipynb`](exercises_answer_key_bank_schema.ipynb) | Đáp án mẫu cho các câu hỏi ở Bước 3 của `../exercises.md` (bộ dữ liệu ngân hàng) — dùng để tự đối chiếu kết quả sau khi làm bài. |
+| [`exercises_answer_key_salary_schema.ipynb`](exercises_answer_key_salary_schema.ipynb) | Đáp án mẫu tương tự cho bộ dữ liệu Tech Salary (Bước 7 của `../exercises.md`) — Cơ bản/Trung cấp/Nâng cao. |
 | [`LOCAL_SETUP_GUIDE.md`](LOCAL_SETUP_GUIDE.md) | Chạy workshop trên máy cá nhân (không dùng Codespaces) và/hoặc dùng dữ liệu CSV của riêng bạn — cả hai đều tùy chọn. |
 
 ## Tài nguyên khác bạn sẽ cần (ở gốc repo)

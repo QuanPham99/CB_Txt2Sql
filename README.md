@@ -49,7 +49,7 @@ lý kỹ thuật hỗ trợ trực tiếp nếu cần cài đặt từ đầu.
 - `my-data/`, `load_custom_data.sh`, `templates/custom-data-skill-template/` — luồng dữ liệu tùy chỉnh cục bộ (tùy chọn, chỉ CSV): đặt file CSV của bạn vào `my-data/`, chạy `load_custom_data.sh`, rồi xây skill từ khung mẫu này.
 - `.devcontainer/` — môi trường Codespaces mở một lần là dùng được ngay (DuckDB CLI + Claude Code + Codex CLI + các extension VS Code, đã cài sẵn).
 - `setup.sh` — thiết lập tương đương trên máy cục bộ (không dùng Codespaces); xem `participants/LOCAL_SETUP_GUIDE.md` để có hướng dẫn cài đặt từng bước, kể cả cho máy hoàn toàn mới.
-- `participants/` — mọi tài nguyên dành cho người tham gia: tài liệu kiến trúc hệ thống (`ARCHITECTURE.md`), đáp án mẫu để tự kiểm tra bài tập (`exercises_answer_key.ipynb`), và hướng dẫn cục bộ/dữ liệu tùy chỉnh (`LOCAL_SETUP_GUIDE.md`) — xem `participants/README.md` để có danh sách đầy đủ.
+- `participants/` — mọi tài nguyên dành cho người tham gia: tài liệu kiến trúc hệ thống (`ARCHITECTURE.md`), đáp án mẫu để tự kiểm tra bài tập (`exercises_answer_key_bank_schema.ipynb` cho dữ liệu ngân hàng, `exercises_answer_key_salary_schema.ipynb` cho dữ liệu Tech Salary), và hướng dẫn cục bộ/dữ liệu tùy chỉnh (`LOCAL_SETUP_GUIDE.md`) — xem `participants/README.md` để có danh sách đầy đủ.
 - `organizers/` — dành cho ban tổ chức: kế hoạch thiết lập, các hướng dẫn dry-run cho local/Codespaces, checklist ngày diễn ra, tài liệu xử lý sự cố, và công cụ dựng bộ dữ liệu Tech Salary (`tech_salary_dataset/`, git-ignored, là input cho `organizers/build_tech_salary_db.sh`) — xem `organizers/README.md` nếu bạn là người tổ chức workshop này.
 
 ## Cách hoạt động

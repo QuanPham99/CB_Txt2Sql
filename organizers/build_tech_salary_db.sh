@@ -111,7 +111,7 @@ cat <<'BANNER'
 
  3. Fill in the real example questions in exercises.md's
     tech-salary wrap-up section, and the matching answer cells
-    in participants/exercises_answer_key.ipynb.
+    in participants/exercises_answer_key_salary_schema.ipynb.
 
  4. Commit both data/tech_salary.duckdb (Git LFS — already
     covered by the existing .gitattributes data/*.duckdb rule)
